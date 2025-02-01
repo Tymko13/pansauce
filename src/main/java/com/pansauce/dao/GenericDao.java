@@ -6,7 +6,7 @@ import java.util.List;
 // U - primary key
 
 public interface GenericDao<T, U> {
-
+    void insert(T t, U u);
     void add(T t);
     List<T> findAll();
     T findByKey(U key);
