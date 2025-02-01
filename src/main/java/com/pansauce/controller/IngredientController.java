@@ -3,10 +3,7 @@ package com.pansauce.controller;
 import com.pansauce.dao.IngredientDao;
 import com.pansauce.model.Ingredient;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,10 +23,24 @@ public class IngredientController {
         return ingredientRepository.findAll();
     }
 
+    @GetMapping("/ingredient/{key}")
+    public Ingredient getIngredientByKey(
+            @PathVariable String key
+    ) {
+        return ingredientRepository.findByKey(key);
+    }
+
     @PostMapping("/ingredient")
     public void addIngredient(
             @RequestBody Ingredient ingredient
     ) {
         ingredientRepository.add(ingredient);
+    }
+
+    @DeleteMapping("/ingredient/{key}")
+    public void deleteIngredient(
+            @PathVariable String key
+    ) {
+        ingredientRepository.delete(key);
     }
 }

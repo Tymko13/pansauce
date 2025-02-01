@@ -25,20 +25,23 @@ public class IngredientRepository implements IngredientDao {
 
     @Override
     public List<Ingredient> findAll() {
-        return jdbc.query(GET_ALL_INGREDIENT, INGREDIENT_ROW_MAPPER);
+        return jdbc.query(GET_ALL_INGREDIENT,
+                          INGREDIENT_ROW_MAPPER);
     }
 
     @Override
     public Ingredient findByKey(String key) {
-        //TODO: Implement method
-        return null;
+        List<Ingredient> result = jdbc.query(GET_INGREDIENT_BY_KEY,
+                                             INGREDIENT_ROW_MAPPER,
+                                             key);
+        return result.isEmpty() ? null : result.getFirst();
     }
 
     @Override
     public void insert(Ingredient ingredient, String gtiNumber) {
         jdbc.update(ADD_INGREDIENT,
-                gtiNumber,
-                ingredient.getName());
+                    gtiNumber,
+                    ingredient.getName());
     }
 
     @Override
@@ -50,11 +53,7 @@ public class IngredientRepository implements IngredientDao {
 
     @Override
     public void delete(String key) {
-        //TODO: Implement method
+        jdbc.update(DELETE_INGREDIENT_BY_KEY, key);
     }
 
-    @Override
-    public void update(String key, Ingredient ingredient) {
-        //TODO: Implement method
-    }
 }

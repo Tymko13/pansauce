@@ -3,13 +3,12 @@ package com.pansauce.dao;
 import java.util.List;
 
 // T - model
-// U - primary key
+// U - id
 
 public interface GenericDao<T, U> {
-    void insert(T t, U u);
+    void insert(T t, U id);
     void add(T t);
     List<T> findAll();
-    T findByKey(U key);
-    void delete(U key);
-    void update(U key, T t);
+    T findByKey(U id);
+    void delete(U id);
 }
