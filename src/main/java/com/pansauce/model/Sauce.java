@@ -10,8 +10,6 @@ public class Sauce {
     private double weight;
     private BigDecimal cost;
 
-    public Sauce() {}
-
     public String getNumber() {
         return number;
     }

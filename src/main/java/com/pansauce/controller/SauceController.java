@@ -1,6 +1,6 @@
 package com.pansauce.controller;
 
-import com.pansauce.dao.GenericDao;
+import com.pansauce.dao.SauceDao;
 import com.pansauce.model.Sauce;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +13,10 @@ import java.util.List;
 @RestController
 public class SauceController {
 
-    private final GenericDao<Sauce> repository;
+    private final SauceDao repository;
 
     public SauceController(
-            @Qualifier(value = "sauceRepo")  GenericDao<Sauce> repository
+            @Qualifier(value = "sauceRepo")  SauceDao repository
     ) {
         this.repository = repository;
     }
