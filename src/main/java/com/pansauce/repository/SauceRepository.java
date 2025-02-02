@@ -1,15 +1,15 @@
 package com.pansauce.repository;
 
 import com.pansauce.dao.SauceDao;
-import com.pansauce.model.Sauce;
+import com.pansauce.model.*;
 import com.pansauce.util.RandomKeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
-import static com.pansauce.constants.key.KeyLength.SAUCE_KEY_LENGTH;
+import static com.pansauce.constants.keyLength.KeyLength.SAUCE_KEY_LENGTH;
 import static com.pansauce.constants.query.SauceQuery.*;
-import static com.pansauce.constants.rowMapper.ModelRowMapper.SAUCE_ROW_MAPPER;
+import static com.pansauce.constants.rowMapper.ModelRowMapper.*;
 
 @Repository(value = "sauceRepo")
 public class SauceRepository implements SauceDao {
@@ -56,6 +56,19 @@ public class SauceRepository implements SauceDao {
     @Override
     public void delete(String key) {
         jdbc.update(DELETE_SAUCE_BY_KEY, key);
+    }
+
+    @Override
+    public List<SauceIngredient> findAllSauceIngredientsByKey(String sauceKey) {
+        return jdbc.query(GET_ALL_SAUCE_INGREDIENTS, SAUCE_INGREDIENT_ROW_MAPPER, sauceKey);
+    }
+
+    @Override
+    public void addSauceIngredientByKey(String sauceKey, SauceIngredient sauceIngredient) {
+        jdbc.update(ADD_INGREDIENT_TO_SAUCE_BY_KEY,
+                    sauceKey,
+                    sauceIngredient.getGti(),
+                    sauceIngredient.getWeight());
     }
 
 }

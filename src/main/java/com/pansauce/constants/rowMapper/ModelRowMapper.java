@@ -1,7 +1,6 @@
 package com.pansauce.constants.rowMapper;
 
-import com.pansauce.model.Ingredient;
-import com.pansauce.model.Sauce;
+import com.pansauce.model.*;
 import org.springframework.jdbc.core.RowMapper;
 
 public class ModelRowMapper {
@@ -18,10 +17,30 @@ public class ModelRowMapper {
     };
 
     public static final RowMapper<Ingredient> INGREDIENT_ROW_MAPPER = (r, i) -> {
-        Ingredient rowObject = new Ingredient();
-        rowObject.setGti(r.getString("gti_number"));
-        rowObject.setName(r.getString("ingredient_name"));
-        return rowObject;
+        Ingredient ingredient = new Ingredient();
+        ingredient.setGti(r.getString("gti_number"));
+        ingredient.setName(r.getString("ingredient_name"));
+        return ingredient;
+    };
+
+    public static final RowMapper<SauceIngredient> SAUCE_INGREDIENT_ROW_MAPPER = (r, i) -> {
+        SauceIngredient ingredient = new SauceIngredient();
+        ingredient.setGti(r.getString("gti_number"));
+        ingredient.setName(r.getString("ingredient_name"));
+        ingredient.setWeight(r.getInt("ing_weight"));
+        return ingredient;
+    };
+
+    public static final RowMapper<Batch> BATCH_ROW_MAPPER = (r, i) -> {
+        Batch batch = new Batch();
+        batch.setNumber(r.getString("batch_number"));
+        batch.setQuantity(r.getInt("sauce_quantity"));
+        batch.setProductionDate(r.getDate("production_date"));
+        batch.setExpirationDate(r.getDate("expiration_date"));
+        batch.setCost(r.getBigDecimal("batch_cost"));
+        batch.setStatus(r.getString("batch_status"));
+        batch.setSauceNumber(r.getString("sauce_number"));
+        return batch;
     };
 
 }

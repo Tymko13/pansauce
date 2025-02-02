@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.pansauce.constants.query.IngredientQuery.*;
-import static com.pansauce.constants.key.KeyLength.INGREDIENT_KEY_LENGTH;
+import static com.pansauce.constants.keyLength.KeyLength.INGREDIENT_KEY_LENGTH;
 import static com.pansauce.constants.rowMapper.ModelRowMapper.INGREDIENT_ROW_MAPPER;
 
 @Repository(value = "ingredientRepo")
