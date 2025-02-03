@@ -32,7 +32,8 @@ public class BatchRepository implements BatchDao {
                     batch.getExpirationDate(),
                     batch.getCost(),
                     batch.getStatus(),
-                    batch.getSauceNumber());
+                    batch.getSauceNumber(),
+                    batch.getOrderNumber());
     }
 
     @Override

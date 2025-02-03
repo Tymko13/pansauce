@@ -40,7 +40,19 @@ public class ModelRowMapper {
         batch.setCost(r.getBigDecimal("batch_cost"));
         batch.setStatus(r.getString("batch_status"));
         batch.setSauceNumber(r.getString("sauce_number"));
+        batch.setOrderNumber(r.getString("order_number"));
         return batch;
+    };
+
+    public static final RowMapper<Order> ORDER_ROW_MAPPER = (r, i) -> {
+        Order order = new Order();
+        order.setNumber(r.getString("order_number"));
+        order.setRegistrationDate(r.getDate("registration_date"));
+        order.setExpectedDate(r.getDate("expected_date"));
+        order.setRealDate(r.getDate("real_date"));
+        order.setDeliveryCost(r.getBigDecimal("delivery_cost"));
+        order.setTotalCost(r.getBigDecimal("total_order_cost"));
+        return order;
     };
 
 }
