@@ -15,8 +15,6 @@ import static com.pansauce.constants.rowMapper.ModelRowMapper.*;
 public class SauceRepository implements SauceDao {
 
     private final JdbcTemplate jdbc;
-    private final RandomKeyGenerator keyGenerator =
-            new RandomKeyGenerator(SAUCE_KEY_LENGTH);
 
     public SauceRepository(JdbcTemplate jdbcTemplate) {
         this.jdbc = jdbcTemplate;
@@ -49,6 +47,7 @@ public class SauceRepository implements SauceDao {
     @Override
     public void add(Sauce sauce) {
         //TODO: Implement Validation
+        RandomKeyGenerator keyGenerator = new RandomKeyGenerator(SAUCE_KEY_LENGTH);
         String sauceNumber = keyGenerator.nextString();
         insert(sauce, sauceNumber);
     }

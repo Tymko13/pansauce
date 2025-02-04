@@ -16,8 +16,6 @@ import static com.pansauce.constants.rowMapper.ModelRowMapper.INGREDIENT_ROW_MAP
 public class IngredientRepository implements IngredientDao {
 
     private final JdbcTemplate jdbc;
-    private final RandomKeyGenerator keyGenerator =
-            new RandomKeyGenerator(INGREDIENT_KEY_LENGTH);
 
     public IngredientRepository(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
@@ -47,6 +45,7 @@ public class IngredientRepository implements IngredientDao {
     @Override
     public void add(Ingredient ingredient) {
         //TODO: Validate Ingredient values
+        RandomKeyGenerator keyGenerator = new RandomKeyGenerator(INGREDIENT_KEY_LENGTH);
         String gtiNumber = keyGenerator.nextString();
         insert(ingredient, gtiNumber);
     }

@@ -16,8 +16,6 @@ import static com.pansauce.constants.rowMapper.ModelRowMapper.BATCH_ROW_MAPPER;
 public class BatchRepository implements BatchDao {
 
     private final JdbcTemplate jdbc;
-    private final RandomKeyGenerator keyGenerator =
-            new RandomKeyGenerator(BATCH_KEY_LENGTH);
 
     public BatchRepository(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
@@ -38,6 +36,7 @@ public class BatchRepository implements BatchDao {
 
     @Override
     public void add(Batch batch) {
+        RandomKeyGenerator keyGenerator = new RandomKeyGenerator(BATCH_KEY_LENGTH);
         String batchKey = keyGenerator.nextString();
         insert(batch, batchKey);
     }
