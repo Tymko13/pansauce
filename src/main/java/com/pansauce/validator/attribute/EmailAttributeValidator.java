@@ -11,6 +11,10 @@ public class EmailAttributeValidator extends AttributeValidator{
         super(email, nextValidator);
     }
 
+    public EmailAttributeValidator(String email) {
+        super(email);
+    }
+
     @Override
     public void validateValue(List<String> errorMessages) {
         String attribute = getAttribute();

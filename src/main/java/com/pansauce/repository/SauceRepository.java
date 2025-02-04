@@ -57,17 +57,4 @@ public class SauceRepository implements SauceDao {
         jdbc.update(DELETE_SAUCE_BY_KEY, key);
     }
 
-    @Override
-    public List<SauceIngredient> findAllSauceIngredientsByKey(String sauceKey) {
-        return jdbc.query(GET_ALL_SAUCE_INGREDIENTS, SAUCE_INGREDIENT_ROW_MAPPER, sauceKey);
-    }
-
-    @Override
-    public void addSauceIngredientByKey(String sauceKey, SauceIngredient sauceIngredient) {
-        jdbc.update(ADD_INGREDIENT_TO_SAUCE_BY_KEY,
-                    sauceKey,
-                    sauceIngredient.getGti(),
-                    sauceIngredient.getWeight());
-    }
-
 }

@@ -11,6 +11,10 @@ public class NumberAttributeValidator extends AttributeValidator {
         super(number, nextValidator);
     }
 
+    public NumberAttributeValidator(String number) {
+        super(number);
+    }
+
     @Override
     public void validateValue(List<String> errorMessages) {
         if (getAttribute().isEmpty() || !getAttribute().matches(NUMBER_REGEX))

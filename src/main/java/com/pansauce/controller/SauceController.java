@@ -31,21 +31,6 @@ public class SauceController {
         return repository.findByKey(key);
     }
 
-    @GetMapping("/sauce/{key}/recipe")
-    public List<SauceIngredient> getSauceIngredientsByKey(
-            @PathVariable String key
-    ) {
-        return repository.findAllSauceIngredientsByKey(key);
-    }
-
-    @PostMapping("/sauce/{key}/recipe")
-    public void addToSauceIngredient(
-            @PathVariable String key,
-            @RequestBody SauceIngredient ingredient
-    ) {
-        repository.addSauceIngredientByKey(key, ingredient);
-    }
-
     @PostMapping("/sauce")
     public void addSauce(
             @RequestBody Sauce sauce

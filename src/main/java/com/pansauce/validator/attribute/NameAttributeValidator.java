@@ -11,6 +11,10 @@ public class NameAttributeValidator extends AttributeValidator {
         super(name, nextValidator);
     }
 
+    public NameAttributeValidator(String attribute) {
+        super(attribute);
+    }
+
     @Override
     public void validateValue(List<String> errorMessages) {
         String attribute = getAttribute();
