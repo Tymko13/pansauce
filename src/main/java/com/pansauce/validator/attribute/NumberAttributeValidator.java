@@ -18,7 +18,7 @@ public class NumberAttributeValidator extends AttributeValidator {
     @Override
     public void validateValue(List<String> errorMessages) {
         if (getAttribute().isEmpty() || !getAttribute().matches(NUMBER_REGEX))
-            errorMessages.add(ErrorMessage.INVALID_NAME.toString());
+            errorMessages.add(ErrorMessage.INVALID_NUMBER.toString());
     }
 
     @Override

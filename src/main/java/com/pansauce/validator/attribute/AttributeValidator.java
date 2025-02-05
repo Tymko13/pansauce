@@ -8,7 +8,6 @@ public abstract class AttributeValidator {
     private final String attribute;
     private boolean isRequired;
 
-
     public AttributeValidator(String attribute, AttributeValidator nextValidator){
         this.nextValidator = nextValidator;
         this.attribute = attribute;
@@ -47,7 +46,6 @@ public abstract class AttributeValidator {
     public void setNextValidator(AttributeValidator nextValidator) {
         this.nextValidator = nextValidator;
     }
-
 
     public void setRequired(boolean required) {
         isRequired = required;

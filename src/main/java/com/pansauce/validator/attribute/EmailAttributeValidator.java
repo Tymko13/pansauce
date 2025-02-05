@@ -19,7 +19,7 @@ public class EmailAttributeValidator extends AttributeValidator{
     public void validateValue(List<String> errorMessages) {
         String attribute = getAttribute();
         if (attribute.isEmpty() || !attribute.matches(EMAIL_REGEX))
-            errorMessages.add(ErrorMessage.INVALID_NAME.toString());
+            errorMessages.add(ErrorMessage.INVALID_EMAIL.toString());
     }
 
     @Override

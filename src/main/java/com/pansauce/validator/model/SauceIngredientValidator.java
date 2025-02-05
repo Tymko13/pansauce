@@ -1,7 +1,7 @@
 package com.pansauce.validator.model;
 
 import com.pansauce.model.SauceIngredient;
-import com.pansauce.validator.attribute.NameAttributeValidator;
+import com.pansauce.validator.attribute.ProductNameAttributeValidator;
 import com.pansauce.validator.attribute.WeightAttributeValidator;
 
 import java.util.List;
@@ -17,14 +17,23 @@ public class SauceIngredientValidator implements ModelValidator<SauceIngredient>
     }
 
     private void buildChain(SauceIngredient ingredient) {
-        NameAttributeValidator nameValidator =
-                new NameAttributeValidator(ingredient.getName());
+        chainProductNameValidator(ingredient);
+        chainWeightValidator(ingredient);
+    }
+
+    private void chainProductNameValidator(SauceIngredient ingredient) {
+        ProductNameAttributeValidator nameValidator =
+                new ProductNameAttributeValidator(ingredient.getName());
         nameValidator.setRequired(true);
+        validatorHandler.chain(nameValidator);
+    }
+
+    private void chainWeightValidator(SauceIngredient ingredient) {
         WeightAttributeValidator weightValidator =
                 new WeightAttributeValidator(Double.toString(ingredient.getWeight()));
         weightValidator.setRequired(true);
         weightValidator.setMax(10000.0);
-        validatorHandler.chain(nameValidator);
+        validatorHandler.chain(weightValidator);
     }
 
 }
