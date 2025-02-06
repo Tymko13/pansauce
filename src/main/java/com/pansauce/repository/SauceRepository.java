@@ -57,4 +57,9 @@ public class SauceRepository implements SauceDao {
         jdbc.update(DELETE_SAUCE_BY_KEY, key);
     }
 
+    @Override
+    public boolean exists(String key) {
+        return false;
+    }
+
 }

@@ -7,7 +7,8 @@ import java.util.List;
 
 public class IngredientValidator implements ModelValidator<Ingredient> {
 
-    private ChainValidatorHandler validatorHandler;
+    private final ChainValidatorHandler validatorHandler
+            = new ChainValidatorHandler();
 
     @Override
     public List<String> validate(Ingredient ingredient) {

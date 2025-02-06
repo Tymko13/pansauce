@@ -1,6 +1,6 @@
 package com.pansauce.validator.attribute;
 
-import com.pansauce.constants.enums.ErrorMessage;
+import com.pansauce.constants.enums.AttributeErrorMessage;
 
 import java.util.List;
 
@@ -19,11 +19,11 @@ public class EmailAttributeValidator extends AttributeValidator{
     public void validateValue(List<String> errorMessages) {
         String attribute = getAttribute();
         if (attribute.isEmpty() || !attribute.matches(EMAIL_REGEX))
-            errorMessages.add(ErrorMessage.INVALID_EMAIL.toString());
+            errorMessages.add(AttributeErrorMessage.INVALID_EMAIL.toString());
     }
 
     @Override
     public String getRequiredErrorMessage() {
-        return ErrorMessage.NOT_SPECIFIED_NUMBER.toString();
+        return AttributeErrorMessage.NOT_SPECIFIED_NUMBER.toString();
     }
 }

@@ -6,9 +6,10 @@ import java.util.List;
 // U - id
 
 public interface GenericDao<T, U> {
-    void insert(T t, U id);
-    void add(T t);
+    void insert(T model, U key);
+    void add(T model);
     List<T> findAll();
-    T findByKey(U id);
-    void delete(U id);
+    T findByKey(U key);
+    void delete(U key);
+    boolean exists(U key);
 }

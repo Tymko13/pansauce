@@ -1,6 +1,6 @@
 package com.pansauce.validator.attribute;
 
-import com.pansauce.constants.enums.ErrorMessage;
+import com.pansauce.constants.enums.AttributeErrorMessage;
 
 import java.util.List;
 
@@ -16,13 +16,13 @@ public class ShelfLifeAttributeValidator extends AttributeValidator {
 
     @Override
     public String getRequiredErrorMessage() {
-        return ErrorMessage.NOT_SPECIFIED_SHELF_LIFE.toString();
+        return AttributeErrorMessage.NOT_SPECIFIED_SHELF_LIFE.toString();
     }
 
     @Override
     public void validateValue(List<String> errorMessages) {
         double shelfLife = Integer.parseInt(getAttribute());
         if (shelfLife < 0)
-            errorMessages.add(ErrorMessage.NEGATIVE_SHELF_LIFE.toString());
+            errorMessages.add(AttributeErrorMessage.NEGATIVE_SHELF_LIFE.toString());
     }
 }

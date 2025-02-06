@@ -54,4 +54,9 @@ public class OrderRepository implements OrderDao {
     public void delete(String orderKey) {
         jdbc.update(DELETE_ORDER_BY_KEY, orderKey);
     }
+
+    @Override
+    public boolean exists(String key) {
+        return false;
+    }
 }

@@ -1,6 +1,6 @@
 package com.pansauce.validator.attribute;
 
-import com.pansauce.constants.enums.ErrorMessage;
+import com.pansauce.constants.enums.AttributeErrorMessage;
 
 import java.util.List;
 
@@ -18,11 +18,11 @@ public class NumberAttributeValidator extends AttributeValidator {
     @Override
     public void validateValue(List<String> errorMessages) {
         if (getAttribute().isEmpty() || !getAttribute().matches(NUMBER_REGEX))
-            errorMessages.add(ErrorMessage.INVALID_NUMBER.toString());
+            errorMessages.add(AttributeErrorMessage.INVALID_NUMBER.toString());
     }
 
     @Override
     public String getRequiredErrorMessage() {
-        return ErrorMessage.NOT_SPECIFIED_NUMBER.toString();
+        return AttributeErrorMessage.NOT_SPECIFIED_NUMBER.toString();
     }
 }

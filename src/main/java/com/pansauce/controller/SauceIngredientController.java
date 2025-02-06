@@ -1,7 +1,7 @@
 package com.pansauce.controller;
 
-import com.pansauce.dao.SauceIngredientDao;
 import com.pansauce.model.SauceIngredient;
+import com.pansauce.service.SauceIngredientService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,25 +9,27 @@ import java.util.List;
 @RestController
 public class SauceIngredientController {
 
-    private final SauceIngredientDao repository;
+    private final SauceIngredientService sauceService;
 
-    public SauceIngredientController(SauceIngredientDao repository) {
-        this.repository = repository;
+    public SauceIngredientController(
+            SauceIngredientService sauceService
+    ) {
+        this.sauceService = sauceService;
     }
 
     @GetMapping("/sauce/{key}/recipe")
     public List<SauceIngredient> getSauceIngredientsByKey(
             @PathVariable String key
     ) {
-        return repository.findAllSauceIngredientsByKey(key);
+        return sauceService.getSauceIngredientsByKey(key);
     }
 
     @PostMapping("/sauce/{key}/recipe")
-    public void addToSauceIngredient(
+    public void addSauceIngredient(
             @PathVariable String key,
             @RequestBody SauceIngredient ingredient
     ) {
-        repository.addSauceIngredientByKey(key, ingredient);
+        sauceService.addSauceIngredient(key, ingredient);
     }
 
 }

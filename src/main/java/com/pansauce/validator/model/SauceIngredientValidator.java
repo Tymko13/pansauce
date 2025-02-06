@@ -8,7 +8,8 @@ import java.util.List;
 
 public class SauceIngredientValidator implements ModelValidator<SauceIngredient> {
 
-    private ChainValidatorHandler validatorHandler;
+    private final ChainValidatorHandler validatorHandler
+            = new ChainValidatorHandler();
 
     @Override
     public List<String> validate(SauceIngredient ingredient) {

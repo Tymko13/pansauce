@@ -1,6 +1,6 @@
 package com.pansauce.validator.attribute;
 
-import com.pansauce.constants.enums.ErrorMessage;
+import com.pansauce.constants.enums.AttributeErrorMessage;
 
 import java.util.List;
 
@@ -16,13 +16,13 @@ public class QuantityAttributeValidator extends AttributeValidator {
 
     @Override
     public String getRequiredErrorMessage() {
-        return ErrorMessage.NOT_SPECIFIED_QUANTITY.toString();
+        return AttributeErrorMessage.NOT_SPECIFIED_QUANTITY.toString();
     }
 
     @Override
     public void validateValue(List<String> errorMessages) {
         int quantity = Integer.parseInt(getAttribute());
         if (quantity <= 0)
-            errorMessages.add(ErrorMessage.NON_POSITIVE_COST.toString());
+            errorMessages.add(AttributeErrorMessage.NON_POSITIVE_COST.toString());
     }
 }

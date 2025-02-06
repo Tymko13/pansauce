@@ -1,6 +1,6 @@
 package com.pansauce.constants.enums;
 
-public enum ErrorMessage {
+public enum AttributeErrorMessage {
     INVALID_PRODUCT_NAME("Invalid product name"),
     NOT_SPECIFIED_PRODUCT_NAME("Product name not specified"),
     INVALID_NUMBER("Invalid phone number"),
@@ -18,8 +18,10 @@ public enum ErrorMessage {
     NOT_SPECIFIED_COST("Not specified cost"),
     NON_POSITIVE_QUANTITY("Non positive quantity"),
     NOT_SPECIFIED_QUANTITY("Quantity not specified");
+
     private final String message;
-    private ErrorMessage(String message) {
+
+    AttributeErrorMessage(String message) {
         this.message = message;
     }
 

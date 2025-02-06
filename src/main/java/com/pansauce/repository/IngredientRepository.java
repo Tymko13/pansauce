@@ -55,4 +55,9 @@ public class IngredientRepository implements IngredientDao {
         jdbc.update(DELETE_INGREDIENT_BY_KEY, key);
     }
 
+    @Override
+    public boolean exists(String key) {
+        return findByKey(key) != null;
+    }
+
 }

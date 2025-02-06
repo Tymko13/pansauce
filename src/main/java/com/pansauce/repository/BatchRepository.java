@@ -56,4 +56,9 @@ public class BatchRepository implements BatchDao {
     public void delete(String batchKey) {
         jdbc.update(DELETE_BATCH_BY_KEY, batchKey);
     }
+
+    @Override
+    public boolean exists(String key) {
+        return false;
+    }
 }

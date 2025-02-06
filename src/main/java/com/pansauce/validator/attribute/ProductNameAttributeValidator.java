@@ -1,6 +1,6 @@
 package com.pansauce.validator.attribute;
 
-import com.pansauce.constants.enums.ErrorMessage;
+import com.pansauce.constants.enums.AttributeErrorMessage;
 
 public class ProductNameAttributeValidator extends TextAttributeValidator {
 
@@ -17,7 +17,7 @@ public class ProductNameAttributeValidator extends TextAttributeValidator {
 
     @Override
     public String getInvalidErrorMessage() {
-        return ErrorMessage.INVALID_PRODUCT_NAME.toString();
+        return AttributeErrorMessage.INVALID_PRODUCT_NAME.toString();
     }
 
     @Override
@@ -27,6 +27,6 @@ public class ProductNameAttributeValidator extends TextAttributeValidator {
 
     @Override
     public String getRequiredErrorMessage() {
-        return ErrorMessage.NOT_SPECIFIED_PRODUCT_NAME.toString();
+        return AttributeErrorMessage.NOT_SPECIFIED_PRODUCT_NAME.toString();
     }
 }

@@ -1,6 +1,6 @@
 package com.pansauce.validator.attribute;
 
-import com.pansauce.constants.enums.ErrorMessage;
+import com.pansauce.constants.enums.AttributeErrorMessage;
 
 public class TypeNameAttributeValidator extends TextAttributeValidator{
 
@@ -16,7 +16,7 @@ public class TypeNameAttributeValidator extends TextAttributeValidator{
 
     @Override
     public String getInvalidErrorMessage() {
-        return ErrorMessage.INVALID_TYPE_NAME.toString();
+        return AttributeErrorMessage.INVALID_TYPE_NAME.toString();
     }
 
     @Override

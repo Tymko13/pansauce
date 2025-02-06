@@ -2,7 +2,6 @@ package com.pansauce.controller;
 
 import com.pansauce.dao.SauceDao;
 import com.pansauce.model.Sauce;
-import com.pansauce.model.SauceIngredient;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
