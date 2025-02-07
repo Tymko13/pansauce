@@ -6,6 +6,7 @@ import java.util.List;
 
 public class WeightAttributeValidator extends AttributeValidator {
 
+    private boolean hasLimits;
     private double minValue;
     private double maxValue;
 
@@ -25,6 +26,7 @@ public class WeightAttributeValidator extends AttributeValidator {
     @Override
     public void validateValue(List<String> errorMessages) {
         double weight = Double.parseDouble(getAttribute());
+        if (!hasLimits) return;
         if (weight < minValue)
             errorMessages.add(AttributeErrorMessage.WEIGHT_LESS_THAN_MIN.toString());
         else if (weight > maxValue)
@@ -33,9 +35,11 @@ public class WeightAttributeValidator extends AttributeValidator {
 
     public void setMin(double minValue) {
         this.minValue = minValue;
+        hasLimits = true;
     }
 
     public void setMax(double maxValue) {
         this.maxValue = maxValue;
+        hasLimits = true;
     }
 }

@@ -1,8 +1,7 @@
 package com.pansauce.controller;
 
-import com.pansauce.dao.SauceDao;
 import com.pansauce.model.Sauce;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.pansauce.service.SauceService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,38 +9,38 @@ import java.util.List;
 @RestController
 public class SauceController {
 
-    private final SauceDao repository;
+    private final SauceService sauceService;
 
     public SauceController(
-            @Qualifier(value = "sauceRepo")  SauceDao repository
+            SauceService sauceService
     ) {
-        this.repository = repository;
+        this.sauceService = sauceService;
     }
 
     @GetMapping("/sauce")
     public List<Sauce> findAllSauce() {
-        return repository.findAll();
+        return sauceService.getAllSauce();
     }
 
     @GetMapping("/sauce/{key}")
     public Sauce getSauceByKey(
             @PathVariable String key
     ) {
-        return repository.findByKey(key);
+        return sauceService.getSauceByKey(key);
     }
 
     @PostMapping("/sauce")
     public void addSauce(
             @RequestBody Sauce sauce
     ) {
-        repository.add(sauce);
+        sauceService.addSauce(sauce);
     }
 
     @DeleteMapping("/sauce/{key}")
     public void deleteSauce(
             @PathVariable String key
     ) {
-        repository.delete(key);
+        sauceService.deleteSauce(key);
     }
 
 }

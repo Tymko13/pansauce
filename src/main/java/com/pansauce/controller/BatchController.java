@@ -1,8 +1,7 @@
 package com.pansauce.controller;
 
-import com.pansauce.dao.BatchDao;
 import com.pansauce.model.Batch;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.pansauce.service.BatchService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,31 +9,38 @@ import java.util.List;
 @RestController
 public class BatchController {
 
-    private final BatchDao batchRepository;
+    private final BatchService batchService;
 
     public BatchController(
-            @Qualifier(value = "batchRepo") BatchDao batchRepository
+            BatchService batchService
     ) {
-        this.batchRepository = batchRepository;
+        this.batchService = batchService;
     }
 
     @GetMapping("/batch")
     public List<Batch> getBatches() {
-        return batchRepository.findAll();
+        return batchService.getAllBatches();
     }
 
     @GetMapping("/batch/{key}")
-    public Batch getBatch(
+    public Batch getBatchByKey(
             @PathVariable String key
     ) {
-        return batchRepository.findByKey(key);
+        return batchService.getBatchByKey(key);
     }
 
     @PostMapping("/batch")
     public void addBatch(
             @RequestBody Batch batch
     ) {
-        batchRepository.add(batch);
+        batchService.addBatch(batch);
+    }
+
+    @DeleteMapping("/batch/{key}")
+    public void deleteBatch(
+            @PathVariable String key
+    ) {
+        batchService.deleteBatch(key);
     }
 
 }

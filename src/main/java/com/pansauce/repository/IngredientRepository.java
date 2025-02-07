@@ -44,7 +44,6 @@ public class IngredientRepository implements IngredientDao {
 
     @Override
     public void add(Ingredient ingredient) {
-        //TODO: Validate Ingredient values
         RandomKeyGenerator keyGenerator = new RandomKeyGenerator(INGREDIENT_KEY_LENGTH);
         String gtiNumber = keyGenerator.nextString();
         insert(ingredient, gtiNumber);

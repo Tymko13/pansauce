@@ -12,7 +12,7 @@ import static com.pansauce.constants.keyLength.KeyLength.ORDER_KEY_LENGTH;
 import static com.pansauce.constants.query.OrderQuery.*;
 import static com.pansauce.constants.rowMapper.ModelRowMapper.ORDER_ROW_MAPPER;
 
-@Repository
+@Repository(value = "orderRepo")
 public class OrderRepository implements OrderDao {
 
     private final JdbcTemplate jdbc;

@@ -4,7 +4,7 @@ import com.pansauce.constants.enums.AttributeErrorMessage;
 
 public class TypeNameAttributeValidator extends TextAttributeValidator{
 
-    private static final String NAME_REGEX = "^[a-zA-Z ]*$";
+    private static final String NAME_REGEX = "^[a-zA-Z а-щА-ЩЬьЮюЯяЇїІіЄєҐґ]*$";
 
     public TypeNameAttributeValidator(String typeName, AttributeValidator nextValidator) {
         super(typeName, nextValidator);
@@ -21,11 +21,11 @@ public class TypeNameAttributeValidator extends TextAttributeValidator{
 
     @Override
     public String getRegex() {
-        return "";
+        return NAME_REGEX;
     }
 
     @Override
     public String getRequiredErrorMessage() {
-        return "";
+        return AttributeErrorMessage.NOT_SPECIFIED_TYPE_NAME.toString();
     }
 }

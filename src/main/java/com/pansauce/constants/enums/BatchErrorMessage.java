@@ -1,13 +1,13 @@
 package com.pansauce.constants.enums;
 
-public enum SauceErrorMessage {
+public enum BatchErrorMessage {
 
-    NON_EXISTING_SAUCE("No sauce with such key exists"),
-    NO_SAUCES_FOUND("No sauces were found");
+    NON_EXISTING_BATCH("No batch with such key exists"),
+    NO_BATCHES_FOUND("No batches were found");
 
     private final String message;
 
-    SauceErrorMessage(String message) {
+    BatchErrorMessage(String message) {
         this.message = message;
     }
 

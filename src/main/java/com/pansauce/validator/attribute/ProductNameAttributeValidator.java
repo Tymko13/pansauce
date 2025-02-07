@@ -4,7 +4,7 @@ import com.pansauce.constants.enums.AttributeErrorMessage;
 
 public class ProductNameAttributeValidator extends TextAttributeValidator {
 
-    private static final String NAME_REGEX = "^[a-zA-Z ]*$";
+    private static final String NAME_REGEX = "^[a-zA-Z а-щА-ЩЬьЮюЯяЇїІіЄєҐґ]*$";
 
     public ProductNameAttributeValidator(
             String productName, AttributeValidator nextValidator) {
