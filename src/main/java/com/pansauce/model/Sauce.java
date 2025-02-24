@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 public class Sauce {
     private String number;
     private String name;
-    private String type;
     private int shelfLife;
     private double weight;
     private BigDecimal cost;
+    private String typeNumber;
 
     public String getNumber() {
         return number;
@@ -16,10 +16,6 @@ public class Sauce {
 
     public String getName() {
         return name;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public int getShelfLife() {
@@ -33,6 +29,9 @@ public class Sauce {
     public BigDecimal getCost() {
         return cost;
     }
+    public String getTypeNumber() {
+        return typeNumber;
+    }
 
     public void setNumber(String number) {
         this.number = number;
@@ -40,10 +39,6 @@ public class Sauce {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public void setShelfLife(int shelfLife) {
@@ -56,6 +51,10 @@ public class Sauce {
 
     public void setCost(BigDecimal cost) {
         this.cost = cost;
+    }
+
+    public void setTypeNumber(String typeNumber) {
+        this.typeNumber = typeNumber;
     }
 
 }

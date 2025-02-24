@@ -38,15 +38,14 @@ public class SauceRepository implements SauceDao {
         jdbc.update(ADD_SAUCE,
                 sauceNumber,
                 sauce.getName(),
-                sauce.getType(),
                 sauce.getShelfLife(),
                 sauce.getWeight(),
-                sauce.getCost());
+                sauce.getCost(),
+                sauce.getTypeNumber());
     }
 
     @Override
     public void add(Sauce sauce) {
-        //TODO: Implement Validation
         RandomKeyGenerator keyGenerator = new RandomKeyGenerator(SAUCE_KEY_LENGTH);
         String sauceNumber = keyGenerator.nextString();
         insert(sauce, sauceNumber);
@@ -59,7 +58,7 @@ public class SauceRepository implements SauceDao {
 
     @Override
     public boolean exists(String key) {
-        return false;
+        return findByKey(key) != null;
     }
 
 }

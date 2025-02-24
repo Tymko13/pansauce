@@ -9,6 +9,7 @@ public class Batch {
     private int quantity;
     private Date productionDate;
     private Date expirationDate;
+    private BigDecimal sauceCost;
     private BigDecimal cost;
     private String status;
     private String sauceNumber;
@@ -46,6 +47,10 @@ public class Batch {
         return orderNumber;
     }
 
+    public BigDecimal getSauceCost() {
+        return sauceCost;
+    }
+
     public void setNumber(String number) {
         this.number = number;
     }
@@ -76,5 +81,9 @@ public class Batch {
 
     public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
+    }
+
+    public void setSauceCost(BigDecimal sauceCost) {
+        this.sauceCost = sauceCost;
     }
 }

@@ -18,7 +18,6 @@ public class SauceValidator implements ModelValidator<Sauce> {
 
     private void buildChain(Sauce sauce) {
         chainProductNameValidator(sauce);
-        chainTypeValidator(sauce);
         chainShelfLifeValidator(sauce);
         chainWeightValidator(sauce);
         chainSauceValidator(sauce);
@@ -29,13 +28,6 @@ public class SauceValidator implements ModelValidator<Sauce> {
                 new ProductNameAttributeValidator(sauce.getName());
         nameValidator.setRequired(true);
         validatorHandler.chain(nameValidator);
-    }
-
-    private void chainTypeValidator(Sauce sauce){
-        TypeNameAttributeValidator typeValidator =
-                new TypeNameAttributeValidator(sauce.getType());
-        typeValidator.setRequired(true);
-        validatorHandler.chain(typeValidator);
     }
 
     private void chainShelfLifeValidator(Sauce sauce){

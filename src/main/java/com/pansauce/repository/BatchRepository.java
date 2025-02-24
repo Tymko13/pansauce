@@ -28,6 +28,7 @@ public class BatchRepository implements BatchDao {
                     batch.getQuantity(),
                     batch.getProductionDate(),
                     batch.getExpirationDate(),
+                    batch.getSauceCost(),
                     batch.getCost(),
                     batch.getStatus(),
                     batch.getSauceNumber(),
@@ -59,6 +60,6 @@ public class BatchRepository implements BatchDao {
 
     @Override
     public boolean exists(String key) {
-        return false;
+        return findByKey(key) != null;
     }
 }

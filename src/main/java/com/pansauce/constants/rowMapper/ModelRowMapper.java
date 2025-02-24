@@ -9,7 +9,7 @@ public class ModelRowMapper {
         Sauce rowObject = new Sauce();
         rowObject.setNumber(r.getString("sauce_number"));
         rowObject.setName(r.getString("sauce_name"));
-        rowObject.setType(r.getString("sauce_type"));
+        rowObject.setTypeNumber(r.getString("type_number"));
         rowObject.setShelfLife(r.getInt("shelf_life"));
         rowObject.setWeight(r.getDouble("sauce_weight"));
         rowObject.setCost(r.getBigDecimal("sauce_cost"));
@@ -37,6 +37,7 @@ public class ModelRowMapper {
         batch.setQuantity(r.getInt("sauce_quantity"));
         batch.setProductionDate(r.getDate("production_date"));
         batch.setExpirationDate(r.getDate("expiration_date"));
+        batch.setSauceCost(r.getBigDecimal("sauce_cost_at_that_time"));
         batch.setCost(r.getBigDecimal("batch_cost"));
         batch.setStatus(r.getString("batch_status"));
         batch.setSauceNumber(r.getString("sauce_number"));
@@ -53,6 +54,13 @@ public class ModelRowMapper {
         order.setDeliveryCost(r.getBigDecimal("delivery_cost"));
         order.setTotalCost(r.getBigDecimal("total_order_cost"));
         return order;
+    };
+
+    public static final RowMapper<Type> TYPE_ROW_MAPPER = (r, i) -> {
+        Type type = new Type();
+        type.setTypeNumber(r.getString("type_number"));
+        type.setTypeName(r.getString("type_name"));
+        return type;
     };
 
 }
