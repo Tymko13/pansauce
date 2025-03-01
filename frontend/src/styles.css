@@ -13,6 +13,7 @@
 
 body {
     background-color: var(--primary-color);
+    font-family: "Nunito", sans-serif;
 }
 
 .text-btn {
@@ -21,7 +22,6 @@ body {
   background-color: transparent;
   color: var(--text-color);
   border: none;
-  font-family: "Nunito", sans-serif;
   font-weight: bold;
   font-size: 2rem;
   transition: 0.2s;
@@ -55,7 +55,6 @@ body {
   background-color: transparent;
   color: var(--text-color);
   border: none;
-  font-family: "Nunito", sans-serif;
   font-weight: bold;
   font-size: 0;
 }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {state, style, animate, trigger, transition} from '@angular/animations'
 
 @Component({
-  selector: 'app-dark-light-btn-component',
+  selector: 'app-dark-light-btn',
   imports: [],
   templateUrl: './dark-light-btn.component.html',
   standalone: true,

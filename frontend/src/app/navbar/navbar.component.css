@@ -1,0 +1,38 @@
+header {
+  height: 7.5rem;
+  width: 100%;
+  background: var(--secondary-color);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#navigation, #settings, #logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#logo {
+  flex: 1;
+  justify-content: space-evenly;
+}
+
+#navigation {
+  flex: 5;
+  justify-content: flex-start;
+}
+
+#settings {
+  flex: 1;
+  justify-content: flex-end;
+}
+
+#light {
+  /*display: none;*/
+  position: absolute;
+  visibility: hidden;
+}

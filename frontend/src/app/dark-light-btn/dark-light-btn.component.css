@@ -1,14 +1,14 @@
 #light {
   position: absolute;
-  opacity: 0;
   bottom: 0;
-  transform: rotate(0);
+  transform: rotate(360deg);
 }
 
 #dark {
   position: absolute;
+  opacity: 0;
   bottom: 0;
-  transform: rotate(360deg);
+  transform: rotate(0);
 }
 
 #dark-light-btn {
