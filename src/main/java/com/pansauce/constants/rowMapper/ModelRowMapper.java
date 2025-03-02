@@ -1,6 +1,7 @@
 package com.pansauce.constants.rowMapper;
 
 import com.pansauce.model.*;
+import com.pansauce.security.User;
 import org.springframework.jdbc.core.RowMapper;
 
 public class ModelRowMapper {
@@ -61,6 +62,14 @@ public class ModelRowMapper {
         type.setTypeNumber(r.getString("type_number"));
         type.setTypeName(r.getString("type_name"));
         return type;
+    };
+
+    public static final RowMapper<User> USER_ROW_MAPPER = (r, i) -> {
+        User user = new User();
+        user.setUsername(r.getString("username"));
+        user.setPassword(r.getString("password"));
+        user.setRole(r.getString("role"));
+        return user;
     };
 
 }
