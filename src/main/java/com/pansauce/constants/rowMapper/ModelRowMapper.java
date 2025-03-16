@@ -72,4 +72,13 @@ public class ModelRowMapper {
         return user;
     };
 
+    public static final RowMapper<Customer> CUSTOMER_ROW_MAPPER = (r, i) -> {
+        Customer customer = new Customer();
+        customer.setNumber(r.getString("customer_number"));
+        customer.setName(r.getString("customer_name"));
+        customer.setSurname(r.getString("customer_surname"));
+        customer.setAddress(r.getString("customer_address"));
+        return customer;
+    };
+
 }

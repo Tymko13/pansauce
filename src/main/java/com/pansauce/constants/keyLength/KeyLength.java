@@ -7,4 +7,5 @@ public class KeyLength {
     public static final int BATCH_KEY_LENGTH = 16;
     public static final int ORDER_KEY_LENGTH = 16;
     public static final int TYPE_KEY_LENGTH = 16;
+    public static final int CUSTOMER_KEY_LENGTH = 16;
 }
