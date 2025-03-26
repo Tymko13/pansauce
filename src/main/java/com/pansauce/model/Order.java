@@ -11,7 +11,6 @@ public class Order {
     private BigDecimal deliveryCost;
     private BigDecimal totalCost;
 
-
     public String getNumber() {
         return number;
     }
