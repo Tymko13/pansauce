@@ -77,6 +77,7 @@ public class ModelRowMapper {
         customer.setNumber(r.getString("customer_number"));
         customer.setName(r.getString("customer_name"));
         customer.setSurname(r.getString("customer_surname"));
+        customer.setPatronymic(r.getString("customer_patronymic"));
         customer.setAddress(r.getString("customer_address"));
         return customer;
     };
