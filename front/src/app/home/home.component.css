@@ -1,0 +1,18 @@
+#title {
+  padding-top: 0.5em;
+  font-size: 8em;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  color: black;
+  font-family: "Dela Gothic One", sans-serif;
+}
+
+#subtitle {
+  font-size: 3em;
+  text-align: center;
+  margin-top: -0.25em;
+  font-family: "Nunito", sans-serif;
+  font-weight: bolder;
+  color: var(--text-color);
+}

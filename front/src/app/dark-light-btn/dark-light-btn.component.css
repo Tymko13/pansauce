@@ -1,0 +1,20 @@
+#light {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: rotate(360deg);
+}
+
+#dark {
+  position: absolute;
+  opacity: 0;
+  bottom: 0;
+  left: 0;
+  transform: rotate(0);
+}
+
+#dark-light-btn {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+}

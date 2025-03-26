@@ -1,0 +1,15 @@
+#login-container {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+form {
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  margin: 5rem 10rem;
+  padding: 2rem;
+}
