@@ -2,7 +2,6 @@ package com.pansauce.controller;
 
 import com.pansauce.model.Customer;
 import com.pansauce.service.CustomerService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

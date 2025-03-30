@@ -35,13 +35,13 @@ public class SauceIngredientService {
         return ingredients;
     }
 
-    public void addSauceIngredient(String key, SauceIngredient ingredient) {
-        validateSauceExistence(key);
+    public void addSauceIngredient(String sauceKey, SauceIngredient ingredient) {
+        validateSauceExistence(sauceKey);
         SauceIngredientValidator validator = new SauceIngredientValidator();
         List<String> errorMessages = validator.validate(ingredient);
         if (errorMessages.isEmpty())
             throw new SauceWithoutRecipeException();
-        ingredientRepository.addSauceIngredientByKey(key, ingredient);
+        ingredientRepository.addSauceIngredientByKey(sauceKey, ingredient);
     }
 
     private void validateSauceExistence(String key) {

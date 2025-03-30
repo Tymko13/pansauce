@@ -82,4 +82,11 @@ public class ModelRowMapper {
         return customer;
     };
 
+    public static final RowMapper<Phone> PHONE_ROW_MAPPER = (r, i) -> {
+        Phone phone = new Phone();
+        phone.setPhoneNumber(r.getString("contact_number"));
+        phone.setCustomerNumber(r.getString("customer_number"));
+        return phone;
+    };
+
 }
