@@ -14,11 +14,8 @@ import java.util.Collection;
 @RestController
 public class LoginController {
 
-    @PostMapping("/login")
-    public void login(){}
-
-    @GetMapping("/role")
-    public String getUserRole() {
+    @GetMapping("/login")
+    public String login(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Collection<String> authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         return authorities.stream().findFirst().orElseThrow(() ->
