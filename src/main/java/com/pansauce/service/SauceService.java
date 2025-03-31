@@ -1,8 +1,10 @@
 package com.pansauce.service;
 
 import com.pansauce.dao.SauceDao;
+import com.pansauce.dao.TypeDao;
 import com.pansauce.exception.sauce.*;
 import com.pansauce.model.Sauce;
+import com.pansauce.model.Type;
 import com.pansauce.validator.model.SauceValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -13,11 +15,16 @@ import java.util.List;
 public class SauceService {
 
     private final SauceDao sauceRepository;
+    private final TypeDao typeRepository;
 
     public SauceService(
             @Qualifier(value = "sauceRepo")
-            SauceDao sauceRepository) {
+            SauceDao sauceRepository,
+            @Qualifier(value = "typeRepo")
+            TypeDao typeRepository
+    ) {
         this.sauceRepository = sauceRepository;
+        this.typeRepository = typeRepository;
     }
 
     public List<Sauce> getAllSauce() {
@@ -45,6 +52,10 @@ public class SauceService {
         if (sauceRepository.exists(key))
             deleteSauce(key);
         else throw new NonExistingSauceException();
+    }
+
+    public Type getSauceTypeByKey(String sauceKey) {
+        return typeRepository.findByKey(sauceKey);
     }
 
 }

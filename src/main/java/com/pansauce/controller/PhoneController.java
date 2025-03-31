@@ -17,19 +17,19 @@ public class PhoneController {
         this.phoneService = phoneService;
     }
 
-    @PostMapping("/{customer}")
+    @PostMapping("/customer/{key}/phone")
     public void addPhoneToCustomer(
-            @PathVariable String customer,
+            @PathVariable String key,
             @RequestBody Phone phone
     ) {
-        phoneService.addPhoneToCustomer(customer, phone);
+        phoneService.addPhoneToCustomer(key, phone);
     }
 
-    @GetMapping("/{customer}")
+    @GetMapping("/customer/{key}/phone")
     public List<Phone> getCustomerPhones(
-            @PathVariable String customer
+            @PathVariable String key
     ) {
-        return phoneService.getCustomerPhonesByKey(customer);
+        return phoneService.getCustomerPhonesByKey(key);
     }
 
 }

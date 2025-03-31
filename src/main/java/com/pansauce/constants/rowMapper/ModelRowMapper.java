@@ -54,6 +54,7 @@ public class ModelRowMapper {
         order.setRealDate(r.getDate("real_date"));
         order.setDeliveryCost(r.getBigDecimal("delivery_cost"));
         order.setTotalCost(r.getBigDecimal("total_order_cost"));
+        order.setCustomerNumber(r.getString("customer_number"));
         return order;
     };
 

@@ -10,6 +10,7 @@ public class Order {
     private Date realDate;
     private BigDecimal deliveryCost;
     private BigDecimal totalCost;
+    private String customerNumber;
 
     public String getNumber() {
         return number;
@@ -35,6 +36,10 @@ public class Order {
         return totalCost;
     }
 
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
     public void setNumber(String number) {
         this.number = number;
     }
@@ -57,6 +62,10 @@ public class Order {
 
     public void setTotalCost(BigDecimal totalCost) {
         this.totalCost = totalCost;
+    }
+
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
     }
 
 }
