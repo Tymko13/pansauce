@@ -1,4 +1,4 @@
-package com.pansauce.model;
+package com.pansauce.model.sauce;
 
 import java.math.BigDecimal;
 
@@ -9,6 +9,7 @@ public class Sauce {
     private double weight;
     private BigDecimal cost;
     private String typeNumber;
+    private String typeName;
 
     public String getNumber() {
         return number;
@@ -29,8 +30,13 @@ public class Sauce {
     public BigDecimal getCost() {
         return cost;
     }
+
     public String getTypeNumber() {
         return typeNumber;
+    }
+
+    public String getTypeName() {
+        return typeName;
     }
 
     public void setNumber(String number) {
@@ -55,6 +61,10 @@ public class Sauce {
 
     public void setTypeNumber(String typeNumber) {
         this.typeNumber = typeNumber;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
 }

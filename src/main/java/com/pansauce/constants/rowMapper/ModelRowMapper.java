@@ -1,20 +1,47 @@
 package com.pansauce.constants.rowMapper;
 
 import com.pansauce.model.*;
+import com.pansauce.model.sauce.Sauce;
+import com.pansauce.model.sauce.SauceWithIncome;
+import com.pansauce.model.sauce.SauceWithRecipe;
+import com.pansauce.model.sauce.SauceWithSalesCount;
 import com.pansauce.security.User;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 public class ModelRowMapper {
 
     public static final RowMapper<Sauce> SAUCE_ROW_MAPPER = (r, i) -> {
-        Sauce rowObject = new Sauce();
-        rowObject.setNumber(r.getString("sauce_number"));
-        rowObject.setName(r.getString("sauce_name"));
-        rowObject.setTypeNumber(r.getString("type_number"));
-        rowObject.setShelfLife(r.getInt("shelf_life"));
-        rowObject.setWeight(r.getDouble("sauce_weight"));
-        rowObject.setCost(r.getBigDecimal("sauce_cost"));
-        return rowObject;
+        Sauce sauce = new Sauce();
+        sauce.setNumber(r.getString("sauce_number"));
+        sauce.setName(r.getString("sauce_name"));
+        sauce.setTypeNumber(r.getString("type_number"));
+        sauce.setShelfLife(r.getInt("shelf_life"));
+        sauce.setWeight(r.getDouble("sauce_weight"));
+        sauce.setCost(r.getBigDecimal("sauce_cost"));
+        sauce.setTypeName(r.getString("type_name"));
+        return sauce;
+    };
+
+    public static final RowMapper<SauceWithIncome> SAUCE_WITH_INCOME_ROW_MAPPER = (r, i) -> {
+        SauceWithIncome sauce = new SauceWithIncome();
+        sauce.setSauceNumber(r.getString("sauce_number"));
+        sauce.setSauceName(r.getString("sauce_name"));
+        sauce.setSauceIncome(r.getBigDecimal("sauce_income"));
+        return sauce;
+    };
+
+    public static final RowMapper<SauceWithSalesCount> SAUCE_WITH_SALES_COUNT_ROW_MAPPER = (r, i) -> {
+        SauceWithSalesCount sauce = new SauceWithSalesCount();
+        sauce.setSauceNumber(r.getString("sauce_number"));
+        sauce.setSauceName(r.getString("sauce_name"));
+        sauce.setSalesCount(r.getInt("total_batches_sold"));
+        return sauce;
     };
 
     public static final RowMapper<Ingredient> INGREDIENT_ROW_MAPPER = (r, i) -> {
@@ -89,5 +116,39 @@ public class ModelRowMapper {
         phone.setCustomerNumber(r.getString("customer_number"));
         return phone;
     };
+
+    public static final ResultSetExtractor<List<SauceWithRecipe>> SAUCE_WITH_RECIPE_EXTRACTOR = rs -> {
+        Map<String, SauceWithRecipe> sauceMap = new HashMap<>();
+        while (rs.next()) {
+            String sauceNumber = rs.getString("sauce_number");
+            SauceWithRecipe sauce = sauceMap.get(sauceNumber);
+            if (sauce == null) {
+                sauce = new SauceWithRecipe();
+                sauce.setNumber(sauceNumber);
+                sauce.setName(rs.getString("sauce_name"));
+                sauce.setTypeNumber(rs.getString("type_number"));
+                sauce.setShelfLife(rs.getInt("shelf_life"));
+                sauce.setWeight(rs.getDouble("sauce_weight"));
+                sauce.setCost(rs.getBigDecimal("sauce_cost"));
+                sauce.setTypeName(rs.getString("type_name"));
+                sauce.setRecipe(new ArrayList<>()); // Initialize the list
+
+                sauceMap.put(sauceNumber, sauce);
+            }
+
+            // Map ingredient (assuming columns exist in the result set)
+            String ingredientName = rs.getString("ingredient_name"); // Adjust column names as needed
+            if (ingredientName != null) { // Check to avoid null ingredients
+                SauceIngredient ingredient = new SauceIngredient();
+                ingredient.setName(ingredientName);
+                ingredient.setGti(rs.getString("gti_number"));
+                ingredient.setWeight(rs.getInt("ing_weight"));
+                sauce.getRecipe().add(ingredient);
+            }
+        }
+
+        return new ArrayList<>(sauceMap.values());
+    };
+
 
 }

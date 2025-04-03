@@ -3,12 +3,17 @@ package com.pansauce.service;
 import com.pansauce.dao.SauceDao;
 import com.pansauce.dao.TypeDao;
 import com.pansauce.exception.sauce.*;
-import com.pansauce.model.Sauce;
+import com.pansauce.model.Batch;
+import com.pansauce.model.sauce.Sauce;
 import com.pansauce.model.Type;
+import com.pansauce.model.sauce.SauceWithIncome;
+import com.pansauce.model.sauce.SauceWithRecipe;
+import com.pansauce.model.sauce.SauceWithSalesCount;
 import com.pansauce.validator.model.SauceValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,11 +32,62 @@ public class SauceService {
         this.typeRepository = typeRepository;
     }
 
-    public List<Sauce> getAllSauce() {
-        List<Sauce> sauces = sauceRepository.findAll();
-        if (sauces.isEmpty())
-            throw new NoSaucesFoundException();
-        return sauces;
+    public List<Sauce> getAllSauce(String attribute) {
+        return switch (attribute) {
+            case "name" -> sauceRepository.getAllSaucesSortedByName();
+            case "type" -> sauceRepository.getAllSaucesSortedByType();
+            case "number" -> sauceRepository.getAllSaucesSortedByNumber();
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<Batch> getSauceBatches(String attribute, String sauceKey) {
+        return switch (attribute) {
+            case "prod_date" -> sauceRepository.getAllBatchesOfSauceSortedByProdDate(sauceKey);
+            case "price" -> sauceRepository.getAllBatchesOfSauceSortedByPrice(sauceKey);
+            case "status" -> sauceRepository.getAllBatchesOfSauceSortedByStatus(sauceKey);
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<SauceWithRecipe> getAllSauceWithRecipe(String attribute) {
+        return switch (attribute) {
+            case "name" -> sauceRepository.getAllSaucesWithRecipeSortedByName();
+            case "count" -> sauceRepository.getAllSaucesWithRecipeSortedByWeight();
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<SauceWithIncome> getFiveSauceWithIncome(String attribute) {
+        return switch (attribute) {
+            case "top" -> sauceRepository.getBestFiveSaucesByIncome();
+            case "last" -> sauceRepository.getWorstFiveSaucesByIncome();
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<SauceWithSalesCount> getFiveSauceWithSalesCount(String attribute) {
+        return switch (attribute) {
+            case "top" -> sauceRepository.getBestFiveSaucesBySales();
+            case "last" -> sauceRepository.getWorstFiveSaucesBySales();
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<SauceWithRecipe> getFiveSauceRecipeWithIncome(String attribute) {
+        return switch (attribute) {
+            case "top" -> sauceRepository.getBestFiveSaucesWithRecipeByIncome();
+            case "last" -> sauceRepository.getWorstFiveSaucesWithRecipeByIncome();
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<SauceWithRecipe> getFiveSauceRecipeWithSalesCount(String attribute) {
+        return switch (attribute) {
+            case "top" -> sauceRepository.getBestFiveSaucesWithRecipeBySales();
+            case "last" -> sauceRepository.getWorstFiveSaucesWithRecipeBySales();
+            default -> new ArrayList<>();
+        };
     }
 
     public Sauce getSauceByKey(String key) {

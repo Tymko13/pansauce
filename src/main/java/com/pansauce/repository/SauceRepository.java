@@ -2,6 +2,7 @@ package com.pansauce.repository;
 
 import com.pansauce.dao.SauceDao;
 import com.pansauce.model.*;
+import com.pansauce.model.sauce.*;
 import com.pansauce.util.RandomKeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -61,4 +62,83 @@ public class SauceRepository implements SauceDao {
         return findByKey(key) != null;
     }
 
+    @Override
+    public List<Sauce> getAllSaucesSortedByName() {
+        return jdbc.query(GET_ALL_SAUCES_SORTED_BY_NAME, SAUCE_ROW_MAPPER);
+    }
+
+    @Override
+    public List<Sauce> getAllSaucesSortedByType() {
+        return jdbc.query(GET_ALL_SAUCES_SORTED_BY_TYPE_NAME, SAUCE_ROW_MAPPER);
+    }
+
+    @Override
+    public List<Sauce> getAllSaucesSortedByNumber() {
+        return jdbc.query(GET_ALL_SAUCES_SORTED_BY_NUMBER, SAUCE_ROW_MAPPER);
+    }
+
+    @Override
+    public List<Batch> getAllBatchesOfSauceSortedByStatus(String sauceKey) {
+        return jdbc.query(GET_ALL_BATCHES_OF_SAUCE_SORTED_BY_STATUS, BATCH_ROW_MAPPER);
+    }
+
+    @Override
+    public List<Batch> getAllBatchesOfSauceSortedByPrice(String sauceKey) {
+        return jdbc.query(GET_ALL_BATCHES_OF_SAUCE_SORTED_BY_PRICE, BATCH_ROW_MAPPER);
+    }
+
+    @Override
+    public List<Batch> getAllBatchesOfSauceSortedByProdDate(String sauceKey) {
+        return jdbc.query(GET_ALL_BATCHES_OF_SAUCE_SORTED_BY_PROD_DATE, BATCH_ROW_MAPPER);
+    }
+
+    @Override
+    public List<SauceWithRecipe> getAllSaucesWithRecipeSortedByName() {
+        return jdbc.query(GET_ALL_SAUCE_RECIPE_SORTED_BY_NAME, SAUCE_WITH_RECIPE_EXTRACTOR);
+    }
+
+    @Override
+    public List<SauceWithRecipe> getAllSaucesWithRecipeSortedByWeight() {
+        return jdbc.query(GET_ALL_SAUCE_RECIPE_SORTED_BY_WEIGHT, SAUCE_WITH_RECIPE_EXTRACTOR);
+    }
+
+    @Override
+    public List<SauceWithIncome> getBestFiveSaucesByIncome() {
+        return jdbc.query(GET_TOP_FIVE_SAUCE_BY_INCOME, SAUCE_WITH_INCOME_ROW_MAPPER);
+    }
+
+    @Override
+    public List<SauceWithSalesCount> getBestFiveSaucesBySales() {
+        return jdbc.query(GET_TOP_FIVE_SAUCE_BY_SALES_COUNT, SAUCE_WITH_SALES_COUNT_ROW_MAPPER);
+    }
+
+    @Override
+    public List<SauceWithIncome> getWorstFiveSaucesByIncome() {
+        return jdbc.query(GET_LAST_FIVE_SAUCE_BY_INCOME, SAUCE_WITH_INCOME_ROW_MAPPER);
+    }
+
+    @Override
+    public List<SauceWithSalesCount> getWorstFiveSaucesBySales() {
+        return jdbc.query(GET_LAST_FIVE_SAUCE_BY_SALES_COUNT, SAUCE_WITH_SALES_COUNT_ROW_MAPPER);
+    }
+
+    @Override
+    public List<SauceWithRecipe> getBestFiveSaucesWithRecipeByIncome() {
+        return jdbc.query(GET_TOP_FIVE_SAUCE_RECIPE_BY_INCOME, SAUCE_WITH_RECIPE_EXTRACTOR);
+    }
+
+    @Override
+    public List<SauceWithRecipe> getBestFiveSaucesWithRecipeBySales() {
+        return jdbc.query(GET_TOP_FIVE_SAUCE_RECIPE_BY_SALES_COUNT, SAUCE_WITH_RECIPE_EXTRACTOR);
+    }
+
+    @Override
+    public List<SauceWithRecipe> getWorstFiveSaucesWithRecipeByIncome() {
+        return jdbc.query(GET_LAST_FIVE_SAUCE_RECIPE_BY_INCOME, SAUCE_WITH_RECIPE_EXTRACTOR);
+    }
+
+    @Override
+    public List<SauceWithRecipe> getWorstFiveSaucesWithRecipeBySales() {
+        return jdbc.query(GET_LAST_FIVE_SAUCE_RECIPE_BY_SALES_COUNT, SAUCE_WITH_RECIPE_EXTRACTOR);
+    }
 }
