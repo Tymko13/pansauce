@@ -24,7 +24,7 @@ body {
   color: var(--text-color);
   border: none;
   font-weight: bold;
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   transition: 0.2s;
 }
 
@@ -72,3 +72,6 @@ body {
 }
 
 
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

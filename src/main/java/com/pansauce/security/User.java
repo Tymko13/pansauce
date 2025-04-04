@@ -39,4 +39,5 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+    public String getRole() { return role; }
 }

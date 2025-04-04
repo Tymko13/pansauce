@@ -28,7 +28,7 @@ export class AuthenticationService {
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + auth
     });
-    return this.http.post<any>(`${environment.apiUrl}/login`, {username, password}, {headers})
+    return this.http.get<any>(`${environment.apiUrl}/login`, {headers})
       .pipe(map(user => {
         user.authdata = auth;
         sessionStorage.setItem('user', JSON.stringify(user));
@@ -40,6 +40,6 @@ export class AuthenticationService {
   logout() {
     sessionStorage.removeItem('user');
     this.userSubject.next(null);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).catch(error => console.error('Navigation error:', error));
   }
 }
