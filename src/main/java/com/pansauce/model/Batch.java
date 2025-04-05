@@ -12,6 +12,7 @@ public class Batch {
     private BigDecimal sauceCost;
     private BigDecimal cost;
     private String status;
+    private String sauceName;
     private String sauceNumber;
     private String orderNumber;
 
@@ -51,6 +52,10 @@ public class Batch {
         return sauceCost;
     }
 
+    public String getSauceName() {
+        return sauceName;
+    }
+
     public void setNumber(String number) {
         this.number = number;
     }
@@ -86,4 +91,9 @@ public class Batch {
     public void setSauceCost(BigDecimal sauceCost) {
         this.sauceCost = sauceCost;
     }
+
+    public void setSauceName(String sauceName) {
+        this.sauceName = sauceName;
+    }
+
 }

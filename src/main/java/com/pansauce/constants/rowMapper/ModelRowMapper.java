@@ -70,6 +70,7 @@ public class ModelRowMapper {
         batch.setStatus(r.getString("batch_status"));
         batch.setSauceNumber(r.getString("sauce_number"));
         batch.setOrderNumber(r.getString("order_number"));
+        batch.setSauceName(r.getString("sauce_name"));
         return batch;
     };
 

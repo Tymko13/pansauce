@@ -3,17 +3,22 @@ package com.pansauce.constants.query;
 public class SauceQuery {
 
     public static final String GET_ALL_SAUCE = "SELECT * FROM sauce INNER JOIN type ON sauce.type_number = type.type_number";
+
     public static final String GET_SAUCE_BY_KEY = "SELECT * FROM sauce INNER JOIN type ON sauce.type_number = type.type_number\n" +
                                                   "WHERE sauce_number = ?";
+
     public static final String ADD_SAUCE = "INSERT INTO sauce" + '\n' +
                                            "(sauce_number, sauce_name, shelf_life," + '\n' +
                                            " sauce_weight, sauce_cost, type_number)" + '\n' +
                                            " VALUES (?, ?, ?, ?, ?, ?)";
+
     public static final String DELETE_SAUCE_BY_KEY = "DELETE FROM sauce WHERE sauce_number = ?";
+
     public static final String GET_ALL_SAUCE_INGREDIENTS = "SELECT * FROM ingredient_sauce\n" +
                                                             "INNER JOIN ingredient\n" +
                                                             "   ON ingredient.gti_number = ingredient_sauce.gti_number\n" +
                                                             "WHERE sauce_number = ?";
+
     public static final String ADD_INGREDIENT_TO_SAUCE_BY_KEY = "INSERT INTO ingredient_sauce\n" +
                                                                 "(sauce_number, gti_number, ing_weight)\n" +
                                                                 "VALUES (?, ?, ?)";
@@ -23,21 +28,27 @@ public class SauceQuery {
     public static final String GET_ALL_SAUCES_SORTED_BY_TYPE_NAME = "SELECT * FROM sauce INNER JOIN type ON sauce.type_number = type.type_number ORDER BY type_number";
 
     public static final String GET_ALL_BATCHES_OF_SAUCE_SORTED_BY_STATUS =
-            "SELECT * \n" +
-            "FROM Batch\n" +
-            "WHERE sauce_number = ?\n" +
+            "SELECT batch_number, sauce_quantity, production_date,\n" +
+            "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +
+            "order_number, sauce_number, sauce_name \n" +
+            "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number \n" +
+            "WHERE sauce_number = ? \n" +
             "ORDER BY batch_status\n";
 
     public static final String GET_ALL_BATCHES_OF_SAUCE_SORTED_BY_PRICE =
-            "SELECT * \n" +
-            "FROM Batch\n" +
-            "WHERE sauce_number = ?\n" +
+            "SELECT batch_number, sauce_quantity, production_date,\n" +
+            "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +
+            "order_number, sauce_number, sauce_name \n" +
+            "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number \n" +
+            "WHERE sauce_number = ? \n" +
             "ORDER BY batch_cost\n";
 
     public static final String GET_ALL_BATCHES_OF_SAUCE_SORTED_BY_PROD_DATE =
-            "SELECT * \n" +
-            "FROM Batch\n" +
-            "WHERE sauce_number = ?\n" +
+            "SELECT batch_number, sauce_quantity, production_date,\n" +
+            "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +
+            "order_number, sauce_number, sauce_name \n" +
+            "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number \n" +
+            "WHERE sauce_number = ? \n" +
             "ORDER BY production_date\n";
 
     public static final String GET_ALL_SAUCE_RECIPE_SORTED_BY_NAME =
