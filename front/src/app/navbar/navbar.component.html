@@ -4,10 +4,12 @@
     <img *ngIf="!DarkLightBtnComponent.lightMode" src="/assets/logo/white.png" alt="Pan Sauce logo">
   </span>
   <span id="navigation">
-    <button class="text-btn">Home</button>
-    <button class="text-btn">Products</button>
-    <button class="text-btn">Orders</button>
-    <button class="text-btn">Info</button>
+    <button class="text-btn" routerLink="/">Home</button>
+    <button class="text-btn" routerLink="/sauces">Sauces</button>
+    <button class="text-btn" routerLink="/batches">Batches</button>
+    <button class="text-btn" routerLink="/orders">Orders</button>
+    <button class="text-btn" routerLink="/customers">Customers</button>
+    <button class="text-btn" routerLink="/analytics">Analytics</button>
   </span>
   <span id="settings">
     <app-dark-light-btn/>

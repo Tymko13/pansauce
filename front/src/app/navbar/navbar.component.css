@@ -1,5 +1,5 @@
 header {
-  height: 15vh;
+  height: 10vh;
   width: 100%;
   background: var(--primary-color);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
@@ -20,7 +20,7 @@ header {
   flex: 1;
   justify-content: space-evenly;
   img {
-    max-height: 7.5em;
+    max-height: 5em;
   }
 }
 
