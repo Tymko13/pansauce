@@ -1,39 +1,83 @@
-import {Component, OnInit} from '@angular/core';
-import {BatchService} from '../_services/batch.service';
-import {Batch} from '../_models/batch';
-import {NgForOf, NgIf} from '@angular/common';
+import { Component, inject, signal, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { Batch } from '../_models/batch';
+import { BatchService } from '../_services/batch.service';
+import {MatOption, MatSelect} from '@angular/material/select';
+import {SauceService} from '../_services/sauce.service';
 
 @Component({
   selector: 'app-batch',
+  standalone: true,
   imports: [
-    NgForOf,
-    NgIf
+    CommonModule,
+    FormsModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSidenavModule,
+    MatListModule,
+    MatButtonModule,
+    MatSelect,
+    MatOption,
   ],
   templateUrl: './batch.component.html',
-  standalone: true,
-  styleUrl: './batch.component.css'
+  styleUrls: ['./batch.component.css'],
 })
+export class BatchComponent {
+  private batchService = inject(BatchService);
+  private sauceService = inject(SauceService);
 
-export class BatchComponent implements OnInit {
-  batches: Batch[] = [];
+  batches = signal<Batch[]>([]);
+  searchTerm = signal('');
+  selectedSort = signal<string>("number");
 
-  constructor(private batchService: BatchService) {}
+  selectedOption = signal<string>('Batch');
+  searchOptions = ['Batch', 'Order', 'Sauce Number', 'Sauce Name'];
 
-  async ngOnInit(): Promise<void> {
-    this.loadBatches();
+  displayedColumns: string[] = [
+    'number',
+    'productionDate',
+    'expirationDate',
+    'sauceCost',
+    'cost',
+    'status',
+    'sauce',
+    'orderNumber',
+  ];
+
+  filteredBatches = computed(() => {
+    console.log(this.selectedOption());
+    console.log(this.searchTerm());
+    const term = this.searchTerm();
+    const sort = this.selectedSort();
+    if(!term) return this.batchService.getAllBatchesSortedBy(sort);
+    switch (this.selectedOption()) {
+      case 'Batch': return this.batchService.getBatchByNumber(term);
+      case 'Order': return this.batchService.getBatchByKey(term);
+      case 'Sauce Number': return this.sauceService.getSauceBatchesByNumber(term, sort);
+      case 'Sauce Name': return this.sauceService.getSauceBatchesByName(term, sort);
+      default: return this.batchService.getAllBatchesSortedBy(sort);
+    }
+  });
+
+  constructor() {
+    this.batchService.getAllBatchesSortedBy().subscribe(data => this.batches.set(data));
   }
 
-  loadBatches(): void {
-    this.batchService.getBatches().subscribe((data) => {
-      this.batches = data;
-    });
+  // clearSort() {
+  //   this.selectedSort.set(null);
+  // }
+
+  selectSort(sort: string) {
+    this.selectedSort.set(sort);
   }
 
-  deleteBatch(key: string): void {
-    this.batchService.deleteBatch(key).subscribe(() => {
-      this.loadBatches();
-    });
-  }
-
-  protected readonly JSON = JSON;
+  availableSort = ["number", "prod_date", "sauce_quantity", "price", "status"];
 }

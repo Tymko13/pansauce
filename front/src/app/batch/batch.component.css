@@ -1,0 +1,43 @@
+.sidebar {
+  font-family: "Nunito", sans-serif;
+  width: 12rem;
+  padding: 1rem;
+  background-color: #f4f4f4;
+  min-height: 90vh;
+}
+
+.sidebar h3 {
+  margin-bottom: 1rem;
+}
+
+.selected {
+  background-color: #e0e0e0;
+}
+
+.content {
+  padding: 1.5rem;
+}
+
+.search-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.full-width-table {
+  width: 100%;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 90vh;
+}
+
+mat-sidenav-container {
+  flex: 1;
+}
+
+mat-sidenav {
+  border-radius: 0;
+}

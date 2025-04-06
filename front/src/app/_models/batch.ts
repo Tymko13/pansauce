@@ -6,5 +6,6 @@ export interface Batch {
   cost: number;
   status: string;
   sauceNumber: string;
-  orderNumber: string;
+  sauceName: string;
+  orderNumber?: string;
 }

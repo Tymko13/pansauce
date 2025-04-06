@@ -2,6 +2,6 @@ export interface Customer {
   number: string;
   name: string;
   surname: string;
-  patronymic: string;
+  patronymic?: string;
   address: string;
 }
