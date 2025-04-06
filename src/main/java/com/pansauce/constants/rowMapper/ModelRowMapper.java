@@ -1,6 +1,8 @@
 package com.pansauce.constants.rowMapper;
 
 import com.pansauce.model.*;
+import com.pansauce.model.analysis.TotalAmount;
+import com.pansauce.model.analysis.TotalIncome;
 import com.pansauce.model.sauce.Sauce;
 import com.pansauce.model.sauce.SauceWithIncome;
 import com.pansauce.model.sauce.SauceWithRecipe;
@@ -132,14 +134,12 @@ public class ModelRowMapper {
                 sauce.setWeight(rs.getDouble("sauce_weight"));
                 sauce.setCost(rs.getBigDecimal("sauce_cost"));
                 sauce.setTypeName(rs.getString("type_name"));
-                sauce.setRecipe(new ArrayList<>()); // Initialize the list
+                sauce.setRecipe(new ArrayList<>());
 
                 sauceMap.put(sauceNumber, sauce);
             }
-
-            // Map ingredient (assuming columns exist in the result set)
-            String ingredientName = rs.getString("ingredient_name"); // Adjust column names as needed
-            if (ingredientName != null) { // Check to avoid null ingredients
+            String ingredientName = rs.getString("ingredient_name");
+            if (ingredientName != null) {
                 SauceIngredient ingredient = new SauceIngredient();
                 ingredient.setName(ingredientName);
                 ingredient.setGti(rs.getString("gti_number"));
@@ -147,9 +147,19 @@ public class ModelRowMapper {
                 sauce.getRecipe().add(ingredient);
             }
         }
-
         return new ArrayList<>(sauceMap.values());
     };
 
+    public static final RowMapper<TotalIncome> TOTAL_INCOME_ROW_MAPPER = (r, i) -> {
+        TotalIncome totalIncome = new TotalIncome();
+        totalIncome.setIncome(r.getBigDecimal("total_income"));
+        return totalIncome;
+    };
+
+    public static final RowMapper<TotalAmount> TOTAL_AMOUNT_ROW_MAPPER = (r, i) -> {
+        TotalAmount totalAmount = new TotalAmount();
+        totalAmount.setTotalAmount(r.getInt("total_amount"));
+        return totalAmount;
+    };
 
 }

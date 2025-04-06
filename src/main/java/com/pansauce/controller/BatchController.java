@@ -1,9 +1,12 @@
 package com.pansauce.controller;
 
 import com.pansauce.model.Batch;
+import com.pansauce.model.analysis.TotalAmount;
+import com.pansauce.model.analysis.TotalIncome;
 import com.pansauce.service.BatchService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -18,8 +21,71 @@ public class BatchController {
     }
 
     @GetMapping("/batch")
-    public List<Batch> getBatches() {
-        return batchService.getAllBatches();
+    public List<Batch> getAllBatchesSortedBy(
+            @RequestParam(value = "sorted", defaultValue = "prod_date")
+            String attribute
+    ) {
+        return batchService.getAllBatchesSortedBy(attribute);
+    }
+
+    @GetMapping(value = "/batch", params = {"status"})
+    public List<Batch> getAllBatchesWithStatus(
+            @RequestParam(value = "status")
+            String status
+    ) {
+        return batchService.getAllBatchesWithStatus(status);
+    }
+
+    @GetMapping(value = "/batch/amount", params = {"from", "to"})
+    public TotalIncome getAmountOfSoldBatchesBetweenDates(
+            @RequestParam("from") Date from,
+            @RequestParam("to") Date to
+    ) {
+        return batchService.getIncomeFromSoldBatchesBetweenDates(from, to);
+    }
+
+    @GetMapping(value = "/batch/income", params = {"from", "to"})
+    public TotalIncome getIncomeFromSoldBatchesBetweenDates(
+            @RequestParam("from") Date from,
+            @RequestParam("to") Date to
+    ) {
+        return batchService.getIncomeFromSoldBatchesBetweenDates(from, to);
+    }
+
+    @GetMapping(value = "/batch/amount", params = {"sauce", "from", "to"})
+    public TotalAmount getAmountOfSoldBatchesBetweenDatesBySauceKey(
+            @RequestParam("sauce") String sauceKey,
+            @RequestParam("from") Date from,
+            @RequestParam("to") Date to
+    ) {
+        return batchService.getAmountOfSoldBatchesBetweenDatesBySauceKey(from, to, sauceKey);
+    }
+
+    @GetMapping(value = "/batch/income", params = {"sauce", "from", "to"})
+    public TotalIncome getIncomeFromSoldBatchesBetweenDatesBySauceKey(
+            @RequestParam("sauce") String sauceKey,
+            @RequestParam("from") Date from,
+            @RequestParam("to") Date to
+    ) {
+        return batchService.getIncomeFromSoldBatchesBetweenDatesBySauceKey(from, to, sauceKey);
+    }
+
+    @GetMapping(value = "/batch/amount", params = {"type", "from", "to"})
+    public TotalAmount getAmountOfSoldBatchesBetweenDatesByTypeKey(
+            @RequestParam("type") String typeKey,
+            @RequestParam("from") Date from,
+            @RequestParam("to") Date to
+    ) {
+        return batchService.getAmountOfSoldBatchesBetweenDatesByTypeKey(from, to, typeKey);
+    }
+
+    @GetMapping(value = "/batch/income", params = {"type", "from", "to"})
+    public TotalIncome getIncomeFromSoldBatchesBetweenDatesByTypeKey(
+            @RequestParam("type") String typeKey,
+            @RequestParam("from") Date from,
+            @RequestParam("to") Date to
+    ) {
+        return batchService.getIncomeFromSoldBatchesBetweenDatesByTypeKey(from, to, typeKey);
     }
 
     @GetMapping("/batch/{key}")

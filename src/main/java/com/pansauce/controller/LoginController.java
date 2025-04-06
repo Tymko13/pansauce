@@ -1,6 +1,7 @@
 package com.pansauce.controller;
 
 import com.pansauce.constants.enums.UserErrorMessage;
+import com.pansauce.model.LoginResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,15 +15,12 @@ import java.util.Collection;
 public class LoginController {
 
     @GetMapping("/login")
-    public UserResponse login(){
+    public LoginResponse login(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Collection<String> authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         String role = authorities.stream().findFirst().orElseThrow(() ->
                 new UsernameNotFoundException(UserErrorMessage.NON_EXISTING_USER.toString()));
-        return new UserResponse(null, role);
+        return new LoginResponse(role);
     }
 
-    private record UserResponse(String authdata, String role) {}
 }
-
-
