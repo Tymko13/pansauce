@@ -63,6 +63,16 @@ public class SauceRepository implements SauceDao {
     }
 
     @Override
+    public List<Sauce> getSaucesWithNameStartingWith(String prefix) {
+        return jdbc.query(GET_SAUCE_BY_NAME_PREFIX, SAUCE_ROW_MAPPER, prefix);
+    }
+
+    @Override
+    public List<Sauce> getSaucesWithNumberStartingWith(String prefix) {
+        return jdbc.query(GET_SAUCE_BY_NUMBER_PREFIX, SAUCE_ROW_MAPPER, prefix);
+    }
+
+    @Override
     public List<Sauce> getAllSaucesSortedByName() {
         return jdbc.query(GET_ALL_SAUCES_SORTED_BY_NAME, SAUCE_ROW_MAPPER);
     }

@@ -85,6 +85,20 @@ public class SauceController {
         return sauceService.getSauceByKey(key);
     }
 
+    @GetMapping(value = "/sauce", params = {"number"})
+    public List<Sauce> getSauceByNumber(
+        @RequestParam("number") String number
+    ) {
+        return sauceService.getSauceByNumber(number);
+    }
+
+    @GetMapping(value = "/sauce", params = {"name"})
+    public List<Sauce> getSauceByName(
+            @RequestParam("name") String name
+    ) {
+        return sauceService.getSauceByName(name);
+    }
+
     @PostMapping("/sauce")
     public void addSauce(
             @RequestBody Sauce sauce

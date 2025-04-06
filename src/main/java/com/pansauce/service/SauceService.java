@@ -43,9 +43,9 @@ public class SauceService {
 
     public List<Batch> getSauceBatches(String attribute, String sauceKey) {
         return switch (attribute) {
-            case "prod_date" -> sauceRepository.getAllBatchesOfSauceSortedByProdDate(sauceKey);
-            case "price" -> sauceRepository.getAllBatchesOfSauceSortedByPrice(sauceKey);
-            case "status" -> sauceRepository.getAllBatchesOfSauceSortedByStatus(sauceKey);
+            case "prod_date" -> sauceRepository.getAllBatchesOfSauceSortedByProdDate(sauceKey  + "%");
+            case "price" -> sauceRepository.getAllBatchesOfSauceSortedByPrice(sauceKey  + "%");
+            case "status" -> sauceRepository.getAllBatchesOfSauceSortedByStatus(sauceKey + "%");
             default -> new ArrayList<>();
         };
     }
@@ -88,6 +88,14 @@ public class SauceService {
             case "last" -> sauceRepository.getWorstFiveSaucesWithRecipeBySales();
             default -> new ArrayList<>();
         };
+    }
+
+    public List<Sauce> getSauceByNumber(String number) {
+        return sauceRepository.getSaucesWithNumberStartingWith(number + "%");
+    }
+
+    public List<Sauce> getSauceByName(String name) {
+        return sauceRepository.getSaucesWithNameStartingWith(name + "%");
     }
 
     public Sauce getSauceByKey(String key) {

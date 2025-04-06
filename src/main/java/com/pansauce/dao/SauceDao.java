@@ -10,6 +10,9 @@ import java.util.List;
 
 public interface SauceDao extends GenericDao<Sauce, String> {
 
+    List<Sauce> getSaucesWithNameStartingWith(String prefix);
+    List<Sauce> getSaucesWithNumberStartingWith(String prefix);
+
     List<Sauce> getAllSaucesSortedByName();
     List<Sauce> getAllSaucesSortedByType();
     List<Sauce> getAllSaucesSortedByNumber();

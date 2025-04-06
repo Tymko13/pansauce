@@ -92,7 +92,7 @@ public class BatchQuery {
             "FROM (batch AS b INNER JOIN order AS o ON o.order_number = b.order_number) \n" +
             "INNER JOIN sauce AS s ON s.sauce_number = b.sauce_number\n" +
             "WHERE batch_status = “SOLD”\n" +
-            "AND sauce_name = ? \n" +
+            "AND sauce_name LIKE ? \n" +
             "AND real_date BETWEEN ? AND ?\n";
 
     public static final String GET_INCOME_FROM_SOLD_BATCHES_BETWEEN_DATES_BY_SAUCE_KEY =
@@ -100,7 +100,7 @@ public class BatchQuery {
             "FROM (batch AS b INNER JOIN order AS o ON o.order_number = b.order_number) \n" +
             "INNER JOIN sauce AS s ON s.sauce_number = b.sauce_number\n" +
             "WHERE batch_status = “SOLD”\n" +
-            "AND sauce_name = ? \n" +
+            "AND sauce_name LIKE ? \n" +
             "AND real_date BETWEEN ? AND ?\n";
 
     public static final String GET_AMOUNT_OF_SOLD_BATCHES_BETWEEN_DATES_BY_TYPE_KEY =
@@ -109,7 +109,7 @@ public class BatchQuery {
             "INNER JOIN sauce AS s ON s.sauce_number = b.sauce_number)\n" +
             "INNER JOIN type AS t ON t.type_number = s.type_number\n" +
             "WHERE batch_status = 'SOLD'\n" +
-            "AND type_name = ?\n" +
+            "AND type_name LIKE ?\n" +
             "AND real_date BETWEEN ? and ?\n";
 
     public static final String GET_INCOME_FROM_SOLD_BATCHES_BETWEEN_DATES_BY_TYPE_KEY =
@@ -118,7 +118,7 @@ public class BatchQuery {
             "INNER JOIN sauce AS s ON s.sauce_number = b.sauce_number)\n" +
             "INNER JOIN type AS t ON t.type_number = s.type_number\n" +
             "WHERE batch_status = 'SOLD'\n" +
-            "AND type_name = ?\n" +
+            "AND type_name LIKE ?\n" +
             "AND real_date BETWEEN ? and ?\n";
 
 }

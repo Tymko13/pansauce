@@ -53,19 +53,19 @@ public class BatchService {
     }
 
     public TotalAmount getAmountOfSoldBatchesBetweenDatesBySauceKey(Date from, Date to, String sauceKey) {
-        return batchRepository.getAmountOfSoldBatchesBetweenDatesBySauceKey(from, to, sauceKey);
+        return batchRepository.getAmountOfSoldBatchesBetweenDatesBySauceKey(from, to, sauceKey + "%");
     }
 
     public TotalIncome getIncomeFromSoldBatchesBetweenDatesBySauceKey(Date from, Date to, String sauceKey) {
-        return batchRepository.getIncomeFromSoldBatchesBetweenDatesBySauceKey(from, to, sauceKey);
+        return batchRepository.getIncomeFromSoldBatchesBetweenDatesBySauceKey(from, to, sauceKey+ "%");
     }
 
     public TotalAmount getAmountOfSoldBatchesBetweenDatesByTypeKey(Date from, Date to, String typeKey) {
-        return batchRepository.getAmountOfSoldBatchesBetweenDatesByTypeKey(from, to, typeKey);
+        return batchRepository.getAmountOfSoldBatchesBetweenDatesByTypeKey(from, to, typeKey+ "%");
     }
 
     public TotalIncome getIncomeFromSoldBatchesBetweenDatesByTypeKey(Date from, Date to, String typeKey) {
-        return batchRepository.getIncomeFromSoldBatchesBetweenDatesByTypeKey(from, to, typeKey);
+        return batchRepository.getIncomeFromSoldBatchesBetweenDatesByTypeKey(from, to, typeKey+ "%");
     }
 
     public List<Batch> getAllBatches() {
