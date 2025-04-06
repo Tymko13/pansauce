@@ -20,10 +20,14 @@ public interface SauceDao extends GenericDao<Sauce, String> {
     List<Batch> getAllBatchesOfSauceSortedByStatusBySauceKey(String sauceKey);
     List<Batch> getAllBatchesOfSauceSortedByPriceBySauceKey(String sauceKey);
     List<Batch> getAllBatchesOfSauceSortedByProdDateBySauceKey(String sauceKey);
+    List<Batch> getAllBatchesOfSauceSortedBySauceQuantityBySauceKey(String sauceKey);
+    List<Batch> getAllBatchesOfSauceSortedByNumberBySauceKey(String sauceKey);
 
     List<Batch> getAllBatchesOfSauceSortedByStatusBySauceName(String sauceName);
     List<Batch> getAllBatchesOfSauceSortedByPriceBySauceName(String sauceName);
     List<Batch> getAllBatchesOfSauceSortedByProdDateBySauceName(String sauceName);
+    List<Batch> getAllBatchesOfSauceSortedBySauceQuantityBySauceName(String sauceName);
+    List<Batch> getAllBatchesOfSauceSortedByNumberBySauceName(String sauceName);
 
     List<SauceWithRecipe> getAllSaucesWithRecipeSortedByName();
     List<SauceWithRecipe> getAllSaucesWithRecipeSortedByWeight();

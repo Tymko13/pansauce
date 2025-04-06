@@ -46,6 +46,8 @@ public class SauceService {
             case "prod_date" -> sauceRepository.getAllBatchesOfSauceSortedByProdDateBySauceKey(sauceKey  + "%");
             case "price" -> sauceRepository.getAllBatchesOfSauceSortedByPriceBySauceKey(sauceKey  + "%");
             case "status" -> sauceRepository.getAllBatchesOfSauceSortedByStatusBySauceKey(sauceKey + "%");
+            case "number" -> sauceRepository.getAllBatchesOfSauceSortedByNumberBySauceKey(sauceKey  + "%");
+            case "sauce_quantity" -> sauceRepository.getAllBatchesOfSauceSortedBySauceQuantityBySauceKey(sauceKey  + "%");
             default -> new ArrayList<>();
         };
     }
@@ -55,6 +57,8 @@ public class SauceService {
             case "prod_date" -> sauceRepository.getAllBatchesOfSauceSortedByProdDateBySauceName(sauceName + "%");
             case "price" -> sauceRepository.getAllBatchesOfSauceSortedByPriceBySauceName(sauceName + "%");
             case "status" -> sauceRepository.getAllBatchesOfSauceSortedByStatusBySauceName(sauceName + "%");
+            case "number" -> sauceRepository.getAllBatchesOfSauceSortedByNumberBySauceName(sauceName  + "%");
+            case "sauce_quantity" -> sauceRepository.getAllBatchesOfSauceSortedBySauceQuantityBySauceName(sauceName  + "%");
             default -> new ArrayList<>();
         };
     }
