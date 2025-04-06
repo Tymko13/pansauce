@@ -35,7 +35,7 @@ public class SauceQuery {
     public static final String GET_ALL_SAUCES_SORTED_BY_NUMBER = "SELECT * FROM sauce INNER JOIN type ON sauce.type_number = type.type_number ORDER BY sauce_number";
     public static final String GET_ALL_SAUCES_SORTED_BY_TYPE_NAME = "SELECT * FROM sauce INNER JOIN type ON sauce.type_number = type.type_number ORDER BY type_number";
 
-    public static final String GET_ALL_BATCHES_OF_SAUCE_SORTED_BY_STATUS =
+    public static final String GET_ALL_BATCHES_OF_SAUCE_BY_NUMBER_SORTED_BY_STATUS =
             "SELECT batch_number, sauce_quantity, production_date,\n" +
             "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +
             "order_number, sauce_number, sauce_name \n" +
@@ -43,7 +43,7 @@ public class SauceQuery {
             "WHERE sauce_number LIKE ? \n" +
             "ORDER BY batch_status\n";
 
-    public static final String GET_ALL_BATCHES_OF_SAUCE_SORTED_BY_PRICE =
+    public static final String GET_ALL_BATCHES_OF_SAUCE_BY_NUMBER_SORTED_BY_PRICE =
             "SELECT batch_number, sauce_quantity, production_date,\n" +
             "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +
             "order_number, sauce_number, sauce_name \n" +
@@ -51,12 +51,36 @@ public class SauceQuery {
             "WHERE sauce_number LIKE ? \n" +
             "ORDER BY batch_cost\n";
 
-    public static final String GET_ALL_BATCHES_OF_SAUCE_SORTED_BY_PROD_DATE =
+    public static final String GET_ALL_BATCHES_OF_SAUCE_BY_NUMBER_SORTED_BY_PROD_DATE =
             "SELECT batch_number, sauce_quantity, production_date,\n" +
             "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +
             "order_number, sauce_number, sauce_name \n" +
             "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number \n" +
             "WHERE sauce_number LIKE ? \n" +
+            "ORDER BY production_date\n";
+
+    public static final String GET_ALL_BATCHES_OF_SAUCE_BY_NAME_SORTED_BY_STATUS =
+            "SELECT batch_number, sauce_quantity, production_date,\n" +
+            "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +
+            "order_number, sauce_number, sauce_name \n" +
+            "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number \n" +
+            "WHERE sauce_name LIKE ? \n" +
+            "ORDER BY batch_status\n";
+
+    public static final String GET_ALL_BATCHES_OF_SAUCE_BY_NAME_SORTED_BY_PRICE =
+            "SELECT batch_number, sauce_quantity, production_date,\n" +
+            "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +
+            "order_number, sauce_number, sauce_name \n" +
+            "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number \n" +
+            "WHERE sauce_name LIKE ? \n" +
+            "ORDER BY batch_cost\n";
+
+    public static final String GET_ALL_BATCHES_OF_SAUCE_BY_NAME_SORTED_BY_PROD_DATE =
+            "SELECT batch_number, sauce_quantity, production_date,\n" +
+            "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +
+            "order_number, sauce_number, sauce_name \n" +
+            "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number \n" +
+            "WHERE sauce_name LIKE ? \n" +
             "ORDER BY production_date\n";
 
     public static final String GET_ALL_SAUCE_RECIPE_SORTED_BY_NAME =

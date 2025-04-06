@@ -41,11 +41,20 @@ public class SauceService {
         };
     }
 
-    public List<Batch> getSauceBatches(String attribute, String sauceKey) {
+    public List<Batch> getSauceBatchesBySauceKey(String attribute, String sauceKey) {
         return switch (attribute) {
-            case "prod_date" -> sauceRepository.getAllBatchesOfSauceSortedByProdDate(sauceKey  + "%");
-            case "price" -> sauceRepository.getAllBatchesOfSauceSortedByPrice(sauceKey  + "%");
-            case "status" -> sauceRepository.getAllBatchesOfSauceSortedByStatus(sauceKey + "%");
+            case "prod_date" -> sauceRepository.getAllBatchesOfSauceSortedByProdDateBySauceKey(sauceKey  + "%");
+            case "price" -> sauceRepository.getAllBatchesOfSauceSortedByPriceBySauceKey(sauceKey  + "%");
+            case "status" -> sauceRepository.getAllBatchesOfSauceSortedByStatusBySauceKey(sauceKey + "%");
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<Batch> getSauceBatchesBySauceName(String attribute,String sauceName) {
+        return switch (attribute) {
+            case "prod_date" -> sauceRepository.getAllBatchesOfSauceSortedByProdDateBySauceName(sauceName + "%");
+            case "price" -> sauceRepository.getAllBatchesOfSauceSortedByPriceBySauceName(sauceName + "%");
+            case "status" -> sauceRepository.getAllBatchesOfSauceSortedByStatusBySauceName(sauceName + "%");
             default -> new ArrayList<>();
         };
     }

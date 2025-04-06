@@ -68,6 +68,10 @@ public class BatchService {
         return batchRepository.getIncomeFromSoldBatchesBetweenDatesByTypeKey(from, to, typeKey+ "%");
     }
 
+    public List<Batch> getBatchesByNumber(String number) {
+        return batchRepository.getBatchesByNumber(number + "%");
+    }
+
     public List<Batch> getAllBatches() {
         List<Batch> batches = batchRepository.findAll();
         if (batches.isEmpty())

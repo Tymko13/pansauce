@@ -68,6 +68,11 @@ public class BatchRepository implements BatchDao {
     }
 
     @Override
+    public List<Batch> getBatchesByNumber(String number) {
+        return jdbc.query(GET_BATCH_BY_NUMBER, BATCH_ROW_MAPPER, number);
+    }
+
+    @Override
     public List<Batch> getAllBatchesSortedByNumber() {
         return jdbc.query(GET_ALL_BATCH_SORTED_BY_NUMBER, BATCH_ROW_MAPPER);
     }

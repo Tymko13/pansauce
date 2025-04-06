@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface BatchDao extends GenericDao<Batch, String> {
 
+    List<Batch> getBatchesByNumber(String number);
+
     List<Batch> getAllBatchesSortedByNumber();
     List<Batch> getAllBatchesSortedBySauceQuantity();
     List<Batch> getAllBatchesSortedByProductionDate();

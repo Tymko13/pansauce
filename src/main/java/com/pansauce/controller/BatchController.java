@@ -95,6 +95,13 @@ public class BatchController {
         return batchService.getBatchByKey(key);
     }
 
+    @GetMapping(value = "/batch", params = {"number"})
+    public List<Batch> getBatchesByNumber(
+            @RequestParam("number") String number
+    ) {
+        return batchService.getBatchesByNumber(number);
+    }
+
     @PostMapping("/batch")
     public void addBatch(
             @RequestBody Batch batch

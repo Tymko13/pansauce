@@ -16,6 +16,13 @@ public class BatchQuery {
             "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number\n" +
             "WHERE batch_number = ?\n";
 
+    public static final String GET_BATCH_BY_NUMBER =
+            "SELECT batch_number, sauce_quantity, production_date,\n" +
+            "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +
+            "order_number, sauce_number, sauce_name\n" +
+            "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number\n" +
+            "WHERE batch_number LIKE ?\n";
+
     public static final String ADD_BATCH =  "INSERT INTO batch\n" +
                                             "(batch_number, sauce_quantity, production_date, " +
                                             "expiration_date, sauce_cost_at_that_time, batch_cost, " +

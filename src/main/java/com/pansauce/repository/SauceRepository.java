@@ -88,18 +88,33 @@ public class SauceRepository implements SauceDao {
     }
 
     @Override
-    public List<Batch> getAllBatchesOfSauceSortedByStatus(String sauceKey) {
-        return jdbc.query(GET_ALL_BATCHES_OF_SAUCE_SORTED_BY_STATUS, BATCH_ROW_MAPPER);
+    public List<Batch> getAllBatchesOfSauceSortedByStatusBySauceKey(String sauceKey) {
+        return jdbc.query(GET_ALL_BATCHES_OF_SAUCE_BY_NUMBER_SORTED_BY_STATUS, BATCH_ROW_MAPPER, sauceKey);
     }
 
     @Override
-    public List<Batch> getAllBatchesOfSauceSortedByPrice(String sauceKey) {
-        return jdbc.query(GET_ALL_BATCHES_OF_SAUCE_SORTED_BY_PRICE, BATCH_ROW_MAPPER);
+    public List<Batch> getAllBatchesOfSauceSortedByPriceBySauceKey(String sauceKey) {
+        return jdbc.query(GET_ALL_BATCHES_OF_SAUCE_BY_NUMBER_SORTED_BY_PRICE, BATCH_ROW_MAPPER, sauceKey);
     }
 
     @Override
-    public List<Batch> getAllBatchesOfSauceSortedByProdDate(String sauceKey) {
-        return jdbc.query(GET_ALL_BATCHES_OF_SAUCE_SORTED_BY_PROD_DATE, BATCH_ROW_MAPPER);
+    public List<Batch> getAllBatchesOfSauceSortedByProdDateBySauceKey(String sauceKey) {
+        return jdbc.query(GET_ALL_BATCHES_OF_SAUCE_BY_NUMBER_SORTED_BY_PROD_DATE, BATCH_ROW_MAPPER, sauceKey);
+    }
+
+    @Override
+    public List<Batch> getAllBatchesOfSauceSortedByStatusBySauceName(String sauceName) {
+        return jdbc.query(GET_ALL_BATCHES_OF_SAUCE_BY_NAME_SORTED_BY_STATUS, BATCH_ROW_MAPPER, sauceName);
+    }
+
+    @Override
+    public List<Batch> getAllBatchesOfSauceSortedByPriceBySauceName(String sauceName) {
+        return jdbc.query(GET_ALL_BATCHES_OF_SAUCE_BY_NAME_SORTED_BY_PRICE, BATCH_ROW_MAPPER, sauceName);
+    }
+
+    @Override
+    public List<Batch> getAllBatchesOfSauceSortedByProdDateBySauceName(String sauceName) {
+        return jdbc.query(GET_ALL_BATCHES_OF_SAUCE_BY_NAME_SORTED_BY_PROD_DATE, BATCH_ROW_MAPPER, sauceName);
     }
 
     @Override

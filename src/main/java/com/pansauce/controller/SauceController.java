@@ -23,57 +23,58 @@ public class SauceController {
 
     @GetMapping("/sauce")
     public List<Sauce> findAllSauce(
-            @RequestParam(value = "sorted")
-            String attribute
+            @RequestParam("sorted") String attribute
     ) {
         return sauceService.getAllSauce(attribute);
     }
 
-    @GetMapping("/sauce/{sauceKey}/batch")
+    @GetMapping(value = "/sauce/batch", params = {"number", "sorted"})
     public List<Batch> getSauceBatches(
-            @PathVariable String sauceKey,
-            @RequestParam(value = "sorted")
-            String attribute
+            @RequestParam("number") String sauceNumber,
+            @RequestParam("sorted") String attribute
     ) {
-        return sauceService.getSauceBatches(attribute, sauceKey);
+        return sauceService.getSauceBatchesBySauceKey(attribute, sauceNumber);
+    }
+
+    @GetMapping(value = "/sauce/batch", params = {"name", "sorted"})
+    public List<Batch> getSauceBatchesBySauceName(
+            @RequestParam("name") String sauceName,
+            @RequestParam("sorted") String attribute
+    ) {
+        return sauceService.getSauceBatchesBySauceName(attribute, sauceName);
     }
 
     @GetMapping("sauce/recipe")
     public List<SauceWithRecipe> getAllSauceWithRecipe(
-            @RequestParam(value = "sorted")
-            String attribute
+            @RequestParam("sorted") String attribute
     ) {
         return sauceService.getAllSauceWithRecipe(attribute);
     }
 
     @GetMapping("/sauce/income")
     public List<SauceWithIncome> getFiveSaucesWithIncome(
-            @RequestParam(value = "popularity")
-            String popularity
+            @RequestParam("popularity") String popularity
     ) {
         return sauceService.getFiveSauceWithIncome(popularity);
     }
 
     @GetMapping("/sauce/sales")
     public List<SauceWithSalesCount> getFiveSaucesWithSalesCount(
-            @RequestParam(value = "popularity")
-            String popularity
+            @RequestParam("popularity") String popularity
     ) {
         return sauceService.getFiveSauceWithSalesCount(popularity);
     }
 
     @GetMapping("/sauce/recipe/income")
     public List<SauceWithRecipe> getFiveSaucesRecipeWithIncome(
-            @RequestParam(value = "popularity")
-            String popularity
+            @RequestParam("popularity") String popularity
     ) {
         return sauceService.getFiveSauceRecipeWithIncome(popularity);
     }
 
     @GetMapping("/sauce/recipe/sales")
     public List<SauceWithRecipe> getFiveSaucesRecipeWithSalesCount(
-            @RequestParam(value = "popularity")
-            String popularity
+            @RequestParam("popularity") String popularity
     ) {
         return sauceService.getFiveSauceRecipeWithSalesCount(popularity);
     }
