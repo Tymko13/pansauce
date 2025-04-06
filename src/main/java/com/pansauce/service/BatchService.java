@@ -44,6 +44,10 @@ public class BatchService {
         };
     }
 
+    public TotalAmount getAmountOfSoldBatchesBetweenDates(Date from, Date to) {
+        return batchRepository.getAmountOfSoldBatchesBetweenDates(from, to);
+    }
+
     public TotalIncome getIncomeFromSoldBatchesBetweenDates(Date from, Date to) {
         return batchRepository.getIncomeFromSoldBatchesBetweenDates(from, to);
     }

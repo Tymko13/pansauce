@@ -37,11 +37,11 @@ public class BatchController {
     }
 
     @GetMapping(value = "/batch/amount", params = {"from", "to"})
-    public TotalIncome getAmountOfSoldBatchesBetweenDates(
+    public TotalAmount getAmountOfSoldBatchesBetweenDates(
             @RequestParam("from") Date from,
             @RequestParam("to") Date to
     ) {
-        return batchService.getIncomeFromSoldBatchesBetweenDates(from, to);
+        return batchService.getAmountOfSoldBatchesBetweenDates(from, to);
     }
 
     @GetMapping(value = "/batch/income", params = {"from", "to"})
