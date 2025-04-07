@@ -1,1 +1,72 @@
-<p>analytics works!</p>
+<!-- analytics.component.html -->
+<div class="analytics-container">
+  <h1>Analytics Dashboard</h1>
+
+  <section class="section">
+    <h2>Популярність соусів</h2>
+    <select [(ngModel)]="popularityType">
+      <option value="most">Найпопулярніші</option>
+      <option value="least">Найменш популярні</option>
+    </select>
+    <button (click)="loadPopularSauces()">Отримати соуси за виручкою</button>
+    <button (click)="loadPopularSaucesBySales()">Отримати соуси за кількістю продажів</button>
+
+    <ul>
+      <li *ngFor="let sauce of saucesByIncome">{{ sauce.sauceName }} — {{ sauce.salesIncome }} грн</li>
+    </ul>
+    <ul>
+      <li *ngFor="let sauce of saucesBySales">{{ sauce.sauceName }} — {{ sauce.salesCount }} продажів</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>Рецепти популярних соусів</h2>
+    <button (click)="loadPopularRecipesByIncome()">Рецепти за виручкою</button>
+    <button (click)="loadPopularRecipesBySales()">Рецепти за кількістю продажів</button>
+
+    <ul>
+      <li *ngFor="let sauce of saucesRecipes">
+        <strong>{{ sauce.name }}</strong>
+        <ul>
+          <li *ngFor="let ingredient of sauce.recipe">{{ ingredient }}</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>Статистика продажів за типом соусу</h2>
+    <input type="text" [(ngModel)]="selectedType" placeholder="Тип соусу">
+    <label>Від: <input type="date" [(ngModel)]="fromDate"></label>
+    <label>До: <input type="date" [(ngModel)]="toDate"></label>
+    <button (click)="loadSoldAmountByType()">Отримати кількість</button>
+
+    <p>Продано партій: {{ soldAmount?.totalAmount }}</p>
+  </section>
+
+  <section class="section">
+    <h2>Загальна виручка за період</h2>
+    <label>Від: <input type="date" [(ngModel)]="fromDate"></label>
+    <label>До: <input type="date" [(ngModel)]="toDate"></label>
+    <button (click)="loadTotalIncome()">Отримати виручку</button>
+
+    <p>Виручка: {{ totalIncome?.income }} грн</p>
+  </section>
+
+  <section class="section">
+    <h2>Кількість/Виручка за соусом або типом</h2>
+    <input type="text" [(ngModel)]="selectedSauceKey" placeholder="Ключ соусу">
+    <input type="text" [(ngModel)]="selectedType" placeholder="Тип соусу">
+    <label>Від: <input type="date" [(ngModel)]="fromDate"></label>
+    <label>До: <input type="date" [(ngModel)]="toDate"></label>
+
+    <button (click)="loadAmountBySauceKey()">Кількість за соусом</button>
+    <button (click)="loadIncomeBySauceKey()">Виручка за соусом</button>
+    <button (click)="loadAmountByTypeKey()">Кількість за типом</button>
+    <button (click)="loadIncomeByTypeKey()">Виручка за типом</button>
+
+    <p>Кількість: {{ queryAmount?.totalAmount }}</p>
+    <p>Виручка: {{ queryIncome?.income }} грн</p>
+  </section>
+</div>
+
