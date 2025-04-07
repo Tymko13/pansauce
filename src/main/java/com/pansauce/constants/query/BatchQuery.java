@@ -71,7 +71,7 @@ public class BatchQuery {
             "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +
             "order_number, sauce_number, sauce_name\n" +
             "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number\n" +
-            "WHERE batch_status = “IN STOCK”\n" +
+            "WHERE batch_status = 'IN STOCK'\n" +
             "ORDER BY production_date  DESC;\n";
 
     public static final String GET_ALL_BATCH_WITH_STATUS_SOLD_SORTED_BY_PROD_DATE =
@@ -79,7 +79,7 @@ public class BatchQuery {
             "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +
             "order_number, sauce_number, sauce_name\n" +
             "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number\n" +
-            "WHERE batch_status = “SOLD”\n" +
+            "WHERE batch_status = 'SOLD'\n" +
             "ORDER BY production_date  DESC;\n";
 
     public static final String GET_TOTAL_INCOME_FROM_SOLD_BATCHES_BETWEEN_DATES =
@@ -98,7 +98,7 @@ public class BatchQuery {
             "SELECT COUNT(batch_number) as total_amount\n" +
             "FROM (batch AS b INNER JOIN order AS o ON o.order_number = b.order_number) \n" +
             "INNER JOIN sauce AS s ON s.sauce_number = b.sauce_number\n" +
-            "WHERE batch_status = “SOLD”\n" +
+            "WHERE batch_status = 'SOLD'\n" +
             "AND sauce_name LIKE ? \n" +
             "AND real_date BETWEEN ? AND ?\n";
 
@@ -106,7 +106,7 @@ public class BatchQuery {
             "SELECT SUM(batch_cost) AS total_income\n" +
             "FROM (batch AS b INNER JOIN order AS o ON o.order_number = b.order_number) \n" +
             "INNER JOIN sauce AS s ON s.sauce_number = b.sauce_number\n" +
-            "WHERE batch_status = “SOLD”\n" +
+            "WHERE batch_status = 'SOLD'\n" +
             "AND sauce_name LIKE ? \n" +
             "AND real_date BETWEEN ? AND ?\n";
 

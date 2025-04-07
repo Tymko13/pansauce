@@ -85,8 +85,6 @@ public class BatchController {
             @RequestParam("type") String typeKey,
             @RequestParam("from") Date from,
             @RequestParam("to") Date to
-//            @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date from,
-//            @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date to
     ) {
         return batchService.getIncomeFromSoldBatchesBetweenDatesByTypeKey(from, to, typeKey);
     }
