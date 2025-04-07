@@ -1,6 +1,7 @@
 package com.pansauce.controller;
 
 import com.pansauce.model.Type;
+import com.pansauce.model.sauce.Sauce;
 import com.pansauce.service.TypeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,22 @@ public class TypeController {
 
     public TypeController(TypeService typeService) {
         this.typeService = typeService;
+    }
+
+    @GetMapping(value = "/type", params = {"number", "sorted"})
+    public List<Sauce> getSaucesWithTypeNumberSortedBy(
+            @RequestParam("number") String typeNumber,
+            @RequestParam("sorted") String attribute
+    ) {
+        return typeService.getSaucesWithTypeNumberSortedBy(typeNumber, attribute);
+    }
+
+    @GetMapping(value = "/type", params = {"name", "sorted"})
+    public List<Sauce> getSaucesWithTypeNameSortedBy(
+            @RequestParam("name") String typeName,
+            @RequestParam("sorted") String attribute
+    ) {
+        return typeService.getSaucesWithTypeNameSortedBy(typeName, attribute);
     }
 
     @GetMapping("/type")

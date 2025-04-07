@@ -5,10 +5,12 @@ import com.pansauce.exception.type.InvalidTypeException;
 import com.pansauce.exception.type.NoTypesFoundException;
 import com.pansauce.exception.type.NonExistingTypeException;
 import com.pansauce.model.Type;
+import com.pansauce.model.sauce.Sauce;
 import com.pansauce.validator.model.TypeValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +22,22 @@ public class TypeService {
             @Qualifier(value = "typeRepo")
             TypeDao typeRepository) {
         this.typeRepository = typeRepository;
+    }
+
+    public List<Sauce> getSaucesWithTypeNumberSortedBy(String typeNumber, String attribute) {
+        return switch (attribute) {
+            case "name" -> typeRepository.getSaucesWithTypeNumberSortedBySauceName(typeNumber + "%");
+            case "price" -> typeRepository.getSaucesWithTypeNumberSortedByPrice(typeNumber + "%");
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<Sauce> getSaucesWithTypeNameSortedBy(String typeName, String attribute) {
+        return switch (attribute) {
+            case "name" -> typeRepository.getSaucesWithTypeNameSortedBySauceName(typeName + "%");
+            case "price" -> typeRepository.getSaucesWithTypeNameSortedByPrice(typeName + "%");
+            default -> new ArrayList<>();
+        };
     }
 
     public List<Type> getAllTypes() {
