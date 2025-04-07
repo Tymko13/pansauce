@@ -1,5 +1,6 @@
 package com.pansauce.controller;
 
+import com.pansauce.model.Batch;
 import com.pansauce.model.Order;
 import com.pansauce.service.OrderService;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,21 @@ public class OrderController {
             OrderService orderService
     ) {
         this.orderService = orderService;
+    }
+
+    @GetMapping(value = "/order", params = {"sorted"})
+    public List<Order> getAllOrdersSortedBy(
+        @RequestParam("sorted") String attribute
+    ) {
+        return orderService.getAllOrdersSortedBy(attribute);
+    }
+
+    @GetMapping(value = "/order", params = {"number", "sorted"})
+    public List<Batch> getBatchesOfOrderSortedBy(
+            @RequestParam("number") String orderNumber,
+            @RequestParam("sorted") String attribute
+    ) {
+        return orderService.getBatchesOfOrderSortedBy(attribute, orderNumber);
     }
 
     @GetMapping("/order")

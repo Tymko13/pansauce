@@ -1,6 +1,7 @@
 package com.pansauce.repository;
 
 import com.pansauce.dao.OrderDao;
+import com.pansauce.model.Batch;
 import com.pansauce.model.Order;
 import com.pansauce.util.RandomKeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import static com.pansauce.constants.keyLength.KeyLength.ORDER_KEY_LENGTH;
 import static com.pansauce.constants.query.OrderQuery.*;
+import static com.pansauce.constants.rowMapper.ModelRowMapper.BATCH_ROW_MAPPER;
 import static com.pansauce.constants.rowMapper.ModelRowMapper.ORDER_ROW_MAPPER;
 
 @Repository(value = "orderRepo")
@@ -59,4 +61,25 @@ public class OrderRepository implements OrderDao {
     public boolean exists(String key) {
         return false;
     }
+
+    @Override
+    public List<Order> getAllOrdersSortedByRegistrationDate() {
+        return jdbc.query(GET_ALL_ORDERS_SORTED_BY_REG_DATE, ORDER_ROW_MAPPER);
+    }
+
+    @Override
+    public List<Order> getAllOrdersSortedByPrice() {
+        return jdbc.query(GET_ALL_ORDERS_SORTED_BY_PRICE, ORDER_ROW_MAPPER);
+    }
+
+    @Override
+    public List<Batch> getAllBatchesOfOrderByNumberSortedByProdDate(String orderNumber) {
+        return jdbc.query(GET_BATCHES_OF_ORDER_BY_NUMBER_SORTED_BY_PROD_DATE, BATCH_ROW_MAPPER, orderNumber);
+    }
+
+    @Override
+    public List<Batch> getAllBatchesOfOrderByNumberSortedByPrice(String orderNumber) {
+        return jdbc.query(GET_BATCHES_OF_ORDER_BY_NUMBER_SORTED_BY_PRICE, BATCH_ROW_MAPPER, orderNumber);
+    }
+
 }
