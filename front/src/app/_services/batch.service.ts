@@ -32,9 +32,12 @@ export class BatchService {
     });
   }
 
-  getIncomeFromSoldBatchesBetweenDates(from: Date, to: Date): Observable<TotalIncome> {
+  getIncomeFromSoldBatchesBetweenDates(from: Date, to: Date, typeKey: string): Observable<TotalIncome> {
     return this.http.get<TotalIncome>(`${this.apiUrl}/income`, {
-      params: new HttpParams().set('from', from.toISOString()).set('to', to.toISOString())
+      //params: new HttpParams().set('from', from.toISOString()).set('to', to.toISOString())
+      params: new HttpParams()
+        .set('from', from.toISOString())
+        .set('to', to.toISOString()).set('type', typeKey)
     });
   }
 

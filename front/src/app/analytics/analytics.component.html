@@ -1,1 +1,67 @@
-<p>analytics works!</p>
+<div class="container">
+  <h1>Введіть дані</h1>
+
+  <!-- визначення 5 найбільш/найменш популярних соусів за виручкою -->
+  <div class="form-group">
+    <label for="popularity">Виберіть популярність:</label>
+    <select id="popularity" [(ngModel)]="popularity" class="form-control">
+      <option value="income">За виручкою</option>
+      <option value="sales">За кількістю продажів</option>
+    </select>
+    <button (click)="getFiveSaucesByPopularity()" class="btn btn-primary">Отримати 5 соусів</button>
+  </div>
+
+  <div *ngIf="sauces">
+    <h3>Результати</h3>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Назва соусу</th>
+        <th>Виручка / Продажі</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let sauce of sauces">
+        <td>{{ sauce.name }}</td>
+        <td>{{ sauce.value }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- отримання рецептів найбільш/найменш популярних соусів за певний період -->
+  <div class="form-group">
+    <label for="sauceKey">Виберіть соус:</label>
+    <input id="sauceKey" [(ngModel)]="selectedSauce" class="form-control" placeholder="Введіть назву соусу">
+    <label for="fromDate">Виберіть період:</label>
+    <input id="fromDate" type="date" [(ngModel)]="fromDate" class="form-control">
+    <input id="toDate" type="date" [(ngModel)]="toDate" class="form-control">
+    <button (click)="getAmountOfSoldBatches()" class="btn btn-primary">Отримати рецепт</button>
+  </div>
+
+  <div *ngIf="batchData">
+    <h3>Рецепти</h3>
+    <p>Загальна кількість проданих партій: {{ batchData.totalAmount }}</p>
+  </div>
+
+  <!-- визначення загальної виручки -->
+  <div class="form-group">
+    <label for="revenueFrom">Виберіть період для виручки:</label>
+    <input id="revenueFrom" type="date" [(ngModel)]="revenueFromDate" class="form-control">
+    <input id="revenueTo" type="date" [(ngModel)]="revenueToDate" class="form-control">
+    <button (click)="getRevenue()" class="btn btn-primary">Отримати виручку</button>
+  </div>
+
+  <div *ngIf="revenue">
+    <h3>Виручка</h3>
+    <p>Загальна виручка: {{ revenue.totalIncome }}</p>
+  </div>
+
+
+
+</div>
+
+
+
+
+
