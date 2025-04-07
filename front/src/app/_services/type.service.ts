@@ -4,13 +4,26 @@ import { Observable } from 'rxjs';
 import { environment } from '../_environments/environment';
 import { Type } from '../_models/type';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class TypeService {
+
   private apiUrl = `${environment.apiUrl}/type`;
 
   constructor(private http: HttpClient) {}
 
-  findAllTypes(): Observable<Type[]> {
+  getSaucesWithTypeNumberSortedBy(typeNumber: string, attribute: string): Observable<Sauce[]> {
+    const params = new HttpParams().set('number', typeNumber).set('sorted', attribute);
+    return this.http.get<Sauce[]>(this.apiUrl, { params });
+  }
+
+  getSaucesWithTypeNameSortedBy(typeName: string, attribute: string): Observable<Sauce[]> {
+    const params = new HttpParams().set('name', typeName).set('sorted', attribute);
+    return this.http.get<Sauce[]>(this.apiUrl, { params });
+  }
+
+  getAllTypes(): Observable<Type[]> {
     return this.http.get<Type[]>(this.apiUrl);
   }
 
