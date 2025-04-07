@@ -4,6 +4,7 @@ import com.pansauce.model.Batch;
 import com.pansauce.model.analysis.TotalAmount;
 import com.pansauce.model.analysis.TotalIncome;
 import com.pansauce.service.BatchService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -84,6 +85,8 @@ public class BatchController {
             @RequestParam("type") String typeKey,
             @RequestParam("from") Date from,
             @RequestParam("to") Date to
+//            @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date from,
+//            @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date to
     ) {
         return batchService.getIncomeFromSoldBatchesBetweenDatesByTypeKey(from, to, typeKey);
     }
