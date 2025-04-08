@@ -1,17 +1,22 @@
 .sidebar {
   font-family: "Nunito", sans-serif;
   width: 12rem;
-  padding: 1rem;
-  background-color: #f4f4f4;
+  padding: 0.25rem 1rem;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
   min-height: 90vh;
 }
 
-.sidebar h3 {
-  margin-bottom: 1rem;
+mat-nav-list h3 {
+  margin: 1rem 0;
+}
+
+table {
+  background-color: white;
 }
 
 .selected {
-  background-color: #e0e0e0;
+  background-color: color-mix(in srgb, var(--primary-color) 50%, transparent);
 }
 
 .content {
@@ -19,8 +24,8 @@
 }
 
 .search-field {
-  width: 100%;
-  margin-bottom: 1rem;
+  flex: 1;
+  margin-left: 1rem;
 }
 
 .full-width-table {
@@ -36,8 +41,15 @@
 
 mat-sidenav-container {
   flex: 1;
+  background-color: white;
 }
 
 mat-sidenav {
   border-radius: 0;
+}
+
+#search-field {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
 }

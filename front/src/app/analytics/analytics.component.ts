@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BatchService } from '../_services/batch.service';
 import { SauceService } from '../_services/sauce.service';
 import { TotalAmount } from '../_models/total-amount';
@@ -9,7 +9,6 @@ import { SauceWithRecipe } from '../_models/sauce-with-recipe';
 import {FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-
 @Component({
   selector: 'app-analytics',
   templateUrl: './analytics.component.html',
@@ -17,9 +16,10 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     CommonModule
   ],
+  standalone: true,
   styleUrls: ['./analytics.component.css']
 })
-export class AnalyticsComponent implements OnInit {
+export class AnalyticsComponent {
   popularityType: string = 'most';
   saucesByIncome: SauceWithIncome[] = [];
   saucesBySales: SauceWithSalesCount[] = [];
@@ -34,8 +34,6 @@ export class AnalyticsComponent implements OnInit {
   queryIncome: TotalIncome | null = null;
 
   constructor(private batchService: BatchService, private sauceService: SauceService) {}
-
-  ngOnInit(): void {}
 
   loadPopularSauces(): void {
     this.sauceService.getFiveSaucesWithIncome(this.popularityType).subscribe(data => {
