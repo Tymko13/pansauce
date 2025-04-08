@@ -3,6 +3,7 @@ package com.pansauce.dao;
 import com.pansauce.model.Batch;
 import com.pansauce.model.analysis.TotalAmount;
 import com.pansauce.model.analysis.TotalIncome;
+import com.pansauce.model.dto.BatchDTO;
 
 import java.util.Date;
 import java.util.List;
@@ -28,5 +29,7 @@ public interface BatchDao extends GenericDao<Batch, String> {
 
     TotalAmount getAmountOfSoldBatchesBetweenDatesByTypeKey(Date from, Date to, String typeKey);
     TotalIncome getIncomeFromSoldBatchesBetweenDatesByTypeKey(Date from, Date to, String typeKey);
+
+    void updateBatch(BatchDTO batchDTO);
 
 }

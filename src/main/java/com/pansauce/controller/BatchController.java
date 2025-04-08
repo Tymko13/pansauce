@@ -3,6 +3,7 @@ package com.pansauce.controller;
 import com.pansauce.model.Batch;
 import com.pansauce.model.analysis.TotalAmount;
 import com.pansauce.model.analysis.TotalIncome;
+import com.pansauce.model.dto.BatchDTO;
 import com.pansauce.service.BatchService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -115,6 +116,13 @@ public class BatchController {
             @PathVariable String key
     ) {
         batchService.deleteBatch(key);
+    }
+
+    @PatchMapping("/batch")
+    public void updateBatch(
+            @RequestBody BatchDTO batchDTO
+    ) {
+        batchService.updateBatch(batchDTO);
     }
 
 }

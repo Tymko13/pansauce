@@ -1,10 +1,13 @@
 package com.pansauce.service;
 
 import com.pansauce.dao.BatchDao;
+import com.pansauce.dao.SauceDao;
 import com.pansauce.exception.batch.*;
 import com.pansauce.model.Batch;
 import com.pansauce.model.analysis.TotalAmount;
 import com.pansauce.model.analysis.TotalIncome;
+import com.pansauce.model.dto.BatchDTO;
+import com.pansauce.model.sauce.Sauce;
 import com.pansauce.validator.model.BatchValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -17,12 +20,16 @@ import java.util.List;
 public class BatchService {
 
     private final BatchDao batchRepository;
+    private final SauceDao sauceRepository;
 
     public BatchService(
-            @Qualifier(value = "batchRepo")
-            BatchDao batchRepository
+            @Qualifier("batchRepo")
+            BatchDao batchRepository,
+            @Qualifier("sauceRepo")
+            SauceDao sauceRepository
     ) {
         this.batchRepository = batchRepository;
+        this.sauceRepository = sauceRepository;
     }
 
     public List<Batch> getAllBatchesSortedBy(String attribute) {
@@ -88,8 +95,12 @@ public class BatchService {
     public void addBatch(Batch batch) {
         BatchValidator validator = new BatchValidator();
         List<String> errorMessages = validator.validate(batch);
-        if (errorMessages.isEmpty())
+        if (errorMessages.isEmpty()) {
+            String sauceKey = batch.getSauceNumber();
+            Sauce sauce = sauceRepository.findByKey(sauceKey);
+            batch.setSauceCost(sauce.getCost());
             batchRepository.add(batch);
+        }
         else throw new InvalidBatchException(errorMessages);
     }
 
@@ -97,6 +108,13 @@ public class BatchService {
         if (batchRepository.exists(key))
             batchRepository.delete(key);
         else throw new NonExistingBatchException();
+    }
+
+    public void updateBatch(BatchDTO batchDTO) {
+        String batchKey = batchDTO.getBatchNumber();
+        if (!batchRepository.exists(batchKey))
+            throw new NonExistingBatchException();
+        batchRepository.updateBatch(batchDTO);
     }
 
 }

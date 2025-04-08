@@ -128,4 +128,12 @@ public class BatchQuery {
             "AND type_name LIKE ?\n" +
             "AND real_date BETWEEN ? and ?\n";
 
+    public static final String UPDATE_BATCH_BY_KEY =
+            "UPDATE batch\n" +
+            "SET \n" +
+            "sauce_quantity = ?,\n" +
+            "sauce_cost_at_that_time = ?,\n" +
+            "order_number = ?\n" +
+            "WHERE batch_number = ?\n";
+
 }

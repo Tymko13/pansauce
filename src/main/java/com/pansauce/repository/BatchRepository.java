@@ -4,6 +4,7 @@ import com.pansauce.dao.BatchDao;
 import com.pansauce.model.Batch;
 import com.pansauce.model.analysis.TotalAmount;
 import com.pansauce.model.analysis.TotalIncome;
+import com.pansauce.model.dto.BatchDTO;
 import com.pansauce.util.RandomKeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -149,6 +150,15 @@ public class BatchRepository implements BatchDao {
                                               TOTAL_INCOME_ROW_MAPPER,
                                               from, to, typeKey);
         return result.isEmpty() ? null : result.getFirst();
+    }
+
+    @Override
+    public void updateBatch(BatchDTO batchDTO) {
+        jdbc.update(UPDATE_BATCH_BY_KEY,
+                batchDTO.getQuantity(),
+                batchDTO.getSaucePrice(),
+                batchDTO.getOrderNumber(),
+                batchDTO.getBatchNumber());
     }
 
 }
