@@ -1,9 +1,12 @@
 package com.pansauce.controller;
 
 import com.pansauce.model.Customer;
+import com.pansauce.model.CustomerWithOrders;
+import com.pansauce.model.Order;
 import com.pansauce.service.CustomerService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -15,6 +18,52 @@ public class CustomerController {
             CustomerService customerService
     ) {
         this.customerService = customerService;
+    }
+
+    @GetMapping(value = "/customer", params = {"number", "sorted"})
+    public List<Order> getCustomerOrdersByNumberSortedBy(
+            @RequestParam("number") String customerKey,
+            @RequestParam("sorted") String attribute
+    ) {
+        return customerService.getCustomerOrdersByNumberSortedBy(customerKey, attribute);
+    }
+
+    @GetMapping(value = "/customer", params = {"phone", "sorted"})
+    public List<Order> getCustomerOrdersByPhoneSortedBy(
+            @RequestParam("phone") String customerPhone,
+            @RequestParam("sorted") String attribute
+    ) {
+        return customerService.getCustomerOrdersByPhoneSortedBy(customerPhone, attribute);
+    }
+
+    @GetMapping(value = "/customer/search", params = {"name", "surname", "patronymic"})
+    public List<Customer> getCustomersByPIB(
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "surname", defaultValue = "") String surname,
+            @RequestParam(value = "patronymic", defaultValue = "") String patronymic
+    ) {
+        return customerService.getCustomersByPIB(name, surname, patronymic);
+    }
+
+    @GetMapping("/customer/order")
+    public List<CustomerWithOrders> getCustomersAndTheirOrders() {
+        return customerService.getCustomersAndTheirOrdersSortedByName();
+    }
+
+    @GetMapping(value = "/customer", params = {"from", "to"})
+    public List<Customer> getCustomersWithOrdersBetweenDates(
+            @RequestParam("from") Date from,
+            @RequestParam("to") Date to
+    ) {
+        return customerService.getCustomersWithOrdersBetweenDates(from, to);
+    }
+
+    @GetMapping(value = "/customer", params = {"attribute", "value"})
+    public List<Customer> getCustomersWithOrderThatHasThisAttribute(
+            @RequestParam("attribute") String attribute,
+            @RequestParam("value") String value
+    ) {
+        return customerService.getCustomersWithOrderThatHasThisAttribute(attribute, value);
     }
 
     @GetMapping("/customer")

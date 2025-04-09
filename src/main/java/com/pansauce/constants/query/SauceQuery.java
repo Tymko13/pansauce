@@ -140,7 +140,7 @@ public class SauceQuery {
             "FROM sauce AS s\n" +
             "INNER JOIN batch AS b on b.sauce_number = s.sauce_number\n" +
             "WHERE b.batch_status = 'sold'\n" +
-            "GROUP BY s.sauce_name\n" +
+            "GROUP BY s.sauce_name, s.sauce_number\n" +
             "ORDER BY sauce_income DESC\n" +
             "LIMIT 5\n";
 
@@ -151,7 +151,7 @@ public class SauceQuery {
             "FROM sauce AS s\n" +
             "INNER JOIN batch AS b on b.sauce_number = s.sauce_number\n" +
             "WHERE b.batch_status = 'sold'\n" +
-            "GROUP BY s.sauce_name\n" +
+            "GROUP BY s.sauce_name, s.sauce_number\n" +
             "ORDER BY sauce_income\n" +
             "LIMIT 5\n";
 
@@ -162,7 +162,7 @@ public class SauceQuery {
             "FROM sauce AS s\n" +
             "JOIN batch AS b ON b.sauce_number = s.sauce_number\n" +
             "WHERE b.batch_status = 'sold'\n" +
-            "GROUP BY s.sauce_name\n" +
+            "GROUP BY s.sauce_name, s.sauce_number\n" +
             "ORDER BY total_batches_sold DESC\n" +
             "LIMIT 5\n";
 
@@ -173,7 +173,7 @@ public class SauceQuery {
             "FROM sauce AS s\n" +
             "JOIN batch AS b ON b.sauce_number = s.sauce_number\n" +
             "WHERE b.batch_status = 'sold'\n" +
-            "GROUP BY s.sauce_name\n" +
+            "GROUP BY s.sauce_name, s.sauce_number\n" +
             "ORDER BY total_batches_sold\n" +
             "LIMIT 5\n";
 

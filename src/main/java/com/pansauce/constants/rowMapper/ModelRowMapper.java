@@ -150,6 +150,37 @@ public class ModelRowMapper {
         return new ArrayList<>(sauceMap.values());
     };
 
+    public static final ResultSetExtractor<List<CustomerWithOrders>> CUSTOMER_WITH_ORDERS_EXTRACTOR = rs -> {
+        Map<String, CustomerWithOrders> ordersMap = new HashMap<>();
+        while (rs.next()) {
+            String sauceNumber = rs.getString("sauce_number");
+            CustomerWithOrders customer = ordersMap.get(sauceNumber);
+            if (customer == null) {
+                customer = new CustomerWithOrders();
+                customer.setNumber(sauceNumber);
+                customer.setName(rs.getString("customer_name"));
+                customer.setSurname(rs.getString("customer_surname"));
+                customer.setPatronymic(rs.getString("customer_patronymic"));
+                customer.setAddress(rs.getString("customer_address"));
+                customer.setOrders(new ArrayList<>());
+                ordersMap.put(sauceNumber, customer);
+            }
+            String orderNumber = rs.getString("order_number");
+            if (orderNumber != null) {
+                Order order = new Order();
+                order.setNumber(orderNumber);
+                order.setRegistrationDate(rs.getDate("registration_date"));
+                order.setCustomerNumber(rs.getString("customer_number"));
+                order.setDeliveryCost(rs.getBigDecimal("delivery_cost"));
+                order.setTotalCost(rs.getBigDecimal("total_order_cost"));
+                order.setExpectedDate(rs.getDate("expected_date"));
+                order.setRealDate(rs.getDate("real_date"));
+                customer.getOrders().add(order);
+            }
+        }
+        return new ArrayList<>(ordersMap.values());
+    };
+
     public static final RowMapper<TotalIncome> TOTAL_INCOME_ROW_MAPPER = (r, i) -> {
         TotalIncome totalIncome = new TotalIncome();
         totalIncome.setIncome(r.getBigDecimal("total_income"));
