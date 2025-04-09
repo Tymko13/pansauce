@@ -1,12 +1,11 @@
 @use '@angular/material' as mat;
+@use 'theme_dark' as dark-theme;
+@use 'theme_light' as light-theme;
 
 html {
+  color-scheme: light;
   @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$orange-palette,
-      tertiary: mat.$yellow-palette,
-    ),
+    color: dark-theme.$primary-palette,
     typography: Nunito,
     density: 0,
   ));
@@ -28,6 +27,7 @@ html {
 }
 
 body {
+  //color: dark#24272B;
     background-color: var(--secondary-color);
     font-family: "Nunito", sans-serif;
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, signal} from '@angular/core';
 import { BatchService } from '../_services/batch.service';
 import { SauceService } from '../_services/sauce.service';
 import { TotalAmount } from '../_models/total-amount';
@@ -20,8 +20,9 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./analytics.component.css']
 })
 export class AnalyticsComponent {
-  popularityType: string = 'most';
-  saucesByIncome: SauceWithIncome[] = [];
+  popularityType: string = 'top';
+  // saucesByIncome: SauceWithIncome[] = [];
+  saucesByIncome = signal<SauceWithIncome[]>([]);
   saucesBySales: SauceWithSalesCount[] = [];
   saucesRecipes: SauceWithRecipe[] = [];
   selectedType: string = '';
@@ -37,7 +38,8 @@ export class AnalyticsComponent {
 
   loadPopularSauces(): void {
     this.sauceService.getFiveSaucesWithIncome(this.popularityType).subscribe(data => {
-      this.saucesByIncome = data;
+      console.log(data);
+      this.saucesByIncome.set(data);
     });
   }
 

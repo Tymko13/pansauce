@@ -1,5 +1,6 @@
 export interface Batch {
   number: string;
+  quantity: number;
   productionDate: Date;
   expirationDate: Date;
   sauceCost: number;
