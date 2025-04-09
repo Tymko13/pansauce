@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import {Component, inject, signal, computed} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
@@ -7,11 +7,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
-import { Batch } from '../_models/batch';
 import { BatchService } from '../_services/batch.service';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {SauceService} from '../_services/sauce.service';
 import {OrderService} from '../_services/order.service';
+import {MatIconModule} from '@angular/material/icon';
+import {DomSanitizer} from '@angular/platform-browser';
+import {MatIconRegistry} from '@angular/material/icon';
+import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {AddBatchDialogComponent} from './add-batch-dialog/add-batch-dialog.component';
+import {Batch} from '../_models/batch';
 
 @Component({
   selector: 'app-batch',
@@ -27,6 +33,7 @@ import {OrderService} from '../_services/order.service';
     MatButtonModule,
     MatSelect,
     MatOption,
+    MatIconModule
   ],
   templateUrl: './batch.component.html',
   styleUrls: ['./batch.component.css'],
@@ -36,58 +43,97 @@ export class BatchComponent {
   private sauceService = inject(SauceService);
   private orderService = inject(OrderService);
 
-  batches = signal<Batch[]>([]);
-  searchTerm = signal('');
-  selectedSort = signal<string>("number");
-  selectedShow = signal<string>("All");
-  selectedOption = signal<string>('Batch');
+  private iconRegistry = inject(MatIconRegistry);
+  private sanitizer = inject(DomSanitizer);
+  private dialog = inject(MatDialog);
 
-  searchOptions = ['Batch', 'Order', 'Sauce Number', 'Sauce Name'];
+  constructor() {
+    this.iconRegistry.addSvgIcon('edit',
+      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/edit.svg'));
+    this.iconRegistry.addSvgIcon('delete',
+      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/delete.svg'));
+    this.iconRegistry.addSvgIcon('add',
+      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/add.svg'));
+  }
+
+  searchOptions = ['Batch Number', 'Order Number', 'Sauce Number', 'Sauce Name'];
   sortOptions = ["number", "prod_date", "size", "price", "status"];
   showOptions = ["All", "SOLD", "IN STOCK"]
-  displayedColumns: string[] = [
+  displayedColumns = [
     'number',
     'productionDate',
     'expirationDate',
+    'quantity',
     'sauceCost',
     'cost',
     'status',
     'sauce',
     'orderNumber',
+    'action'
   ];
 
-  filteredBatches = computed(() => {
+  searchTerm = signal('');
+  selectedSort = signal<string>(this.sortOptions[0]);
+  selectedShow = signal<string>(this.showOptions[0]);
+  selectedSearch = signal<string>(this.searchOptions[0]);
+
+  updateBatches = signal(0);
+  batches = computed(() => {
+    this.updateBatches();
     const term = this.searchTerm();
     let sort = this.selectedSort();
-    if(sort === 'size') sort = "sauce_quantity";
+    if (sort === 'size') sort = "sauce_quantity";
     const show = this.selectedShow();
-    switch(show) {
-      case 'All': {
-        if(!term) return this.batchService.getAllBatchesSortedBy(sort);
-        switch (this.selectedOption()) {
-          case 'Batch': return this.batchService.getBatchByNumber(term);
-          case 'Order': return this.orderService.getBatchesOfOrderSortedBy(term, sort);
-          case 'Sauce Number': return this.sauceService.getSauceBatchesByNumber(term, sort);
-          case 'Sauce Name': return this.sauceService.getSauceBatchesByName(term, sort);
-          default: return this.batchService.getAllBatchesSortedBy(sort);
-        }
-      }
-      case 'SOLD': return this.batchService.getAllBatchesWithStatus(show);
-      case 'IN STOCK': return this.batchService.getAllBatchesWithStatus(show);
-      default: return this.batchService.getAllBatchesSortedBy(sort);
-    }
 
+    switch (show) {
+      case 'All': {
+        if (!term) return this.batchService.getAllBatchesSortedBy(sort);
+        switch (this.selectedSearch()) {
+          case 'Batch Number':
+            return this.batchService.getBatchByNumber(term);
+          case 'Order Number':
+            return this.orderService.getBatchesOfOrderSortedBy(term, sort);
+          case 'Sauce Number':
+            return this.sauceService.getSauceBatchesByNumber(term, sort);
+          case 'Sauce Name':
+            return this.sauceService.getSauceBatchesByName(term, sort);
+        }
+        break;
+      }
+      case 'SOLD':
+      case 'IN STOCK':
+        return this.batchService.getAllBatchesWithStatus(show);
+    }
+    return this.batchService.getAllBatchesSortedBy(sort);
   });
 
-  constructor() {
-    this.batchService.getAllBatchesSortedBy().subscribe(data => this.batches.set(data));
+  delete(number: string) {
+    const confirmation = this.dialog.open(ConfirmDialogComponent, {
+      data: {message: `Are you sure you want to delete this Batch?`}
+    });
+
+    confirmation.afterClosed().subscribe(res => {
+      if (res) {
+        this.batchService.deleteBatch(number).subscribe();
+        this.updateBatches.update(e => ++e);
+      }
+    });
   }
 
-  selectSort(sort: string) {
-    this.selectedSort.set(sort);
-  }
-
-  selectShow(show: string) {
-    this.selectedShow.set(show);
+  add() {
+    const input = this.dialog.open(AddBatchDialogComponent);
+    input.afterClosed().subscribe(res => {
+      if(res){
+        let newBatch: Partial<Batch> = {
+          expirationDate: res.expirationDate,
+          productionDate: res.productionDate,
+          quantity: res.quantity,
+          sauceNumber: res.sauceNumber,
+          orderNumber: res.orderNumber ? res.orderNumber : null
+        }
+        this.batchService.addBatch(newBatch).subscribe();
+        this.updateBatches.update(e => ++e);
+      }
+    });
   }
 }

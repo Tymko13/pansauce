@@ -2,17 +2,12 @@
   font-family: "Nunito", sans-serif;
   width: 12rem;
   padding: 0.25rem 1rem;
-  background-color: var(--secondary-color);
-  color: var(--text-color);
   min-height: 90vh;
+  box-shadow: 4px 0 6px -1px rgba(0, 0, 0, .1), 2px 0 4px -1px rgba(0, 0, 0, .06);
 }
 
 mat-nav-list h3 {
   margin: 1rem 0;
-}
-
-table {
-  background-color: white;
 }
 
 .selected {
@@ -41,7 +36,6 @@ table {
 
 mat-sidenav-container {
   flex: 1;
-  background-color: white;
 }
 
 mat-sidenav {
@@ -52,4 +46,11 @@ mat-sidenav {
   display: flex;
   flex-direction: row;
   justify-content: left;
+}
+
+#add-button {
+  color: var(--text-color);
+  background-color: var(--primary-color);
+  width: 100%;
+  z-index: 1000;
 }

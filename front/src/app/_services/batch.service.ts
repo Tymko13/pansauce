@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {environment} from '../_environments/environment';
+import {environment} from '../environment';
 import {Batch} from '../_models/batch';
 import {TotalAmount} from '../_models/total-amount';
 import {TotalIncome} from '../_models/total-income';
@@ -74,8 +74,8 @@ export class BatchService {
     });
   }
 
-  getBatchByKey(key: string): Observable<Batch[]> {
-    return this.http.get<Batch[]>(`${this.apiUrl}/${key}`);
+  getBatchByKey(key: string): Observable<Batch> {
+    return this.http.get<Batch>(`${this.apiUrl}/${key}`);
   }
 
   getBatchByNumber(number: string): Observable<Batch[]> {
@@ -85,11 +85,12 @@ export class BatchService {
     });
   }
 
-  addBatch(batch: Batch): Observable<void> {
+  addBatch(batch: Partial<Batch>): Observable<void> {
     return this.http.post<void>(this.apiUrl, batch);
   }
 
   deleteBatch(key: string): Observable<void> {
+    console.log(`${this.apiUrl}/${key}`);
     return this.http.delete<void>(`${this.apiUrl}/${key}`);
   }
 }

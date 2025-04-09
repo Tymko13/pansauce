@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../_environments/environment';
+import { environment } from '../environment';
 import { Sauce } from '../_models/sauce';
 import { Batch } from '../_models/batch';
 import { SauceWithRecipe } from '../_models/sauce-with-recipe';

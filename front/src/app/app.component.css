@@ -5,3 +5,9 @@
   background-repeat: repeat-y;
   min-height: 90vh;
 }
+
+app-navbar {
+  z-index: 1000;
+  position: sticky;
+  top: 0
+}
