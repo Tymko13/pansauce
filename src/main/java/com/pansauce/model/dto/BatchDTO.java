@@ -9,11 +9,9 @@ public class BatchDTO {
     private BigDecimal sauceCost;
     private String orderNumber;
 
-    public String getBatchNumber() {
-        return number;
-    }
+    public String getNumber() {return number;}
 
-    public void setBatchNumber(String number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -33,11 +31,9 @@ public class BatchDTO {
         this.orderNumber = orderNumber;
     }
 
-    public BigDecimal getSaucePrice() {
+    public BigDecimal getSauceCost() {
         return sauceCost;
     }
 
-    public void setSaucePrice(BigDecimal sauceCost) {
-        this.sauceCost = sauceCost;
-    }
+    public void setSauceCost(BigDecimal sauceCost) {this.sauceCost = sauceCost;}
 }

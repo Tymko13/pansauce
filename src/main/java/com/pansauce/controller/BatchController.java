@@ -5,7 +5,6 @@ import com.pansauce.model.analysis.TotalAmount;
 import com.pansauce.model.analysis.TotalIncome;
 import com.pansauce.model.dto.BatchDTO;
 import com.pansauce.service.BatchService;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;

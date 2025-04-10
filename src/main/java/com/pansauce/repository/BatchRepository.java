@@ -9,7 +9,6 @@ import com.pansauce.util.RandomKeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -156,9 +155,9 @@ public class BatchRepository implements BatchDao {
     public void updateBatch(BatchDTO batchDTO) {
         jdbc.update(UPDATE_BATCH_BY_KEY,
                 batchDTO.getQuantity(),
-                batchDTO.getSaucePrice(),
+                batchDTO.getSauceCost(),
                 batchDTO.getOrderNumber(),
-                batchDTO.getBatchNumber());
+                batchDTO.getNumber());
     }
 
 }

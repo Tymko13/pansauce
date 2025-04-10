@@ -1,96 +1,81 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../environment';
 import { Sauce } from '../_models/sauce';
 import { Batch } from '../_models/batch';
 import { SauceWithRecipe } from '../_models/sauce-with-recipe';
 import { SauceWithIncome } from '../_models/sauce-with-income';
 import { SauceWithSalesCount } from '../_models/sauce-with-sales-count';
+import { environment } from '../environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class SauceService {
-  private baseUrl = `${environment.apiUrl}/sauce`;
+  private apiUrl = `${environment.apiUrl}/sauce`;
 
   constructor(private http: HttpClient) {}
 
-  getAllSauce(attribute: string): Observable<Sauce[]> {
-    return this.http.get<Sauce[]>(this.baseUrl, {
-      params: new HttpParams().set('sorted', attribute)
-    });
+  findAllSauce(sorted: string): Observable<Sauce[]> {
+    const params = new HttpParams().set('sorted', sorted);
+    return this.http.get<Sauce[]>(this.apiUrl, { params });
   }
 
-  getSauceBatchesByNumber(sauceNumber: string, attribute: string): Observable<Batch[]> {
-    return this.http.get<Batch[]>(`${this.baseUrl}/batch`, {
-      params: new HttpParams()
-        .set('number', sauceNumber)
-        .set('sorted', attribute)
-    });
+  getSauceBatches(number: string, sorted: string): Observable<Batch[]> {
+    const params = new HttpParams().set('number', number).set('sorted', sorted);
+    return this.http.get<Batch[]>(`${this.apiUrl}/batch`, { params });
   }
 
-  getSauceBatchesByName(sauceName: string, attribute: string): Observable<Batch[]> {
-    return this.http.get<Batch[]>(`${this.baseUrl}/batch`, {
-      params: new HttpParams()
-        .set('name', sauceName)
-        .set('sorted', attribute)
-    });
+  getSauceBatchesByName(name: string, sorted: string): Observable<Batch[]> {
+    const params = new HttpParams().set('name', name).set('sorted', sorted);
+    return this.http.get<Batch[]>(`${this.apiUrl}/batch`, { params });
   }
 
-  getAllSauceWithRecipe(attribute: string): Observable<SauceWithRecipe[]> {
-    return this.http.get<SauceWithRecipe[]>(`${this.baseUrl}/recipe`, {
-      params: new HttpParams().set('sorted', attribute)
-    });
+  getAllSauceWithRecipe(sorted: string): Observable<SauceWithRecipe[]> {
+    const params = new HttpParams().set('sorted', sorted);
+    return this.http.get<SauceWithRecipe[]>(`${this.apiUrl}/recipe`, { params });
   }
 
-  getFiveSaucesWithIncome(popularity: string): Observable<SauceWithIncome[]> {
-    return this.http.get<SauceWithIncome[]>(`${this.baseUrl}/income`, {
-      params: new HttpParams().set('popularity', popularity)
-    });
+  getTopSaucesWithIncome(popularity: string): Observable<SauceWithIncome[]> {
+    const params = new HttpParams().set('popularity', popularity);
+    return this.http.get<SauceWithIncome[]>(`${this.apiUrl}/income`, { params });
   }
 
-  getFiveSaucesWithSalesCount(popularity: string): Observable<SauceWithSalesCount[]> {
-    return this.http.get<SauceWithSalesCount[]>(`${this.baseUrl}/sales`, {
-      params: new HttpParams().set('popularity', popularity)
-    });
+  getTopSaucesWithSalesCount(popularity: string): Observable<SauceWithSalesCount[]> {
+    const params = new HttpParams().set('popularity', popularity);
+    return this.http.get<SauceWithSalesCount[]>(`${this.apiUrl}/sales`, { params });
   }
 
-  getFiveSaucesRecipeWithIncome(popularity: string): Observable<SauceWithRecipe[]> {
-    return this.http.get<SauceWithRecipe[]>(`${this.baseUrl}/recipe/income`, {
-      params: new HttpParams().set('popularity', popularity)
-    });
+  getTopSaucesRecipeWithIncome(popularity: string): Observable<SauceWithRecipe[]> {
+    const params = new HttpParams().set('popularity', popularity);
+    return this.http.get<SauceWithRecipe[]>(`${this.apiUrl}/recipe/income`, { params });
   }
 
-  getFiveSaucesRecipeWithSalesCount(popularity: string): Observable<SauceWithRecipe[]> {
-    return this.http.get<SauceWithRecipe[]>(`${this.baseUrl}/recipe/sales`, {
-      params: new HttpParams().set('popularity', popularity)
-    });
+  getTopSaucesRecipeWithSalesCount(popularity: string): Observable<SauceWithRecipe[]> {
+    const params = new HttpParams().set('popularity', popularity);
+    return this.http.get<SauceWithRecipe[]>(`${this.apiUrl}/recipe/sales`, { params });
   }
 
   getSauceByKey(key: string): Observable<Sauce> {
-    return this.http.get<Sauce>(`${this.baseUrl}/${key}`);
+    return this.http.get<Sauce>(`${this.apiUrl}/${key}`);
   }
 
   getSauceByNumber(number: string): Observable<Sauce[]> {
-    return this.http.get<Sauce[]>(this.baseUrl, {
-      params: new HttpParams().set('number', number)
-    });
+    const params = new HttpParams().set('number', number);
+    return this.http.get<Sauce[]>(this.apiUrl, { params });
   }
 
   getSauceByName(name: string): Observable<Sauce[]> {
-    return this.http.get<Sauce[]>(this.baseUrl, {
-      params: new HttpParams().set('name', name)
-    });
+    const params = new HttpParams().set('name', name);
+    return this.http.get<Sauce[]>(this.apiUrl, { params });
   }
 
-  addSauce(sauce: Sauce): Observable<void> {
-    return this.http.post<void>(this.baseUrl, sauce);
+  addSauce(sauce: Partial<Sauce>): Observable<void> {
+    return this.http.post<void>(this.apiUrl, sauce);
   }
 
   deleteSauce(key: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${key}`);
+    return this.http.delete<void>(`${this.apiUrl}/${key}`);
   }
-
-
 }
+

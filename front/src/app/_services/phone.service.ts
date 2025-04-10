@@ -10,7 +10,7 @@ export class PhoneService {
 
   constructor(private http: HttpClient) {}
 
-  addPhoneToCustomer(key: string, phone: Phone): Observable<void> {
+  addPhoneToCustomer(key: string, phone: Partial<Phone>): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/${key}/phone`, phone);
   }
 

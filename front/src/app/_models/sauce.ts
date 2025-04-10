@@ -5,4 +5,5 @@ export interface Sauce {
   weight: number;
   cost: number;
   typeNumber: string;
+  typeName: string;
 }

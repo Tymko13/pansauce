@@ -1,5 +1,11 @@
-import {Component, inject} from '@angular/core';
-import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
+import {Component, computed, Inject, inject, signal, WritableSignal} from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,16 +14,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
-import {SauceService} from '../../_services/sauce.service';
-import {Sauce} from '../../_models/sauce';
 import {Order} from '../../_models/order';
 import {OrderService} from '../../_services/order.service';
-import {DateValidator} from '../../_validators/date.validator';
+import {Batch} from '../../_models/batch';
+import {BatchService} from '../../_services/batch.service';
 
 @Component({
   standalone: true,
   selector: 'app-add-batch-dialog',
-  templateUrl: './add-batch-dialog.component.html',
+  templateUrl: './update-batch-dialog.component.html',
   imports: [
     CommonModule,
     FormsModule,
@@ -34,30 +39,31 @@ import {DateValidator} from '../../_validators/date.validator';
   ],
   styles: "mat-form-field {margin-right: 1rem;}"
 })
-export class AddBatchDialogComponent {
+export class UpdateBatchDialogComponent {
   private fb = inject(FormBuilder);
-  private dialogRef = inject(MatDialogRef<AddBatchDialogComponent>);
-  private sauceService = inject(SauceService);
+  private batchService = inject(BatchService);
   private orderService = inject(OrderService);
 
-  sauces: Sauce[] = [];
   orders: Order[] = [];
-  constructor() {
-    this.sauceService.findAllSauce("name").subscribe(data => {this.sauces = data;});
+  batch: WritableSignal<Partial<Batch>> = signal({});
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { batch: string },
+    public dialogRef: MatDialogRef<UpdateBatchDialogComponent>
+  ) {
+    this.batchService.getBatchByKey(this.data.batch).subscribe(data => {this.batch.set(data);});
     this.orderService.getAllOrders().subscribe(data => {this.orders = data;});
   }
 
-  form = this.fb.group({
-    productionDate: [null, [Validators.required]],
-    expirationDate: [null, Validators.required],
-    quantity: [null, [Validators.required, Validators.min(1)]],
-    sauceNumber: [null, Validators.required],
-    orderNumber: [null]
-  }, {validators: DateValidator('productionDate', 'expirationDate')});
+  form = computed(() => this.fb.group({
+    sauceCost: [this.batch().sauceCost, Validators.required],
+    quantity: [this.batch().quantity, [Validators.required, Validators.min(1)]],
+    orderNumber: [this.batch().orderNumber]
+  }));
 
   submit() {
-    if (this.form.valid) {
-      this.dialogRef.close(this.form.value);
+    if (this.form().valid) {
+      this.dialogRef.close(this.form().value);
     }
   }
 

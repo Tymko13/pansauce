@@ -111,7 +111,7 @@ public class BatchService {
     }
 
     public void updateBatch(BatchDTO batchDTO) {
-        String batchKey = batchDTO.getBatchNumber();
+        String batchKey = batchDTO.getNumber();
         if (!batchRepository.exists(batchKey))
             throw new NonExistingBatchException();
         batchRepository.updateBatch(batchDTO);
