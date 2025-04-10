@@ -4,17 +4,17 @@ import java.math.BigDecimal;
 
 public class BatchDTO {
 
-    private String batchNumber;
+    private String number;
     private int quantity;
-    private BigDecimal saucePrice;
+    private BigDecimal sauceCost;
     private String orderNumber;
 
     public String getBatchNumber() {
-        return batchNumber;
+        return number;
     }
 
-    public void setBatchNumber(String batchNumber) {
-        this.batchNumber = batchNumber;
+    public void setBatchNumber(String number) {
+        this.number = number;
     }
 
     public int getQuantity() {
@@ -34,10 +34,10 @@ public class BatchDTO {
     }
 
     public BigDecimal getSaucePrice() {
-        return saucePrice;
+        return sauceCost;
     }
 
-    public void setSaucePrice(BigDecimal saucePrice) {
-        this.saucePrice = saucePrice;
+    public void setSaucePrice(BigDecimal sauceCost) {
+        this.sauceCost = sauceCost;
     }
 }
