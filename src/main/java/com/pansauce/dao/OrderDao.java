@@ -12,5 +12,8 @@ public interface OrderDao extends GenericDao<Order, String> {
 
     List<Batch> getAllBatchesOfOrderByNumberSortedByProdDate(String orderNumber);
     List<Batch> getAllBatchesOfOrderByNumberSortedByPrice(String orderNumber);
+    List<Batch> getAllBatchesOfOrderByNumberSortedByNumber(String orderNumber);
+    List<Batch> getAllBatchesOfOrderByNumberSortedByBatchStatus(String orderNumber);
+    List<Batch> getAllBatchesOfOrderByNumberSortedBySauceQuantity(String orderNumber);
 
 }

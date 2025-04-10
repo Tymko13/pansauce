@@ -82,4 +82,19 @@ public class OrderRepository implements OrderDao {
         return jdbc.query(GET_BATCHES_OF_ORDER_BY_NUMBER_SORTED_BY_PRICE, BATCH_ROW_MAPPER, orderNumber);
     }
 
+    @Override
+    public List<Batch> getAllBatchesOfOrderByNumberSortedByNumber(String orderNumber) {
+        return jdbc.query(GET_BATCHES_OF_ORDER_BY_NUMBER_SORTED_BY_NUMBER, BATCH_ROW_MAPPER, orderNumber);
+    }
+
+    @Override
+    public List<Batch> getAllBatchesOfOrderByNumberSortedByBatchStatus(String orderNumber) {
+        return jdbc.query(GET_BATCHES_OF_ORDER_BY_NUMBER_SORTED_BY_STATUS, BATCH_ROW_MAPPER, orderNumber);
+    }
+
+    @Override
+    public List<Batch> getAllBatchesOfOrderByNumberSortedBySauceQuantity(String orderNumber) {
+        return jdbc.query(GET_BATCHES_OF_ORDER_BY_NUMBER_SORTED_BY_SAUCE_QUANTITY, BATCH_ROW_MAPPER, orderNumber);
+    }
+
 }

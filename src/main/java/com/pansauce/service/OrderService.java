@@ -35,6 +35,9 @@ public class OrderService {
         return switch (attribute) {
             case "price" -> orderRepository.getAllBatchesOfOrderByNumberSortedByPrice(orderNumber + "%");
             case "prod_date" -> orderRepository.getAllBatchesOfOrderByNumberSortedByProdDate(orderNumber + "%");
+            case "status" -> orderRepository.getAllBatchesOfOrderByNumberSortedByBatchStatus(orderNumber + "%");
+            case "size" -> orderRepository.getAllBatchesOfOrderByNumberSortedBySauceQuantity(orderNumber + "%");
+            case "number" -> orderRepository.getAllBatchesOfOrderByNumberSortedByNumber(orderNumber + "%");
             default -> new ArrayList<>();
         };
     }
