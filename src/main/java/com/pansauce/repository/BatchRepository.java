@@ -156,9 +156,9 @@ public class BatchRepository implements BatchDao {
     public void updateBatch(BatchDTO batchDTO) {
         jdbc.update(UPDATE_BATCH_BY_KEY,
                 batchDTO.getQuantity(),
-                batchDTO.getSaucePrice(),
+                batchDTO.getSauceCost(),
                 batchDTO.getOrderNumber(),
-                batchDTO.getBatchNumber());
+                batchDTO.getNumber());
     }
 
 }

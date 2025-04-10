@@ -26,8 +26,9 @@ public class OrderService {
 
     public List<Order> getAllOrdersSortedBy(String attribute) {
         return switch (attribute) {
-          case "reg_date" -> orderRepository.getAllOrdersSortedByRegistrationDate();
+          case "reg_date" -> orderRepository.getAllOrdersSortedByRegDate();
           case "price" -> orderRepository.getAllOrdersSortedByPrice();
+          case "exp_date" -> orderRepository.getAllOrdersSortedByExpDate();
           default -> new ArrayList<>();
         };
     }

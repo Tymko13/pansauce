@@ -1,13 +1,11 @@
 package com.pansauce.service;
 
 import com.pansauce.dao.CustomerDao;
-import com.pansauce.exception.batch.NoBatchesFoundException;
-import com.pansauce.exception.batch.NonExistingBatchException;
 import com.pansauce.exception.customer.InvalidCustomerException;
 import com.pansauce.exception.customer.NoCustomersFoundException;
 import com.pansauce.exception.customer.NonExistingCustomerException;
-import com.pansauce.model.Customer;
-import com.pansauce.model.CustomerWithOrders;
+import com.pansauce.model.customer.Customer;
+import com.pansauce.model.customer.CustomerWithOrders;
 import com.pansauce.model.Order;
 import com.pansauce.validator.model.CustomerValidator;
 import org.springframework.beans.factory.annotation.Qualifier;

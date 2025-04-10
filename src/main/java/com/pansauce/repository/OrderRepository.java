@@ -64,13 +64,18 @@ public class OrderRepository implements OrderDao {
     }
 
     @Override
-    public List<Order> getAllOrdersSortedByRegistrationDate() {
+    public List<Order> getAllOrdersSortedByRegDate() {
         return jdbc.query(GET_ALL_ORDERS_SORTED_BY_REG_DATE, ORDER_ROW_MAPPER);
     }
 
     @Override
     public List<Order> getAllOrdersSortedByPrice() {
         return jdbc.query(GET_ALL_ORDERS_SORTED_BY_PRICE, ORDER_ROW_MAPPER);
+    }
+
+    @Override
+    public List<Order> getAllOrdersSortedByExpDate() {
+        return jdbc.query(GET_ALL_ORDERS_SORTED_BY_EXP_DATE, ORDER_ROW_MAPPER);
     }
 
     @Override

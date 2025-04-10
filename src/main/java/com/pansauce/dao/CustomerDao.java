@@ -1,7 +1,7 @@
 package com.pansauce.dao;
 
-import com.pansauce.model.Customer;
-import com.pansauce.model.CustomerWithOrders;
+import com.pansauce.model.customer.Customer;
+import com.pansauce.model.customer.CustomerWithOrders;
 import com.pansauce.model.Order;
 
 import java.util.Date;

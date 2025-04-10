@@ -1,11 +1,13 @@
-package com.pansauce.model;
+package com.pansauce.model.customer;
+
+import com.pansauce.model.Order;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerWithOrders extends Customer {
 
-    private List<Order> orders = new ArrayList<Order>();
+    private List<Order> orders = new ArrayList<>();
 
     public List<Order> getOrders() {
         return orders;

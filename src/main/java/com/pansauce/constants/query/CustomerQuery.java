@@ -1,13 +1,26 @@
 package com.pansauce.constants.query;
 
 public class CustomerQuery {
-    public static final String GET_ALL_CUSTOMERS = "SELECT * FROM customer";
-    public static final String GET_CUSTOMER_BY_KEY = "SELECT * FROM customer WHERE customer_number = ?";
-    public static final String ADD_CUSTOMER =  "INSERT INTO customer\n" +
+
+    public static final String GET_ALL_CUSTOMERS =
+            "SELECT *\n" +
+            "FROM customer INNER JOIN contact_number\n" +
+            "ON customer.customer_number = contact_number.customer_number; \n";
+
+    public static final String GET_CUSTOMER_BY_KEY =
+            "SELECT *\n" +
+            "FROM customer INNER JOIN contact_number\n" +
+            "ON customer.customer_number = contact_number.customer_number; \n" +
+            "WHERE customer.customer_number = ?;\n";
+
+    public static final String ADD_CUSTOMER =
+            "INSERT INTO customer\n" +
             "(customer_number, customer_name, customer_surname, " +
             "customer_patronymic, customer_address)\n" +
             "VALUES (?, ?, ?, ?, ?)";
-    public static final String DELETE_CUSTOMER_BY_KEY = "DELETE FROM customer WHERE customer_number = ?";
+
+    public static final String DELETE_CUSTOMER_BY_KEY =
+            "DELETE FROM customer WHERE customer_number = ?";
 
     public static final String GET_ORDERS_OF_CUSTOMER_BY_CUSTOMER_KEY_SORTED_BY_PRICE =
             "SELECT * \n" +
@@ -50,91 +63,106 @@ public class CustomerQuery {
 
     public static final String GET_CUSTOMERS_BY_PIB =
             "SELECT *\n" +
-            "FROM customer\n" +
-            "WHERE customer_name LIKE ?\n" +
-            "AND customer_surname LIKE ?\n" +
-            "AND customer_patronymic LIKE ?;\n";
+            "FROM customer INNER JOIN contact_number\n" +
+            "ON customer.customer_number = contact_number.customer_number; \n" +
+            "WHERE customer.customer_name LIKE ?\n" +
+            "AND customer.customer_surname LIKE ?\n" +
+            "AND customer.customer_patronymic LIKE ?;\n";
 
     public static final String GET_CUSTOMERS_WITH_THEIR_ORDERS =
             "SELECT *\n" +
-            "FROM customer AS c INNER JOIN order AS o\n" +
-            "ON c.customer_number = o.customer_number;\n";
+            "FROM (customer AS c INNER JOIN order AS o\n" +
+            "ON c.customer_number = o.customer_number) INNER JOIN contact_number AS cn\n" +
+            "ON c.customer_number = cn.customer_number;\n";
 
     public static final String GET_CUSTOMERS_WHO_HAVE_ORDERS_BETWEEN_DATES =
             "SELECT\n" +
-            "c.customer_number\n" +
+            "c.customer_number,\n" +
             "c.customer_name,\n" +
             "c.customer_surname,\n" +
             "c.customer_patronymic,\n" +
-            "c.customer_address\n" +
-            "FROM customer AS c INNER JOIN order AS o\n" +
-            "ON o.customer_number = c.customer_number\n" +
-            "WHERE registration_date BETWEEN ?  AND ?\n" +
-            "ORDER BY customer_surname;\n";
+            "c.customer_address,\n" +
+            "cn.contact_number\n" +
+            "FROM (customer AS c INNER JOIN order AS o\n" +
+            "ON o.customer_number = c.customer_number)\n" +
+            "INNER JOIN contact_number AS cn \n" +
+            "ON c.customer_number = cn.customer_number \n" +
+            "WHERE o.registration_date BETWEEN ?  AND ? \n" +
+            "ORDER BY o.customer_surname;\n";
 
     public static final String GET_CUSTOMERS_WHO_ORDERED_BATCHES_WITH_TYPE_NUMBER =
-            "SELECT c.customer_number\n" +
+            "SELECT c.customer_number,\n" +
             "c.customer_name,\n" +
             "c.customer_surname,\n" +
             "c.customer_patronymic,\n" +
-            "c.customer_address\n" +
-            "FROM (((customer AS c INNER JOIN order AS o\n" +
-            "ON o.customer_number = c.customer_number) INNER JOIN batch AS b\n" +
+            "c.customer_address,\n" +
+            "cn.contact_number\n" +
+            "FROM ((((customer AS c INNER JOIN order AS o \n" +
+            "ON o.customer_number = c.customer_number) INNER JOIN batch AS b \n" +
             "ON b.order_number = o.order_number) INNER JOIN sauce AS s\n" +
-            "ON s.sauce_number = b.sauce_number) INNER JOIN type AS t\n" +
-            "ON t.Type_number = s.Type_number\n" +
-            "WHERE type_number LIKE ?\n" +
+            "ON s.sauce_number = b.sauce_number) INNER JOIN type AS t \n" +
+            "ON t.Type_number = s.Type_number) INNER JOIN contact_number AS cn\n" +
+            "ON c.customer_number = cn.customer_number \n" +
+            "WHERE type_number LIKE ? \n" +
             "order by c.customer_surname;\n";
 
     public static final String GET_CUSTOMERS_WHO_ORDERED_BATCHES_WITH_TYPE_NAME =
-            "SELECT c.customer_number\n" +
+            "SELECT c.customer_number,\n" +
             "c.customer_name,\n" +
             "c.customer_surname,\n" +
             "c.customer_patronymic,\n" +
-            "c.customer_address\n" +
-            "FROM (((customer AS c INNER JOIN order AS o\n" +
-            "ON o.customer_number = c.customer_number) INNER JOIN batch AS b\n" +
+            "c.customer_address,\n" +
+            "cn.contact_number\n" +
+            "FROM ((((customer AS c INNER JOIN order AS o \n" +
+            "ON o.customer_number = c.customer_number) INNER JOIN batch AS b \n" +
             "ON b.order_number = o.order_number) INNER JOIN sauce AS s\n" +
-            "ON s.sauce_number = b.sauce_number) INNER JOIN type AS t\n" +
-            "ON t.Type_number = s.Type_number\n" +
-            "WHERE type_name LIKE ?\n" +
-            "ORDER BY c.customer_surname;\n";
+            "ON s.sauce_number = b.sauce_number) INNER JOIN type AS t \n" +
+            "ON t.Type_number = s.Type_number) INNER JOIN contact_number AS cn\n" +
+            "ON c.customer_number = cn.customer_number \n" +
+            "WHERE type_name LIKE ? \n" +
+            "order by c.customer_surname;\n";
 
     public static final String GET_CUSTOMERS_WHO_ORDERED_BATCHES_WITH_SAUCE_NUMBER =
-            "SELECT c.customer_number\n" +
+            "SELECT c.customer_number,\n" +
             "c.customer_name,\n" +
             "c.customer_surname,\n" +
             "c.customer_patronymic,\n" +
-            "c.customer_address\n" +
-            "FROM ((customer AS c INNER JOIN order AS o \n" +
+            "c.customer_address,\n" +
+            "cn.contact_number\n" +
+            "FROM (((customer AS c INNER JOIN order AS o \n" +
             "ON o.customer_number = c.customer_number) INNER JOIN batch AS b \n" +
-            "ON b.order_number=o.order_number) INNER JOIN sauce AS s\n" +
-            "ON s.sauce_number = b.sauce_number\n" +
-            "WHERE s.sauce_number LIKE ?\n" +
-            "ORDER BY c.customer_surname;\n";
+            "ON b.order_number = o.order_number) INNER JOIN sauce AS s\n" +
+            "ON s.sauce_number = b.sauce_number) INNER JOIN contact_number AS cn\n" +
+            "ON c.customer_number = cn.customer_number\n" +
+            "WHERE s.sauce_number LIKE ? \n" +
+            "ORDER BY o.customer_surname;\n";
 
     public static final String GET_CUSTOMERS_WHO_ORDERED_BATCHES_WITH_SAUCE_NAME =
-            "SELECT c.customer_number\n" +
+            "SELECT c.customer_number,\n" +
             "c.customer_name,\n" +
             "c.customer_surname,\n" +
             "c.customer_patronymic,\n" +
-            "c.customer_address\n" +
-            "FROM ((customer AS c INNER JOIN order AS o \n" +
+            "c.customer_address,\n" +
+            "cn.contact_number\n" +
+            "FROM (((customer AS c INNER JOIN order AS o \n" +
             "ON o.customer_number = c.customer_number) INNER JOIN batch AS b \n" +
-            "ON b.order_number=o.order_number) INNER JOIN sauce AS s\n" +
-            "ON s.sauce_number = b.sauce_number\n" +
-            "WHERE s.sauce_name LIKE ?\n" +
-            "ORDER BY c.customer_surname;\n";
+            "ON b.order_number = o.order_number) INNER JOIN sauce AS s\n" +
+            "ON s.sauce_number = b.sauce_number) INNER JOIN contact_number AS cn\n" +
+            "ON c.customer_number = cn.customer_number\n" +
+            "WHERE s.sauce_name LIKE ? \n" +
+            "ORDER BY o.customer_surname;\n";
 
     public static final String GET_CUSTOMER_WHO_ORDERED_BATCH_NUMBER =
-            "SELECT c.customer_number\n" +
+            "SELECT c.customer_number,\n" +
             "c.customer_name,\n" +
             "c.customer_surname,\n" +
             "c.customer_patronymic,\n" +
-            "c.customer_address\n" +
-            "FROM (customer AS c INNER JOIN order AS o \n" +
+            "c.customer_address,\n" +
+            "cn.contact_number\n" +
+            "FROM (customer AS c INNER JOIN order AS o\n" +
             "ON c.customer_number = o.customer_number) INNER JOIN batch AS b\n" +
-            "ON b.order_number = o.order_number\n" +
+            "ON b.order_number = o.order_number) INNER JOIN contact_number AS cn\n" +
+            "ON  c.customer_number = cn.customer_number\n" +
             "WHERE batch_number LIKE ?\n";
 
     public static final String UPDATE_CUSTOMER =

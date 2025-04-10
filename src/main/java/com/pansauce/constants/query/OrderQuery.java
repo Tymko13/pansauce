@@ -19,6 +19,12 @@ public class OrderQuery {
             "FROM order\n" +
             "ORDER BY total_order_cost;\n";
 
+    public static final String GET_ALL_ORDERS_SORTED_BY_EXP_DATE =
+            "SELECT *\n" +
+            "FROM order\n" +
+            "ORDER BY real_date;\n";
+
+
     public static final String GET_BATCHES_OF_ORDER_BY_NUMBER_SORTED_BY_PROD_DATE =
             "SELECT batch_number, sauce_quantity, production_date,\n" +
             "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +

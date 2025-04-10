@@ -3,6 +3,8 @@ package com.pansauce.constants.rowMapper;
 import com.pansauce.model.*;
 import com.pansauce.model.analysis.TotalAmount;
 import com.pansauce.model.analysis.TotalIncome;
+import com.pansauce.model.customer.Customer;
+import com.pansauce.model.customer.CustomerWithOrders;
 import com.pansauce.model.sauce.Sauce;
 import com.pansauce.model.sauce.SauceWithIncome;
 import com.pansauce.model.sauce.SauceWithRecipe;
@@ -180,6 +182,33 @@ public class ModelRowMapper {
         }
         return new ArrayList<>(ordersMap.values());
     };
+
+    public static final ResultSetExtractor<List<Customer>> CUSTOMER_WITH_PHONES_EXTRACTOR = rs -> {
+        Map<String, Customer> customerMap = new HashMap<>();
+        while (rs.next()) {
+            String customerNumber = rs.getString("customer_number");
+            Customer customer = customerMap.get(customerNumber);
+            if (customer == null) {
+                customer = new Customer();
+                customer.setNumber(customerNumber);
+                customer.setName(rs.getString("customer_name"));
+                customer.setSurname(rs.getString("customer_surname"));
+                customer.setPatronymic(rs.getString("customer_patronymic"));
+                customer.setAddress(rs.getString("customer_address"));
+                customer.setPhones(new ArrayList<>());
+                customerMap.put(customerNumber, customer);
+            }
+            String phoneNumber = rs.getString("contact_number");
+            if (phoneNumber != null) {
+                Phone phone = new Phone();
+                phone.setPhoneNumber(phoneNumber);
+                phone.setCustomerNumber(customer.getNumber());
+                customer.getPhones().add(phone);
+            }
+        }
+        return new ArrayList<>(customerMap.values());
+    };
+
 
     public static final RowMapper<TotalIncome> TOTAL_INCOME_ROW_MAPPER = (r, i) -> {
         TotalIncome totalIncome = new TotalIncome();

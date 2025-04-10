@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface OrderDao extends GenericDao<Order, String> {
 
-    List<Order> getAllOrdersSortedByRegistrationDate();
+    List<Order> getAllOrdersSortedByRegDate();
     List<Order> getAllOrdersSortedByPrice();
+    List<Order> getAllOrdersSortedByExpDate();
 
     List<Batch> getAllBatchesOfOrderByNumberSortedByProdDate(String orderNumber);
     List<Batch> getAllBatchesOfOrderByNumberSortedByPrice(String orderNumber);

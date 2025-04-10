@@ -1,6 +1,6 @@
 package com.pansauce.validator.model;
 
-import com.pansauce.model.Customer;
+import com.pansauce.model.customer.Customer;
 
 import java.util.List;
 
