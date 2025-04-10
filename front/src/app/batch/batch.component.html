@@ -34,7 +34,7 @@
         <mat-form-field appearance="outline" class="search-field">
           <mat-label>Search</mat-label>
           <input matInput [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)"
-                 placeholder="Number, sauce #, or order #" [disabled]="selectedShow() !== 'All'">
+                 placeholder="Batch #, order #, sauce # or sauce name" [disabled]="selectedShow() !== 'All'">
         </mat-form-field>
       </span>
 
@@ -43,7 +43,7 @@
 
         <!-- Columns -->
         <ng-container matColumnDef="number">
-          <th mat-header-cell *matHeaderCellDef>Batch</th>
+          <th mat-header-cell *matHeaderCellDef>Batch #</th>
           <td mat-cell *matCellDef="let batch">{{ batch.number }}</td>
         </ng-container>
 
@@ -83,14 +83,14 @@
         </ng-container>
 
         <ng-container matColumnDef="orderNumber">
-          <th mat-header-cell *matHeaderCellDef>Order</th>
+          <th mat-header-cell *matHeaderCellDef>Order #</th>
           <td mat-cell *matCellDef="let batch">{{ batch.orderNumber || '-' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Act</th>
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let batch">
-            <button mat-icon-button><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button (click)="update(batch.number)"><mat-icon>edit</mat-icon></button>
             <button mat-icon-button (click)="delete(batch.number)"><mat-icon>delete</mat-icon></button>
           </td>
         </ng-container>

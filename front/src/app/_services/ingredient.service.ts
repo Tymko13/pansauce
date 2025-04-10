@@ -18,7 +18,7 @@ export class IngredientService {
     return this.http.get<Ingredient>(`${this.apiUrl}/${key}`);
   }
 
-  addIngredient(ingredient: Ingredient): Observable<void> {
+  addIngredient(ingredient: Partial<Ingredient>): Observable<void> {
     return this.http.post<void>(this.apiUrl, ingredient);
   }
 

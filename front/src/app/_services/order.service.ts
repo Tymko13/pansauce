@@ -34,7 +34,7 @@ export class OrderService {
     return this.http.get<Order>(`${this.apiUrl}/${key}`);
   }
 
-  addOrder(order: Order): Observable<void> {
+  addOrder(order: Partial<Order>): Observable<void> {
     return this.http.post<void>(this.apiUrl, order);
   }
 

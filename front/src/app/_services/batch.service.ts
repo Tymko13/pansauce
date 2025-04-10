@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {environment} from '../environment';
-import {Batch} from '../_models/batch';
-import {TotalAmount} from '../_models/total-amount';
-import {TotalIncome} from '../_models/total-income';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Batch } from '../_models/batch';
+import { TotalAmount } from '../_models/total-amount';
+import { TotalIncome } from '../_models/total-income';
+import { environment } from '../environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class BatchService {
   private apiUrl = `${environment.apiUrl}/batch`;
@@ -15,74 +15,52 @@ export class BatchService {
   constructor(private http: HttpClient) {}
 
   getAllBatchesSortedBy(attribute: string = 'prod_date'): Observable<Batch[]> {
-    return this.http.get<Batch[]>(this.apiUrl, {
-      params: new HttpParams().set('sorted', attribute)
-    });
+    const params = new HttpParams().set('sorted', attribute);
+    return this.http.get<Batch[]>(this.apiUrl, { params });
   }
 
   getAllBatchesWithStatus(status: string): Observable<Batch[]> {
-    return this.http.get<Batch[]>(this.apiUrl, {
-      params: new HttpParams().set('status', status)
-    });
+    const params = new HttpParams().set('status', status);
+    return this.http.get<Batch[]>(this.apiUrl, { params });
   }
 
-  getAmountOfSoldBatchesBetweenDates(from: Date, to: Date): Observable<TotalAmount> {
-    return this.http.get<TotalAmount>(`${this.apiUrl}/amount`, {
-      params: new HttpParams().set('from', from.toISOString()).set('to', to.toISOString())
-    });
+  getAmountBetweenDates(from: Date, to: Date): Observable<TotalAmount> {
+    const params = new HttpParams().set('from', from.toISOString()).set('to', to.toISOString());
+    return this.http.get<TotalAmount>(`${this.apiUrl}/amount`, { params });
   }
 
-  getIncomeFromSoldBatchesBetweenDates(from: Date, to: Date): Observable<TotalIncome> {
-    return this.http.get<TotalIncome>(`${this.apiUrl}/income`, {
-      params: new HttpParams().set('from', from.toISOString()).set('to', to.toISOString())
-    });
+  getIncomeBetweenDates(from: Date, to: Date): Observable<TotalIncome> {
+    const params = new HttpParams().set('from', from.toISOString()).set('to', to.toISOString());
+    return this.http.get<TotalIncome>(`${this.apiUrl}/income`, { params });
   }
 
-  getAmountOfSoldBatchesBetweenDatesBySauceKey(sauce: string, from: Date, to: Date): Observable<TotalAmount> {
-    return this.http.get<TotalAmount>(`${this.apiUrl}/amount`, {
-      params: new HttpParams()
-        .set('sauce', sauce)
-        .set('from', from.toISOString())
-        .set('to', to.toISOString())
-    });
+  getAmountBySauceKey(from: Date, to: Date, sauce: string): Observable<TotalAmount> {
+    const params = new HttpParams().set('from', from.toISOString()).set('to', to.toISOString()).set('sauce', sauce);
+    return this.http.get<TotalAmount>(`${this.apiUrl}/amount`, { params });
   }
 
-  getIncomeFromSoldBatchesBetweenDatesBySauceKey(sauce: string, from: Date, to: Date): Observable<TotalIncome> {
-    return this.http.get<TotalIncome>(`${this.apiUrl}/income`, {
-      params: new HttpParams()
-        .set('sauce', sauce)
-        .set('from', from.toISOString())
-        .set('to', to.toISOString())
-    });
+  getIncomeBySauceKey(from: Date, to: Date, sauce: string): Observable<TotalIncome> {
+    const params = new HttpParams().set('from', from.toISOString()).set('to', to.toISOString()).set('sauce', sauce);
+    return this.http.get<TotalIncome>(`${this.apiUrl}/income`, { params });
   }
 
-  getAmountOfSoldBatchesBetweenDatesByTypeKey(type: string, from: Date, to: Date): Observable<TotalAmount> {
-    return this.http.get<TotalAmount>(`${this.apiUrl}/amount`, {
-      params: new HttpParams()
-        .set('type', type)
-        .set('from', from.toISOString())
-        .set('to', to.toISOString())
-    });
+  getAmountByTypeKey(from: Date, to: Date, type: string): Observable<TotalAmount> {
+    const params = new HttpParams().set('from', from.toISOString()).set('to', to.toISOString()).set('type', type);
+    return this.http.get<TotalAmount>(`${this.apiUrl}/amount`, { params });
   }
 
-  getIncomeFromSoldBatchesBetweenDatesByTypeKey(type: string, from: Date, to: Date): Observable<TotalIncome> {
-    return this.http.get<TotalIncome>(`${this.apiUrl}/income`, {
-      params: new HttpParams()
-        .set('type', type)
-        .set('from', from.toISOString())
-        .set('to', to.toISOString())
-    });
+  getIncomeByTypeKey(from: Date, to: Date, type: string): Observable<TotalIncome> {
+    const params = new HttpParams().set('from', from.toISOString()).set('to', to.toISOString()).set('type', type);
+    return this.http.get<TotalIncome>(`${this.apiUrl}/income`, { params });
   }
 
   getBatchByKey(key: string): Observable<Batch> {
     return this.http.get<Batch>(`${this.apiUrl}/${key}`);
   }
 
-  getBatchByNumber(number: string): Observable<Batch[]> {
-    return this.http.get<Batch[]>(`${this.apiUrl}`, {
-      params: new HttpParams()
-        .set('number', number)
-    });
+  getBatchesByNumber(number: string): Observable<Batch[]> {
+    const params = new HttpParams().set('number', number);
+    return this.http.get<Batch[]>(this.apiUrl, { params });
   }
 
   addBatch(batch: Partial<Batch>): Observable<void> {
@@ -90,7 +68,11 @@ export class BatchService {
   }
 
   deleteBatch(key: string): Observable<void> {
-    console.log(`${this.apiUrl}/${key}`);
     return this.http.delete<void>(`${this.apiUrl}/${key}`);
   }
+
+  updateBatch(batch: Partial<Batch>): Observable<void> {
+    return this.http.patch<void>(this.apiUrl, batch);
+  }
 }
+

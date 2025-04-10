@@ -37,26 +37,25 @@ export class AnalyticsComponent {
   constructor(private batchService: BatchService, private sauceService: SauceService) {}
 
   loadPopularSauces(): void {
-    this.sauceService.getFiveSaucesWithIncome(this.popularityType).subscribe(data => {
-      console.log(data);
+    this.sauceService.getTopSaucesWithIncome(this.popularityType).subscribe(data => {
       this.saucesByIncome.set(data);
     });
   }
 
   loadPopularSaucesBySales(): void {
-    this.sauceService.getFiveSaucesWithSalesCount(this.popularityType).subscribe(data => {
+    this.sauceService.getTopSaucesWithSalesCount(this.popularityType).subscribe(data => {
       this.saucesBySales = data;
     });
   }
 
   loadPopularRecipesByIncome(): void {
-    this.sauceService.getFiveSaucesRecipeWithIncome(this.popularityType).subscribe(data => {
+    this.sauceService.getTopSaucesRecipeWithIncome(this.popularityType).subscribe(data => {
       this.saucesRecipes = data;
     });
   }
 
   loadPopularRecipesBySales(): void {
-    this.sauceService.getFiveSaucesRecipeWithSalesCount(this.popularityType).subscribe(data => {
+    this.sauceService.getTopSaucesRecipeWithSalesCount(this.popularityType).subscribe(data => {
       this.saucesRecipes = data;
     });
   }
@@ -65,7 +64,7 @@ export class AnalyticsComponent {
     if (this.selectedType && this.fromDate && this.toDate) {
       const from = new Date(this.fromDate);
       const to = new Date(this.toDate);
-      this.batchService.getAmountOfSoldBatchesBetweenDatesByTypeKey(this.selectedType, from, to).subscribe(data => {
+      this.batchService.getAmountByTypeKey( from, to, this.selectedType).subscribe(data => {
         this.soldAmount = data;
       });
     }
@@ -75,7 +74,7 @@ export class AnalyticsComponent {
     if (this.fromDate && this.toDate) {
       const from = new Date(this.fromDate);
       const to = new Date(this.toDate);
-      this.batchService.getIncomeFromSoldBatchesBetweenDates(from, to).subscribe(data => {
+      this.batchService.getIncomeBetweenDates(from, to).subscribe(data => {
         this.totalIncome = data;
       });
     }
@@ -85,7 +84,7 @@ export class AnalyticsComponent {
     if (this.selectedSauceKey && this.fromDate && this.toDate) {
       const from = new Date(this.fromDate);
       const to = new Date(this.toDate);
-      this.batchService.getAmountOfSoldBatchesBetweenDatesBySauceKey(this.selectedSauceKey, from, to).subscribe(data => {
+      this.batchService.getAmountBySauceKey(from, to, this.selectedSauceKey).subscribe(data => {
         this.queryAmount = data;
       });
     }
@@ -95,7 +94,7 @@ export class AnalyticsComponent {
     if (this.selectedSauceKey && this.fromDate && this.toDate) {
       const from = new Date(this.fromDate);
       const to = new Date(this.toDate);
-      this.batchService.getIncomeFromSoldBatchesBetweenDatesBySauceKey(this.selectedSauceKey, from, to).subscribe(data => {
+      this.batchService.getIncomeBySauceKey(from, to, this.selectedSauceKey).subscribe(data => {
         this.queryIncome = data;
       });
     }
@@ -105,7 +104,7 @@ export class AnalyticsComponent {
     if (this.selectedType && this.fromDate && this.toDate) {
       const from = new Date(this.fromDate);
       const to = new Date(this.toDate);
-      this.batchService.getAmountOfSoldBatchesBetweenDatesByTypeKey(this.selectedType, from, to).subscribe(data => {
+      this.batchService.getAmountByTypeKey(from, to, this.selectedType).subscribe(data => {
         this.queryAmount = data;
       });
     }
@@ -115,7 +114,7 @@ export class AnalyticsComponent {
     if (this.selectedType && this.fromDate && this.toDate) {
       const from = new Date(this.fromDate);
       const to = new Date(this.toDate);
-      this.batchService.getIncomeFromSoldBatchesBetweenDatesByTypeKey(this.selectedType, from, to).subscribe(data => {
+      this.batchService.getIncomeByTypeKey(from, to, this.selectedType).subscribe(data => {
         this.queryIncome = data;
       });
     }

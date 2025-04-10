@@ -1,29 +1,29 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../environment';
 import { Type } from '../_models/type';
+import { Sauce } from '../_models/sauce';
+import { environment } from '../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TypeService {
-
   private apiUrl = `${environment.apiUrl}/type`;
 
   constructor(private http: HttpClient) {}
 
-  getSaucesWithTypeNumberSortedBy(typeNumber: string, attribute: string): Observable<Sauce[]> {
-    const params = new HttpParams().set('number', typeNumber).set('sorted', attribute);
+  getSaucesWithTypeNumberSortedBy(number: string, sorted: string): Observable<Sauce[]> {
+    const params = new HttpParams().set('number', number).set('sorted', sorted);
     return this.http.get<Sauce[]>(this.apiUrl, { params });
   }
 
-  getSaucesWithTypeNameSortedBy(typeName: string, attribute: string): Observable<Sauce[]> {
-    const params = new HttpParams().set('name', typeName).set('sorted', attribute);
+  getSaucesWithTypeNameSortedBy(name: string, sorted: string): Observable<Sauce[]> {
+    const params = new HttpParams().set('name', name).set('sorted', sorted);
     return this.http.get<Sauce[]>(this.apiUrl, { params });
   }
 
-  getAllTypes(): Observable<Type[]> {
+  findAllTypes(): Observable<Type[]> {
     return this.http.get<Type[]>(this.apiUrl);
   }
 
@@ -31,7 +31,7 @@ export class TypeService {
     return this.http.get<Type>(`${this.apiUrl}/${key}`);
   }
 
-  addType(type: Type): Observable<void> {
+  addType(type: Partial<Type>): Observable<void> {
     return this.http.post<void>(this.apiUrl, type);
   }
 
@@ -39,3 +39,4 @@ export class TypeService {
     return this.http.delete<void>(`${this.apiUrl}/${key}`);
   }
 }
+

@@ -18,6 +18,7 @@ import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component
 import {MatDialog} from '@angular/material/dialog';
 import {AddBatchDialogComponent} from './add-batch-dialog/add-batch-dialog.component';
 import {Batch} from '../_models/batch';
+import {UpdateBatchDialogComponent} from './update-batch-dialog/update-batch-dialog.component';
 
 @Component({
   selector: 'app-batch',
@@ -61,14 +62,14 @@ export class BatchComponent {
   showOptions = ["All", "SOLD", "IN STOCK"]
   displayedColumns = [
     'number',
+    'orderNumber',
+    'status',
     'productionDate',
     'expirationDate',
     'quantity',
+    'sauce',
     'sauceCost',
     'cost',
-    'status',
-    'sauce',
-    'orderNumber',
     'action'
   ];
 
@@ -77,9 +78,9 @@ export class BatchComponent {
   selectedShow = signal<string>(this.showOptions[0]);
   selectedSearch = signal<string>(this.searchOptions[0]);
 
-  updateBatches = signal(0);
+  dbUpdated = signal(0);
   batches = computed(() => {
-    this.updateBatches();
+    this.dbUpdated();
     const term = this.searchTerm();
     let sort = this.selectedSort();
     if (sort === 'size') sort = "sauce_quantity";
@@ -90,11 +91,11 @@ export class BatchComponent {
         if (!term) return this.batchService.getAllBatchesSortedBy(sort);
         switch (this.selectedSearch()) {
           case 'Batch Number':
-            return this.batchService.getBatchByNumber(term);
+            return this.batchService.getBatchesByNumber(term);
           case 'Order Number':
             return this.orderService.getBatchesOfOrderSortedBy(term, sort);
           case 'Sauce Number':
-            return this.sauceService.getSauceBatchesByNumber(term, sort);
+            return this.sauceService.getSauceBatches(term, sort);
           case 'Sauce Name':
             return this.sauceService.getSauceBatchesByName(term, sort);
         }
@@ -107,15 +108,40 @@ export class BatchComponent {
     return this.batchService.getAllBatchesSortedBy(sort);
   });
 
+  updateDB() { this.dbUpdated.update(e => ++e); }
+
   delete(number: string) {
     const confirmation = this.dialog.open(ConfirmDialogComponent, {
       data: {message: `Are you sure you want to delete this Batch?`}
     });
-
     confirmation.afterClosed().subscribe(res => {
       if (res) {
-        this.batchService.deleteBatch(number).subscribe();
-        this.updateBatches.update(e => ++e);
+        this.batchService.deleteBatch(number).subscribe(()=>{this.updateDB();});
+      }
+    });
+  }
+
+  update(number: string) {
+    const update = this.dialog.open(UpdateBatchDialogComponent, {
+      data: {batch: number}
+    });
+    update.afterClosed().subscribe(res => {
+      if (res) {
+        let updatedBatch: Partial<Batch> = {
+          number: number,
+          sauceCost: res.sauceCost,
+          quantity: res.quantity,
+          orderNumber: res.orderNumber
+        }
+        this.batchService.getBatchByKey(number).subscribe(curr => {
+          if (curr.sauceCost == updatedBatch.sauceCost
+            && curr.quantity == updatedBatch.quantity
+            && curr.orderNumber === updatedBatch.orderNumber) return;
+          console.log(updatedBatch);
+          this.batchService.updateBatch(updatedBatch).subscribe(() => {
+            this.updateDB();
+          });
+        });
       }
     });
   }
@@ -131,8 +157,7 @@ export class BatchComponent {
           sauceNumber: res.sauceNumber,
           orderNumber: res.orderNumber ? res.orderNumber : null
         }
-        this.batchService.addBatch(newBatch).subscribe();
-        this.updateBatches.update(e => ++e);
+        this.batchService.addBatch(newBatch).subscribe(()=>{this.updateDB();});
       }
     });
   }

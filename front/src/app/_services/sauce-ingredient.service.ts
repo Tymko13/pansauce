@@ -14,7 +14,7 @@ export class SauceIngredientService {
     return this.http.get<SauceIngredient[]>(`${this.apiUrl}/${key}/recipe`);
   }
 
-  addSauceIngredient(key: string, ingredient: SauceIngredient): Observable<void> {
+  addSauceIngredient(key: string, ingredient: Partial<SauceIngredient>): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/${key}/recipe`, ingredient);
   }
 }
