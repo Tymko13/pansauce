@@ -92,4 +92,11 @@ public class CustomerController {
         customerService.deleteCustomer(key);
     }
 
+    @PatchMapping("/customer")
+    public void updateBatch(
+            @RequestBody Customer customer
+    ) {
+        customerService.updateCustomer(customer);
+    }
+
 }

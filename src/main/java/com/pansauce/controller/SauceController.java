@@ -1,6 +1,7 @@
 package com.pansauce.controller;
 
 import com.pansauce.model.Batch;
+import com.pansauce.model.dto.SauceDTO;
 import com.pansauce.model.sauce.Sauce;
 import com.pansauce.model.sauce.SauceWithIncome;
 import com.pansauce.model.sauce.SauceWithRecipe;
@@ -112,6 +113,13 @@ public class SauceController {
             @PathVariable String key
     ) {
         sauceService.deleteSauce(key);
+    }
+
+    @PatchMapping("/sauce")
+    public void updateSauce(
+            @RequestBody SauceDTO sauce
+    ) {
+
     }
 
 }

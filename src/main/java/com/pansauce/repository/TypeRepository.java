@@ -78,4 +78,11 @@ public class TypeRepository implements TypeDao {
         return jdbc.query(GET_SAUCES_OF_TYPE_BY_NAME_SORTED_BY_SAUCE_PRICE, SAUCE_ROW_MAPPER, typeName);
     }
 
+    @Override
+    public void updateType(Type type) {
+        jdbc.update(UPDATE_TYPE,
+                type.getTypeName(),
+                type.getTypeNumber());
+    }
+
 }

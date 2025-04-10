@@ -137,4 +137,13 @@ public class CustomerQuery {
             "ON b.order_number = o.order_number\n" +
             "WHERE batch_number LIKE ?\n";
 
+    public static final String UPDATE_CUSTOMER =
+            "UPDATE customer\n" +
+            "SET \n" +
+            "customer_name = ?,\n" +
+            "customer_surname = ?,\n" +
+            "customer_patronymic = ?,\n" +
+            "customer_address = ?\n" +
+            "WHERE customer_number = ?\n";
+
 }

@@ -2,6 +2,7 @@ package com.pansauce.controller;
 
 import com.pansauce.model.Batch;
 import com.pansauce.model.Order;
+import com.pansauce.model.dto.OrderDTO;
 import com.pansauce.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +58,13 @@ public class OrderController {
             @PathVariable String key
     ) {
         orderService.deleteOrder(key);
+    }
+
+    @PatchMapping("/order")
+    public void updateOrder(
+            @RequestBody OrderDTO order
+    ) {
+        orderService.updateOrder(order);
     }
 
 }

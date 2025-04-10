@@ -3,6 +3,7 @@ package com.pansauce.repository;
 import com.pansauce.dao.OrderDao;
 import com.pansauce.model.Batch;
 import com.pansauce.model.Order;
+import com.pansauce.model.dto.OrderDTO;
 import com.pansauce.util.RandomKeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -95,6 +96,15 @@ public class OrderRepository implements OrderDao {
     @Override
     public List<Batch> getAllBatchesOfOrderByNumberSortedBySauceQuantity(String orderNumber) {
         return jdbc.query(GET_BATCHES_OF_ORDER_BY_NUMBER_SORTED_BY_SAUCE_QUANTITY, BATCH_ROW_MAPPER, orderNumber);
+    }
+
+    @Override
+    public void updateOrder(OrderDTO order) {
+        jdbc.update(UPDATE_ORDER,
+                order.getExpectedDate(),
+                order.getRealDate(),
+                order.getDeliveryCost(),
+                order.getNumber());
     }
 
 }

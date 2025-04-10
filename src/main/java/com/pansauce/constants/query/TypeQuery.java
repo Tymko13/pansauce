@@ -33,4 +33,11 @@ public class TypeQuery {
             "WHERE t.type_name LIKE ?\n" +
             "ORDER BY s.sauce_cost;\n";
 
+    public static final String UPDATE_TYPE =
+            "UPDATE type\n" +
+            "SET \n" +
+            "type_name = ?\n" +
+            "WHERE type_number = ?\n";
+
+
 }

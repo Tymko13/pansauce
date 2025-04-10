@@ -2,6 +2,7 @@ package com.pansauce.repository;
 
 import com.pansauce.dao.SauceDao;
 import com.pansauce.model.*;
+import com.pansauce.model.dto.SauceDTO;
 import com.pansauce.model.sauce.*;
 import com.pansauce.util.RandomKeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -185,5 +186,16 @@ public class SauceRepository implements SauceDao {
     @Override
     public List<SauceWithRecipe> getWorstFiveSaucesWithRecipeBySales() {
         return jdbc.query(GET_LAST_FIVE_SAUCE_RECIPE_BY_SALES_COUNT, SAUCE_WITH_RECIPE_EXTRACTOR);
+    }
+
+    @Override
+    public void updateSauce(SauceDTO sauce) {
+        jdbc.update(UPDATE_SAUCE,
+                sauce.getName(),
+                sauce.getShelfLife(),
+                sauce.getWeight(),
+                sauce.getCost(),
+                sauce.getTypeNumber(),
+                sauce.getNumber());
     }
 }

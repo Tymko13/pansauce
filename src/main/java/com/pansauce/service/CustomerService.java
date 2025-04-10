@@ -91,6 +91,13 @@ public class CustomerService {
         else throw new InvalidCustomerException(errorMessages);
     }
 
+    public void updateCustomer(Customer customer) {
+        String customerNumber = customer.getNumber();
+        if (!customerRepository.exists(customerNumber))
+            throw new NonExistingCustomerException();
+        customerRepository.updateCustomer(customer);
+    }
+
     public void deleteCustomer(String key) {
         if (customerRepository.exists(key))
             customerRepository.delete(key);

@@ -67,4 +67,10 @@ public class TypeService {
         else throw new NonExistingTypeException();
     }
 
+    public void updateType(Type type) {
+        String typeNumber = type.getTypeNumber();
+        getTypeByKey(typeNumber);
+        typeRepository.updateType(type);
+    }
+
 }

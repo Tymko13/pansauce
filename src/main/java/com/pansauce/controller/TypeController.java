@@ -58,4 +58,11 @@ public class TypeController {
         typeService.deleteType(key);
     }
 
+    @PatchMapping("/type")
+    public void updateType(
+            @RequestBody Type type
+    ) {
+        typeService.updateType(type);
+    }
+
 }

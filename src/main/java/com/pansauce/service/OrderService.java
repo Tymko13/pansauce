@@ -4,6 +4,7 @@ import com.pansauce.dao.OrderDao;
 import com.pansauce.exception.order.*;
 import com.pansauce.model.Batch;
 import com.pansauce.model.Order;
+import com.pansauce.model.dto.OrderDTO;
 import com.pansauce.validator.model.OrderValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class OrderService {
             case "price" -> orderRepository.getAllBatchesOfOrderByNumberSortedByPrice(orderNumber + "%");
             case "prod_date" -> orderRepository.getAllBatchesOfOrderByNumberSortedByProdDate(orderNumber + "%");
             case "status" -> orderRepository.getAllBatchesOfOrderByNumberSortedByBatchStatus(orderNumber + "%");
-            case "size" -> orderRepository.getAllBatchesOfOrderByNumberSortedBySauceQuantity(orderNumber + "%");
+            case "sauce_quantity" -> orderRepository.getAllBatchesOfOrderByNumberSortedBySauceQuantity(orderNumber + "%");
             case "number" -> orderRepository.getAllBatchesOfOrderByNumberSortedByNumber(orderNumber + "%");
             default -> new ArrayList<>();
         };
@@ -65,6 +66,12 @@ public class OrderService {
     public void deleteOrder(String key) {
         validateOrderExistence(key);
         orderRepository.delete(key);
+    }
+
+    public void updateOrder(OrderDTO order) {
+        String orderNumber = order.getNumber();
+        validateOrderExistence(orderNumber);
+        orderRepository.updateOrder(order);
     }
 
     private void validateOrderExistence(String key){

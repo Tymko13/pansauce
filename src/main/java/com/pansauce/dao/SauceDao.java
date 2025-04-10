@@ -1,6 +1,7 @@
 package com.pansauce.dao;
 
 import com.pansauce.model.Batch;
+import com.pansauce.model.dto.SauceDTO;
 import com.pansauce.model.sauce.Sauce;
 import com.pansauce.model.sauce.SauceWithIncome;
 import com.pansauce.model.sauce.SauceWithRecipe;
@@ -43,4 +44,7 @@ public interface SauceDao extends GenericDao<Sauce, String> {
 
     List<SauceWithRecipe> getWorstFiveSaucesWithRecipeByIncome();
     List<SauceWithRecipe> getWorstFiveSaucesWithRecipeBySales();
+
+    void updateSauce(SauceDTO sauce);
+
 }

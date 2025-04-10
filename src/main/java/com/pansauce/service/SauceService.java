@@ -2,8 +2,10 @@ package com.pansauce.service;
 
 import com.pansauce.dao.SauceDao;
 import com.pansauce.dao.TypeDao;
+import com.pansauce.exception.batch.NonExistingBatchException;
 import com.pansauce.exception.sauce.*;
 import com.pansauce.model.Batch;
+import com.pansauce.model.dto.SauceDTO;
 import com.pansauce.model.sauce.Sauce;
 import com.pansauce.model.Type;
 import com.pansauce.model.sauce.SauceWithIncome;
@@ -101,6 +103,13 @@ public class SauceService {
             case "last" -> sauceRepository.getWorstFiveSaucesWithRecipeBySales();
             default -> new ArrayList<>();
         };
+    }
+
+    public void updateSauce(SauceDTO sauce) {
+        String sauceNumber = sauce.getNumber();
+        if (!sauceRepository.exists(sauceNumber))
+            throw new NonExistingSauceException();
+        sauceRepository.updateSauce(sauce);
     }
 
     public List<Sauce> getSauceByNumber(String number) {

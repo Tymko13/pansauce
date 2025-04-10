@@ -29,4 +29,6 @@ public interface CustomerDao extends GenericDao<Customer, String> {
     List<Customer> getCustomersWhoOrderedSauceWithSauceNameSortedBySurname(String sauceName);
     List<Customer> getCustomerWhoOrderedBatchWithNumber(String batchKey);
 
+    void updateCustomer(Customer customer);
+
 }

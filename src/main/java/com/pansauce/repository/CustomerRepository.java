@@ -132,4 +132,14 @@ public class CustomerRepository implements CustomerDao {
         return jdbc.query(GET_CUSTOMER_WHO_ORDERED_BATCH_NUMBER, CUSTOMER_ROW_MAPPER, batchKey);
     }
 
+    @Override
+    public void updateCustomer(Customer customer) {
+        jdbc.update(UPDATE_CUSTOMER,
+                customer.getName(),
+                customer.getSurname(),
+                customer.getPatronymic(),
+                customer.getAddress(),
+                customer.getNumber());
+    }
+
 }

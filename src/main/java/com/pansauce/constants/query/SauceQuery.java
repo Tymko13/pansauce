@@ -233,4 +233,15 @@ public class SauceQuery {
             "\tORDER BY COUNT(b.batch_number)\n" +
             "\tLIMIT 5\n" +
             ")\n";
+
+    public static final String UPDATE_SAUCE =
+            "UPDATE sauce\n" +
+            "SET \n" +
+            "sauce_name = ?,\n" +
+            "shelf_life = ?,\n" +
+            "sauce_weight = ?,\n" +
+            "sauce_cost = ?,\n" +
+            "typeNumber = ?\n" +
+            "WHERE sauce_number = ?\n";
+
 }

@@ -24,6 +24,7 @@ public class OrderQuery {
             "expiration_date, sauce_cost_at_that_time, batch_cost, batch_status,\n" +
             "order_number, sauce_number, sauce_name\n" +
             "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number\n" +
+            "WHERE batch.order_number LIKE ?\n" +
             "ORDER BY batch.production_date;\n";
 
     public static final String GET_BATCHES_OF_ORDER_BY_NUMBER_SORTED_BY_PRICE =
@@ -57,6 +58,14 @@ public class OrderQuery {
             "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number\n" +
             "WHERE batch.order_number LIKE ?\n" +
             "ORDER BY batch.batch_status;\n";
+
+    public static final String UPDATE_ORDER =
+            "UPDATE order\n" +
+            "SET \n" +
+            "expected_date = ?,\n" +
+            "real_date = ?,\n" +
+            "delivery_cost = ?\n" +
+            "WHERE order_number = ?\n";
 
 
 }
