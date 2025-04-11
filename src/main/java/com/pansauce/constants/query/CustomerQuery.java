@@ -4,12 +4,12 @@ public class CustomerQuery {
 
     public static final String GET_ALL_CUSTOMERS =
             "SELECT *\n" +
-            "FROM customer INNER JOIN contact_number\n" +
+            "FROM customer LEFT JOIN contact_number\n" +
             "ON customer.customer_number = contact_number.customer_number; \n";
 
     public static final String GET_CUSTOMER_BY_KEY =
             "SELECT *\n" +
-            "FROM customer INNER JOIN contact_number\n" +
+            "FROM customer LEFT JOIN contact_number\n" +
             "ON customer.customer_number = contact_number.customer_number; \n" +
             "WHERE customer.customer_number = ?;\n";
 
@@ -63,7 +63,7 @@ public class CustomerQuery {
 
     public static final String GET_CUSTOMERS_BY_PIB =
             "SELECT *\n" +
-            "FROM customer INNER JOIN contact_number\n" +
+            "FROM customer LEFT JOIN contact_number\n" +
             "ON customer.customer_number = contact_number.customer_number; \n" +
             "WHERE customer.customer_name LIKE ?\n" +
             "AND customer.customer_surname LIKE ?\n" +
@@ -72,7 +72,7 @@ public class CustomerQuery {
     public static final String GET_CUSTOMERS_WITH_THEIR_ORDERS =
             "SELECT *\n" +
             "FROM (customer AS c INNER JOIN order AS o\n" +
-            "ON c.customer_number = o.customer_number) INNER JOIN contact_number AS cn\n" +
+            "ON c.customer_number = o.customer_number) LEFT JOIN contact_number AS cn\n" +
             "ON c.customer_number = cn.customer_number;\n";
 
     public static final String GET_CUSTOMERS_WHO_HAVE_ORDERS_BETWEEN_DATES =
@@ -85,7 +85,7 @@ public class CustomerQuery {
             "cn.contact_number\n" +
             "FROM (customer AS c INNER JOIN order AS o\n" +
             "ON o.customer_number = c.customer_number)\n" +
-            "INNER JOIN contact_number AS cn \n" +
+            "LEFT JOIN contact_number AS cn \n" +
             "ON c.customer_number = cn.customer_number \n" +
             "WHERE o.registration_date BETWEEN ?  AND ? \n" +
             "ORDER BY o.customer_surname;\n";
@@ -101,7 +101,7 @@ public class CustomerQuery {
             "ON o.customer_number = c.customer_number) INNER JOIN batch AS b \n" +
             "ON b.order_number = o.order_number) INNER JOIN sauce AS s\n" +
             "ON s.sauce_number = b.sauce_number) INNER JOIN type AS t \n" +
-            "ON t.Type_number = s.Type_number) INNER JOIN contact_number AS cn\n" +
+            "ON t.Type_number = s.Type_number) LEFT JOIN contact_number AS cn\n" +
             "ON c.customer_number = cn.customer_number \n" +
             "WHERE type_number LIKE ? \n" +
             "order by c.customer_surname;\n";
@@ -117,7 +117,7 @@ public class CustomerQuery {
             "ON o.customer_number = c.customer_number) INNER JOIN batch AS b \n" +
             "ON b.order_number = o.order_number) INNER JOIN sauce AS s\n" +
             "ON s.sauce_number = b.sauce_number) INNER JOIN type AS t \n" +
-            "ON t.Type_number = s.Type_number) INNER JOIN contact_number AS cn\n" +
+            "ON t.Type_number = s.Type_number) LEFT JOIN contact_number AS cn\n" +
             "ON c.customer_number = cn.customer_number \n" +
             "WHERE type_name LIKE ? \n" +
             "order by c.customer_surname;\n";
@@ -132,7 +132,7 @@ public class CustomerQuery {
             "FROM (((customer AS c INNER JOIN order AS o \n" +
             "ON o.customer_number = c.customer_number) INNER JOIN batch AS b \n" +
             "ON b.order_number = o.order_number) INNER JOIN sauce AS s\n" +
-            "ON s.sauce_number = b.sauce_number) INNER JOIN contact_number AS cn\n" +
+            "ON s.sauce_number = b.sauce_number) LEFT JOIN contact_number AS cn\n" +
             "ON c.customer_number = cn.customer_number\n" +
             "WHERE s.sauce_number LIKE ? \n" +
             "ORDER BY o.customer_surname;\n";
@@ -147,7 +147,7 @@ public class CustomerQuery {
             "FROM (((customer AS c INNER JOIN order AS o \n" +
             "ON o.customer_number = c.customer_number) INNER JOIN batch AS b \n" +
             "ON b.order_number = o.order_number) INNER JOIN sauce AS s\n" +
-            "ON s.sauce_number = b.sauce_number) INNER JOIN contact_number AS cn\n" +
+            "ON s.sauce_number = b.sauce_number) LEFT JOIN contact_number AS cn\n" +
             "ON c.customer_number = cn.customer_number\n" +
             "WHERE s.sauce_name LIKE ? \n" +
             "ORDER BY o.customer_surname;\n";
@@ -161,7 +161,7 @@ public class CustomerQuery {
             "cn.contact_number\n" +
             "FROM (customer AS c INNER JOIN order AS o\n" +
             "ON c.customer_number = o.customer_number) INNER JOIN batch AS b\n" +
-            "ON b.order_number = o.order_number) INNER JOIN contact_number AS cn\n" +
+            "ON b.order_number = o.order_number) LEFT JOIN contact_number AS cn\n" +
             "ON  c.customer_number = cn.customer_number\n" +
             "WHERE batch_number LIKE ?\n";
 

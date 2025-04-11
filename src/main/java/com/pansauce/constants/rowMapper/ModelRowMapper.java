@@ -155,7 +155,7 @@ public class ModelRowMapper {
     public static final ResultSetExtractor<List<CustomerWithOrders>> CUSTOMER_WITH_ORDERS_EXTRACTOR = rs -> {
         Map<String, CustomerWithOrders> ordersMap = new HashMap<>();
         while (rs.next()) {
-            String sauceNumber = rs.getString("sauce_number");
+            String sauceNumber = rs.getString("customer_number");
             CustomerWithOrders customer = ordersMap.get(sauceNumber);
             if (customer == null) {
                 customer = new CustomerWithOrders();
