@@ -3,8 +3,9 @@ package com.pansauce.service;
 import com.pansauce.dao.OrderDao;
 import com.pansauce.exception.order.*;
 import com.pansauce.model.Batch;
-import com.pansauce.model.Order;
+import com.pansauce.model.order.Order;
 import com.pansauce.model.dto.OrderDTO;
+import com.pansauce.model.order.OrderWithCustomerData;
 import com.pansauce.validator.model.OrderValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public List<Order> getAllOrdersSortedBy(String attribute) {
+    public List<OrderWithCustomerData> getAllOrdersSortedBy(String attribute) {
         return switch (attribute) {
           case "reg_date" -> orderRepository.getAllOrdersSortedByRegDate();
           case "price" -> orderRepository.getAllOrdersSortedByPrice();
@@ -44,8 +45,8 @@ public class OrderService {
         };
     }
 
-    public List<Order> getAllOrders() {
-        List<Order> orders = orderRepository.findAll();
+    public List<OrderWithCustomerData> getAllOrders() {
+        List<OrderWithCustomerData> orders = orderRepository.findAll();
         if (orders.isEmpty())
             throw new NoOrdersFoundException();
         return orders;

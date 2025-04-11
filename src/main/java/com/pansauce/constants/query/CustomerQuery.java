@@ -23,43 +23,82 @@ public class CustomerQuery {
             "DELETE FROM customer WHERE customer_number = ?";
 
     public static final String GET_ORDERS_OF_CUSTOMER_BY_CUSTOMER_KEY_SORTED_BY_PRICE =
-            "SELECT * \n" +
-            "FROM order\n" +
-            "WHERE customer_number LIKE ?\n" +
-            "ORDER BY total_order_cost;\n";
+            "SELECT \n" +
+            "o.order_number, o.registration_date, o.expected_date,\n" +
+            "o.real_date, o.delivery_cost, o.total_order_cost,\n" +
+            "c.customer_number, c.customer_name, c.customer_surname,\n" +
+            "c.customer_patronymic, cn.contact_number\n" +
+            "FROM (order AS o INNER JOIN customer AS c\n" +
+            "ON o.customer_number = c.customer_number)\n" +
+            "LEFT JOIN contact_number AS cn \n" +
+            "ON c.customer_number = cn.customer_number\n" +
+            "WHERE с.customer_number LIKE ?\n" +
+            "ORDER BY o.total_order_cost\n";
 
     public static final String GET_ORDERS_OF_CUSTOMER_BY_CUSTOMER_KEY_SORTED_BY_REG_DATE =
-            "SELECT * \n" +
-            "FROM order\n" +
-            "WHERE customer_number LIKE ?\n" +
-            "ORDER BY registration_date;\n";
+            "SELECT \n" +
+            "o.order_number, o.registration_date, o.expected_date,\n" +
+            "o.real_date, o.delivery_cost, o.total_order_cost,\n" +
+            "c.customer_number, c.customer_name, c.customer_surname,\n" +
+            "c.customer_patronymic, cn.contact_number\n" +
+            "FROM (order AS o INNER JOIN customer AS c\n" +
+            "ON o.customer_number = c.customer_number)\n" +
+            "LEFT JOIN contact_number AS cn \n" +
+            "ON c.customer_number = cn.customer_number\n" +
+            "WHERE с.customer_number LIKE ?\n" +
+            "ORDER BY o.registration_date\n";
 
     public static final String GET_ORDERS_OF_CUSTOMER_BY_CUSTOMER_KEY_SORTED_BY_EXP_DATE =
-            "SELECT * \n" +
-            "FROM order\n" +
-            "WHERE customer_number LIKE ?\n" +
-            "ORDER BY real_date;\n";
+            "SELECT \n" +
+            "o.order_number, o.registration_date, o.expected_date,\n" +
+            "o.real_date, o.delivery_cost, o.total_order_cost,\n" +
+            "c.customer_number, c.customer_name, c.customer_surname,\n" +
+            " c.customer_patronymic,  cn.contact_number\n" +
+            "FROM (order AS o INNER JOIN customer AS c\n" +
+            "ON o.customer_number = c.customer_number)\n" +
+            "LEFT JOIN contact_number AS cn \n" +
+            "ON c.customer_number = cn.customer_number\n" +
+            "WHERE с.customer_number LIKE ?\n" +
+            "ORDER BY o.real_date\n";
 
     public static final String GET_ORDERS_OF_CUSTOMER_BY_PHONE_NUMBER_SORTED_BY_PRICE =
-            "SELECT *\n" +
-            "FROM order AS o INNER JOIN contact_Number AS c\n" +
-            "ON c.customer_number = o.customer_number\n" +
-            "WHERE c.customer_number LIKE ?\n" +
-            "ORDER BY o.total_order_cost;\n";
+            "SELECT \n" +
+            "o.order_number, o.registration_date, o.expected_date,\n" +
+            "o.real_date, o.delivery_cost, o.total_order_cost,\n" +
+            "c.customer_number, c.customer_name, c.customer_surname,\n" +
+            "c.customer_patronymic, cn.contact_number\n" +
+            "FROM (order AS o INNER JOIN customer AS c\n" +
+            "ON o.customer_number = c.customer_number)\n" +
+            "LEFT JOIN contact_number AS cn \n" +
+            "ON c.customer_number = cn.customer_number\n" +
+            "WHERE с.contact_number LIKE ?\n" +
+            "ORDER BY o.total_order_cost\n";
 
     public static final String GET_ORDERS_OF_CUSTOMER_BY_PHONE_NUMBER_SORTED_BY_REG_DATE =
-            "SELECT *\n" +
-            "FROM order AS o INNER JOIN contact_Number AS c\n" +
-            "ON c.customer_number = o.customer_number\n" +
-            "WHERE c.customer_number LIKE ?\n" +
-            "ORDER BY o.registration_date;\n";
+            "SELECT \n" +
+            "o.order_number, o.registration_date, o.expected_date,\n" +
+            "o.real_date, o.delivery_cost, o.total_order_cost,\n" +
+            "c.customer_number, c.customer_name, c.customer_surname,\n" +
+            "c.customer_patronymic, cn.contact_number\n" +
+            "FROM (order AS o INNER JOIN customer AS c\n" +
+            "ON o.customer_number = c.customer_number)\n" +
+            "LEFT JOIN contact_number AS cn \n" +
+            "ON c.customer_number = cn.customer_number\n" +
+            "WHERE с.contact_number LIKE ?\n" +
+            "ORDER BY o.registration_date\n";
 
     public static final String GET_ORDERS_OF_CUSTOMER_BY_PHONE_NUMBER_SORTED_BY_EXP_DATE =
-            "SELECT *\n" +
-            "FROM order AS o INNER JOIN contact_Number AS c\n" +
-            "ON c.customer_number = o.customer_number\n" +
-            "WHERE c.customer_number LIKE ?\n" +
-            "ORDER BY o.real_date;\n";
+            "SELECT \n" +
+            "o.order_number, o.registration_date, o.expected_date,\n" +
+            "o.real_date, o.delivery_cost, o.total_order_cost,\n" +
+            "c.customer_number, c.customer_name, c.customer_surname,\n" +
+            "c.customer_patronymic, cn.contact_number\n" +
+            "FROM (order AS o INNER JOIN customer AS c\n" +
+            "ON o.customer_number = c.customer_number)\n" +
+            "LEFT JOIN contact_number AS cn \n" +
+            "ON c.customer_number = cn.customer_number\n" +
+            "WHERE с.contact_number LIKE ?\n" +
+            "ORDER BY o.real_date\n";
 
     public static final String GET_CUSTOMERS_BY_PIB =
             "SELECT *\n" +

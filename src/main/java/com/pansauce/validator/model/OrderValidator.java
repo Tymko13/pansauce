@@ -1,6 +1,6 @@
 package com.pansauce.validator.model;
 
-import com.pansauce.model.Order;
+import com.pansauce.model.order.Order;
 import com.pansauce.validator.attribute.CostAttributeValidator;
 
 import java.util.List;

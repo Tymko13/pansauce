@@ -1,8 +1,9 @@
 package com.pansauce.controller;
 
 import com.pansauce.model.Batch;
-import com.pansauce.model.Order;
+import com.pansauce.model.order.Order;
 import com.pansauce.model.dto.OrderDTO;
+import com.pansauce.model.order.OrderWithCustomerData;
 import com.pansauce.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class OrderController {
     }
 
     @GetMapping(value = "/order", params = {"sorted"})
-    public List<Order> getAllOrdersSortedBy(
+    public List<OrderWithCustomerData> getAllOrdersSortedBy(
         @RequestParam("sorted") String attribute
     ) {
         return orderService.getAllOrdersSortedBy(attribute);
@@ -35,7 +36,7 @@ public class OrderController {
     }
 
     @GetMapping("/order")
-    public List<Order> getAllOrders() {
+    public List<OrderWithCustomerData> getAllOrders() {
         return orderService.getAllOrders();
     }
 

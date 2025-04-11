@@ -3,7 +3,8 @@ package com.pansauce.repository;
 import com.pansauce.dao.CustomerDao;
 import com.pansauce.model.customer.Customer;
 import com.pansauce.model.customer.CustomerWithOrders;
-import com.pansauce.model.Order;
+import com.pansauce.model.order.Order;
+import com.pansauce.model.order.OrderWithCustomerData;
 import com.pansauce.util.RandomKeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -63,33 +64,33 @@ public class CustomerRepository implements CustomerDao {
     }
 
     @Override
-    public List<Order> getCustomerOrdersByKeySortedByPrice(String customerKey) {
-        return jdbc.query(GET_ORDERS_OF_CUSTOMER_BY_CUSTOMER_KEY_SORTED_BY_PRICE, ORDER_ROW_MAPPER, customerKey);
+    public List<OrderWithCustomerData> getCustomerOrdersByKeySortedByPrice(String customerKey) {
+        return jdbc.query(GET_ORDERS_OF_CUSTOMER_BY_CUSTOMER_KEY_SORTED_BY_PRICE, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR, customerKey);
     }
 
     @Override
-    public List<Order> getCustomerOrdersByKeySortedByRegDate(String customerKey) {
-        return jdbc.query(GET_ORDERS_OF_CUSTOMER_BY_CUSTOMER_KEY_SORTED_BY_REG_DATE, ORDER_ROW_MAPPER, customerKey);
+    public List<OrderWithCustomerData> getCustomerOrdersByKeySortedByRegDate(String customerKey) {
+        return jdbc.query(GET_ORDERS_OF_CUSTOMER_BY_CUSTOMER_KEY_SORTED_BY_REG_DATE, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR, customerKey);
     }
 
     @Override
-    public List<Order> getCustomerOrdersByKeySortedByExpDate(String customerKey) {
-        return jdbc.query(GET_ORDERS_OF_CUSTOMER_BY_CUSTOMER_KEY_SORTED_BY_EXP_DATE, ORDER_ROW_MAPPER, customerKey);
+    public List<OrderWithCustomerData> getCustomerOrdersByKeySortedByExpDate(String customerKey) {
+        return jdbc.query(GET_ORDERS_OF_CUSTOMER_BY_CUSTOMER_KEY_SORTED_BY_EXP_DATE, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR, customerKey);
     }
 
     @Override
-    public List<Order> getCustomerOrdersByPhoneNumberSortedByPrice(String customerPhoneNumber) {
-        return jdbc.query(GET_ORDERS_OF_CUSTOMER_BY_PHONE_NUMBER_SORTED_BY_PRICE, ORDER_ROW_MAPPER, customerPhoneNumber);
+    public List<OrderWithCustomerData> getCustomerOrdersByPhoneNumberSortedByPrice(String customerPhoneNumber) {
+        return jdbc.query(GET_ORDERS_OF_CUSTOMER_BY_PHONE_NUMBER_SORTED_BY_PRICE, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR, customerPhoneNumber);
     }
 
     @Override
-    public List<Order> getCustomerOrdersByPhoneNumberSortedByRegDate(String customerPhoneNumber) {
-        return jdbc.query(GET_ORDERS_OF_CUSTOMER_BY_PHONE_NUMBER_SORTED_BY_REG_DATE, ORDER_ROW_MAPPER, customerPhoneNumber);
+    public List<OrderWithCustomerData> getCustomerOrdersByPhoneNumberSortedByRegDate(String customerPhoneNumber) {
+        return jdbc.query(GET_ORDERS_OF_CUSTOMER_BY_PHONE_NUMBER_SORTED_BY_REG_DATE, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR, customerPhoneNumber);
     }
 
     @Override
-    public List<Order> getCustomerOrdersByPhoneNumberSortedByExpDate(String customerPhoneNumber) {
-        return jdbc.query(GET_ORDERS_OF_CUSTOMER_BY_PHONE_NUMBER_SORTED_BY_EXP_DATE, ORDER_ROW_MAPPER, customerPhoneNumber);
+    public List<OrderWithCustomerData> getCustomerOrdersByPhoneNumberSortedByExpDate(String customerPhoneNumber) {
+        return jdbc.query(GET_ORDERS_OF_CUSTOMER_BY_PHONE_NUMBER_SORTED_BY_EXP_DATE, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR, customerPhoneNumber);
     }
 
     @Override

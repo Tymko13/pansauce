@@ -1,4 +1,4 @@
-package com.pansauce.model;
+package com.pansauce.model.order;
 
 import java.math.BigDecimal;
 import java.util.Date;

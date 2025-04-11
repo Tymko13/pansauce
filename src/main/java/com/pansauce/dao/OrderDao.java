@@ -1,16 +1,17 @@
 package com.pansauce.dao;
 
 import com.pansauce.model.Batch;
-import com.pansauce.model.Order;
 import com.pansauce.model.dto.OrderDTO;
+import com.pansauce.model.order.Order;
+import com.pansauce.model.order.OrderWithCustomerData;
 
 import java.util.List;
 
-public interface OrderDao extends GenericDao<Order, String> {
+public interface OrderDao extends GenericDao<OrderWithCustomerData, String> {
 
-    List<Order> getAllOrdersSortedByRegDate();
-    List<Order> getAllOrdersSortedByPrice();
-    List<Order> getAllOrdersSortedByExpDate();
+    List<OrderWithCustomerData> getAllOrdersSortedByRegDate();
+    List<OrderWithCustomerData> getAllOrdersSortedByPrice();
+    List<OrderWithCustomerData> getAllOrdersSortedByExpDate();
 
     List<Batch> getAllBatchesOfOrderByNumberSortedByProdDate(String orderNumber);
     List<Batch> getAllBatchesOfOrderByNumberSortedByPrice(String orderNumber);
@@ -19,5 +20,7 @@ public interface OrderDao extends GenericDao<Order, String> {
     List<Batch> getAllBatchesOfOrderByNumberSortedBySauceQuantity(String orderNumber);
 
     void updateOrder(OrderDTO order);
+    void insert(Order order, String orderKey);
+    void add(Order order);
 
 }

@@ -2,8 +2,9 @@ package com.pansauce.repository;
 
 import com.pansauce.dao.OrderDao;
 import com.pansauce.model.Batch;
-import com.pansauce.model.Order;
+import com.pansauce.model.order.Order;
 import com.pansauce.model.dto.OrderDTO;
+import com.pansauce.model.order.OrderWithCustomerData;
 import com.pansauce.util.RandomKeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,8 +13,7 @@ import java.util.List;
 
 import static com.pansauce.constants.keyLength.KeyLength.ORDER_KEY_LENGTH;
 import static com.pansauce.constants.query.OrderQuery.*;
-import static com.pansauce.constants.rowMapper.ModelRowMapper.BATCH_ROW_MAPPER;
-import static com.pansauce.constants.rowMapper.ModelRowMapper.ORDER_ROW_MAPPER;
+import static com.pansauce.constants.rowMapper.ModelRowMapper.*;
 
 @Repository(value = "orderRepo")
 public class OrderRepository implements OrderDao {
@@ -43,13 +43,14 @@ public class OrderRepository implements OrderDao {
     }
 
     @Override
-    public List<Order> findAll() {
-        return jdbc.query(GET_ALL_ORDERS, ORDER_ROW_MAPPER);
+    public List<OrderWithCustomerData> findAll() {
+        return jdbc.query(GET_ALL_ORDERS, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR);
     }
 
     @Override
-    public Order findByKey(String orderKey) {
-        List<Order> result = jdbc.query(GET_ORDER_BY_KEY, ORDER_ROW_MAPPER, orderKey);
+    public OrderWithCustomerData findByKey(String orderKey) {
+        List<OrderWithCustomerData> result = jdbc.query(GET_ORDER_BY_KEY, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR, orderKey);
+        assert result != null;
         return result.isEmpty() ? null : result.getFirst();
     }
 
@@ -64,18 +65,18 @@ public class OrderRepository implements OrderDao {
     }
 
     @Override
-    public List<Order> getAllOrdersSortedByRegDate() {
-        return jdbc.query(GET_ALL_ORDERS_SORTED_BY_REG_DATE, ORDER_ROW_MAPPER);
+    public List<OrderWithCustomerData> getAllOrdersSortedByRegDate() {
+        return jdbc.query(GET_ALL_ORDERS_SORTED_BY_REG_DATE, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR);
     }
 
     @Override
-    public List<Order> getAllOrdersSortedByPrice() {
-        return jdbc.query(GET_ALL_ORDERS_SORTED_BY_PRICE, ORDER_ROW_MAPPER);
+    public List<OrderWithCustomerData> getAllOrdersSortedByPrice() {
+       return jdbc.query(GET_ALL_ORDERS_SORTED_BY_PRICE, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR);
     }
 
     @Override
-    public List<Order> getAllOrdersSortedByExpDate() {
-        return jdbc.query(GET_ALL_ORDERS_SORTED_BY_EXP_DATE, ORDER_ROW_MAPPER);
+    public List<OrderWithCustomerData> getAllOrdersSortedByExpDate() {
+        return jdbc.query(GET_ALL_ORDERS_SORTED_BY_EXP_DATE, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR);
     }
 
     @Override
@@ -110,6 +111,16 @@ public class OrderRepository implements OrderDao {
                 order.getRealDate(),
                 order.getDeliveryCost(),
                 order.getNumber());
+    }
+
+    @Override
+    public void insert(OrderWithCustomerData order, String orderKey) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void add(OrderWithCustomerData order) {
+        throw new UnsupportedOperationException();
     }
 
 }

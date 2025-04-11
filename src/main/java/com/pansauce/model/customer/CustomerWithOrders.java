@@ -1,6 +1,6 @@
 package com.pansauce.model.customer;
 
-import com.pansauce.model.Order;
+import com.pansauce.model.order.Order;
 
 import java.util.ArrayList;
 import java.util.List;

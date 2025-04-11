@@ -2,9 +2,6 @@ package com.pansauce.dao;
 
 import java.util.List;
 
-// T - model
-// U - id
-
 public interface GenericDao<T, U> {
     void insert(T model, U key);
     void add(T model);

@@ -5,6 +5,8 @@ import com.pansauce.model.analysis.TotalAmount;
 import com.pansauce.model.analysis.TotalIncome;
 import com.pansauce.model.customer.Customer;
 import com.pansauce.model.customer.CustomerWithOrders;
+import com.pansauce.model.order.Order;
+import com.pansauce.model.order.OrderWithCustomerData;
 import com.pansauce.model.sauce.Sauce;
 import com.pansauce.model.sauce.SauceWithIncome;
 import com.pansauce.model.sauce.SauceWithRecipe;
@@ -209,6 +211,34 @@ public class ModelRowMapper {
         return new ArrayList<>(customerMap.values());
     };
 
+    public static final ResultSetExtractor<List<OrderWithCustomerData>> ORDER_WITH_CUSTOMER_DATA_EXTRACTOR = rs -> {
+        Map<String, OrderWithCustomerData> orderMap = new HashMap<>();
+        while (rs.next()) {
+            String orderNumber = rs.getString("order_number");
+            OrderWithCustomerData order = orderMap.get(orderNumber);
+            if (order == null) {
+                order = new OrderWithCustomerData();
+                order.setNumber(orderNumber);
+                order.setRegistrationDate(rs.getDate("registration_date"));
+                order.setExpectedDate(rs.getDate("expected_date"));
+                order.setRealDate(rs.getDate("real_date"));
+                order.setDeliveryCost(rs.getBigDecimal("delivery_cost"));
+                order.setTotalCost(rs.getBigDecimal("total_order_cost"));
+                order.setNumber(rs.getString("customer_number"));
+                order.setCustomerName(rs.getString("customer_name"));
+                order.setCustomerSurname(rs.getString("customer_surname"));
+                order.setCustomerPatronymic(rs.getString("customer_patronymic"));
+                order.setCustomerNumber((rs.getString("customer_number")));
+                order.setCustomerPhoneNumbers(new ArrayList<>());
+                orderMap.put(orderNumber, order);
+            }
+            String phoneNumber = rs.getString("contact_number");
+            if (phoneNumber != null) {
+                order.getCustomerPhoneNumbers().add(phoneNumber);
+            }
+        }
+        return new ArrayList<>(orderMap.values());
+    };
 
     public static final RowMapper<TotalIncome> TOTAL_INCOME_ROW_MAPPER = (r, i) -> {
         TotalIncome totalIncome = new TotalIncome();

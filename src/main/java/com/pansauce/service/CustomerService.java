@@ -6,7 +6,8 @@ import com.pansauce.exception.customer.NoCustomersFoundException;
 import com.pansauce.exception.customer.NonExistingCustomerException;
 import com.pansauce.model.customer.Customer;
 import com.pansauce.model.customer.CustomerWithOrders;
-import com.pansauce.model.Order;
+import com.pansauce.model.order.Order;
+import com.pansauce.model.order.OrderWithCustomerData;
 import com.pansauce.validator.model.CustomerValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Order> getCustomerOrdersByNumberSortedBy(String customerKey, String attribute) {
+    public List<OrderWithCustomerData> getCustomerOrdersByNumberSortedBy(String customerKey, String attribute) {
         return switch (attribute) {
             case "price" -> customerRepository.getCustomerOrdersByKeySortedByPrice(customerKey + "%");
             case "reg_date" -> customerRepository.getCustomerOrdersByKeySortedByRegDate(customerKey + "%");
@@ -36,7 +37,7 @@ public class CustomerService {
         };
     }
 
-    public List<Order> getCustomerOrdersByPhoneSortedBy(String customerPhone, String attribute) {
+    public List<OrderWithCustomerData> getCustomerOrdersByPhoneSortedBy(String customerPhone, String attribute) {
         return switch (attribute) {
             case "price" -> customerRepository.getCustomerOrdersByPhoneNumberSortedByPrice(customerPhone + "%");
             case "reg_date" -> customerRepository.getCustomerOrdersByPhoneNumberSortedByRegDate(customerPhone + "%");

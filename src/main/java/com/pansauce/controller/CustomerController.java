@@ -2,7 +2,8 @@ package com.pansauce.controller;
 
 import com.pansauce.model.customer.Customer;
 import com.pansauce.model.customer.CustomerWithOrders;
-import com.pansauce.model.Order;
+import com.pansauce.model.order.Order;
+import com.pansauce.model.order.OrderWithCustomerData;
 import com.pansauce.service.CustomerService;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/customer", params = {"number", "sorted"})
-    public List<Order> getCustomerOrdersByNumberSortedBy(
+    public List<OrderWithCustomerData> getCustomerOrdersByNumberSortedBy(
             @RequestParam("number") String customerKey,
             @RequestParam("sorted") String attribute
     ) {
@@ -29,7 +30,7 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/customer", params = {"phone", "sorted"})
-    public List<Order> getCustomerOrdersByPhoneSortedBy(
+    public List<OrderWithCustomerData> getCustomerOrdersByPhoneSortedBy(
             @RequestParam("phone") String customerPhone,
             @RequestParam("sorted") String attribute
     ) {

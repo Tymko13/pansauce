@@ -2,20 +2,20 @@ package com.pansauce.dao;
 
 import com.pansauce.model.customer.Customer;
 import com.pansauce.model.customer.CustomerWithOrders;
-import com.pansauce.model.Order;
+import com.pansauce.model.order.OrderWithCustomerData;
 
 import java.util.Date;
 import java.util.List;
 
 public interface CustomerDao extends GenericDao<Customer, String> {
 
-    List<Order> getCustomerOrdersByKeySortedByPrice(String customerKey);
-    List<Order> getCustomerOrdersByKeySortedByRegDate(String customerKey);
-    List<Order> getCustomerOrdersByKeySortedByExpDate(String customerKey);
+    List<OrderWithCustomerData> getCustomerOrdersByKeySortedByPrice(String customerKey);
+    List<OrderWithCustomerData> getCustomerOrdersByKeySortedByRegDate(String customerKey);
+    List<OrderWithCustomerData> getCustomerOrdersByKeySortedByExpDate(String customerKey);
 
-    List<Order> getCustomerOrdersByPhoneNumberSortedByPrice(String customerPhoneNumber);
-    List<Order> getCustomerOrdersByPhoneNumberSortedByRegDate(String customerPhoneNumber);
-    List<Order> getCustomerOrdersByPhoneNumberSortedByExpDate(String customerPhoneNumber);
+    List<OrderWithCustomerData> getCustomerOrdersByPhoneNumberSortedByPrice(String customerPhoneNumber);
+    List<OrderWithCustomerData> getCustomerOrdersByPhoneNumberSortedByRegDate(String customerPhoneNumber);
+    List<OrderWithCustomerData> getCustomerOrdersByPhoneNumberSortedByExpDate(String customerPhoneNumber);
 
     List<Customer> getCustomersByPIB(String name, String surname, String secondName);
 
