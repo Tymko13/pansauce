@@ -7,7 +7,6 @@ import {state, style, animate, trigger, transition} from '@angular/animations'
   styleUrl: './dark-light-btn.component.css',
   standalone: true,
   animations: [
-
     trigger('darkLight', [
       state(
         'dark',

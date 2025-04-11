@@ -67,33 +67,33 @@ public class CustomerController {
     }
 
     @GetMapping("/customer")
-    public List<Customer> getBatches() {
+    public List<Customer> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
     @GetMapping("/customer/{key}")
-    public Customer getBatchByKey(
+    public Customer getCustomerByKey(
             @PathVariable String key
     ) {
         return customerService.getCustomerByKey(key);
     }
 
     @PostMapping("/customer")
-    public void addBatch(
+    public void addCustomer(
             @RequestBody Customer customer
     ) {
         customerService.addCustomer(customer);
     }
 
     @DeleteMapping("/customer/{key}")
-    public void deleteBatch(
+    public void deleteCustomer(
             @PathVariable String key
     ) {
         customerService.deleteCustomer(key);
     }
 
     @PatchMapping("/customer")
-    public void updateBatch(
+    public void updateCustomer(
             @RequestBody Customer customer
     ) {
         customerService.updateCustomer(customer);

@@ -1,66 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import { first } from 'rxjs/operators';
-
-import {NgClass, NgIf} from '@angular/common';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthenticationService} from "../_services/auth.service";
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
+import {MatButton} from '@angular/material/button';
 
 @Component({
-  standalone: true, templateUrl: 'login.component.html',
-  imports: [
-    ReactiveFormsModule,
-    NgClass,
-    NgIf
-  ],
+  standalone: true,
+  templateUrl: 'login.component.html',
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInput, MatButton],
   styleUrl: 'login.component.css'
 })
-export class LoginComponent implements OnInit{
-  loginForm!: FormGroup;
-  loading = false;
-  submitted = false;
-  error = '';
+export class LoginComponent{
+  private authService = inject(AuthenticationService);
+  private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private authenticationService: AuthenticationService
-  ) {
-    if (this.authenticationService.userValue) {
-      this.router.navigate(['/']);
+  constructor() {
+    if (this.authService.userValue) {
+      this.router.navigate(['/']).catch(err => console.log(err));
     }
   }
 
-  ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-  }
+  loginForm = this.fb.group({
+    username: ['', Validators.required],
+    password: ['', Validators.required]
+  });
 
-  get f() { return this.loginForm.controls; }
-
-  onSubmit() {
-    this.submitted = true;
+  submit() {
+    if(this.loginForm.valid) {
+      this.authService.login(this.loginForm.value.username!, this.loginForm.value.password!).subscribe(() => {
+        this.router.navigate([this.route.snapshot.queryParams['returnUrl'] || '/'])
+          .catch(err => console.log(err));
+      });
+    }
 
     if (this.loginForm.invalid) {
       return;
     }
-
-    this.error = '';
-    this.loading = true;
-    this.authenticationService.login(this.f['username'].value, this.f['password'].value)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-          this.router.navigate([returnUrl]);
-        },
-        error: error => {
-          this.error = error;
-          this.loading = false;
-        }
-      });
   }
 }

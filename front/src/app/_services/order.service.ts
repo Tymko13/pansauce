@@ -38,6 +38,10 @@ export class OrderService {
     return this.http.post<void>(this.apiUrl, order);
   }
 
+  updateOrder(order: Partial<Order>): Observable<void> {
+    return this.http.patch<void>(this.apiUrl, order);
+  }
+
   deleteOrderByKey(key: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${key}`);
   }

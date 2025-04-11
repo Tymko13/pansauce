@@ -28,7 +28,7 @@ public class OrderService {
         return switch (attribute) {
           case "reg_date" -> orderRepository.getAllOrdersSortedByRegDate();
           case "price" -> orderRepository.getAllOrdersSortedByPrice();
-          case "exp_date" -> orderRepository.getAllOrdersSortedByExpDate();
+          case "real_date" -> orderRepository.getAllOrdersSortedByExpDate();
           default -> new ArrayList<>();
         };
     }

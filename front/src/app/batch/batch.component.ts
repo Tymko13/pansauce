@@ -137,7 +137,6 @@ export class BatchComponent {
           if (curr.sauceCost == updatedBatch.sauceCost
             && curr.quantity == updatedBatch.quantity
             && curr.orderNumber === updatedBatch.orderNumber) return;
-          console.log(updatedBatch);
           this.batchService.updateBatch(updatedBatch).subscribe(() => {
             this.updateDB();
           });

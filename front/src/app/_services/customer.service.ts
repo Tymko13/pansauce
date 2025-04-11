@@ -58,6 +58,10 @@ export class CustomerService {
     return this.http.post<void>(this.apiUrl, customer);
   }
 
+  updateCustomer(customer: Partial<Customer>): Observable<void> {
+    return this.http.patch<void>(this.apiUrl, customer);
+  }
+
   deleteCustomer(key: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${key}`);
   }

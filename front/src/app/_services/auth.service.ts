@@ -41,5 +41,6 @@ export class AuthenticationService {
     sessionStorage.removeItem('user');
     this.userSubject.next(null);
     this.router.navigate(['/login']).catch(error => console.error('Navigation error:', error));
+    console.log(this.userValue);
   }
 }

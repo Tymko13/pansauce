@@ -31,7 +31,7 @@ public class CustomerService {
         return switch (attribute) {
             case "price" -> customerRepository.getCustomerOrdersByKeySortedByPrice(customerKey + "%");
             case "reg_date" -> customerRepository.getCustomerOrdersByKeySortedByRegDate(customerKey + "%");
-            case "exp_date" -> customerRepository.getCustomerOrdersByKeySortedByExpDate(customerKey + "%");
+            case "real_date" -> customerRepository.getCustomerOrdersByKeySortedByExpDate(customerKey + "%");
             default -> new ArrayList<>();
         };
     }
@@ -40,7 +40,7 @@ public class CustomerService {
         return switch (attribute) {
             case "price" -> customerRepository.getCustomerOrdersByPhoneNumberSortedByPrice(customerPhone + "%");
             case "reg_date" -> customerRepository.getCustomerOrdersByPhoneNumberSortedByRegDate(customerPhone + "%");
-            case "exp_date" -> customerRepository.getCustomerOrdersByPhoneNumberSortedByExpDate(customerPhone + "%");
+            case "real_date" -> customerRepository.getCustomerOrdersByPhoneNumberSortedByExpDate(customerPhone + "%");
             default -> new ArrayList<>();
         };
     }

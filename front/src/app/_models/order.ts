@@ -3,7 +3,7 @@ export interface Order {
   registrationDate: Date;
   expectedDate: Date;
   realDate?: Date;
-  deliveryCost: number;
-  totalCost?: number;
+  deliveryCost?: number;
+  totalCost: number;
   customerNumber: string;
 }

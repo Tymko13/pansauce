@@ -60,7 +60,7 @@ public class OrderRepository implements OrderDao {
 
     @Override
     public boolean exists(String key) {
-        return false;
+        return findByKey(key) != null;
     }
 
     @Override
