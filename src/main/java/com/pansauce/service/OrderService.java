@@ -34,6 +34,15 @@ public class OrderService {
         };
     }
 
+    public List<OrderWithCustomerData> getOrdersWithNumberStartingWithSortedBy(String prefix, String attribute) {
+        return switch (attribute) {
+            case "reg_date" -> orderRepository.getOrdersSortedByRegDateWithNumberStartingWith(prefix + "%");
+            case "price" -> orderRepository.getOrdersSortedByPriceWithNumberStartingWith(prefix + "%");
+            case "real_date" -> orderRepository.getOrdersSortedByExpDateWithNumberStartingWith(prefix + "%");
+            default -> new ArrayList<>();
+        };
+    }
+
     public List<Batch> getBatchesOfOrderSortedBy(String attribute, String orderNumber) {
         return switch (attribute) {
             case "price" -> orderRepository.getAllBatchesOfOrderByNumberSortedByPrice(orderNumber + "%");

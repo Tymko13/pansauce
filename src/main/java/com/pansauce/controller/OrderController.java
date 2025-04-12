@@ -35,6 +35,14 @@ public class OrderController {
         return orderService.getBatchesOfOrderSortedBy(attribute, orderNumber);
     }
 
+    @GetMapping(value = "/order", params = {"order", "sorted"})
+    public List<OrderWithCustomerData> getOrdersWithOrderNumber(
+            @RequestParam("order") String orderNumber,
+            @RequestParam("sorted") String attribute
+    ) {
+        return orderService.getOrdersWithNumberStartingWithSortedBy(orderNumber, attribute);
+    }
+
     @GetMapping("/order")
     public List<OrderWithCustomerData> getAllOrders() {
         return orderService.getAllOrders();

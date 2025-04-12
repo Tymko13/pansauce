@@ -13,6 +13,10 @@ public interface OrderDao extends GenericDao<OrderWithCustomerData, String> {
     List<OrderWithCustomerData> getAllOrdersSortedByPrice();
     List<OrderWithCustomerData> getAllOrdersSortedByExpDate();
 
+    List<OrderWithCustomerData> getOrdersSortedByRegDateWithNumberStartingWith(String prefix);
+    List<OrderWithCustomerData> getOrdersSortedByPriceWithNumberStartingWith(String prefix);
+    List<OrderWithCustomerData> getOrdersSortedByExpDateWithNumberStartingWith(String prefix);
+
     List<Batch> getAllBatchesOfOrderByNumberSortedByProdDate(String orderNumber);
     List<Batch> getAllBatchesOfOrderByNumberSortedByPrice(String orderNumber);
     List<Batch> getAllBatchesOfOrderByNumberSortedByNumber(String orderNumber);

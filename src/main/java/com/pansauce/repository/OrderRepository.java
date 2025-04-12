@@ -80,6 +80,21 @@ public class OrderRepository implements OrderDao {
     }
 
     @Override
+    public List<OrderWithCustomerData> getOrdersSortedByRegDateWithNumberStartingWith(String prefix) {
+        return jdbc.query(GET_ORDERS_SORTED_BY_REG_DATE_WITH_NUMBER_STARTING_WITH, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR, prefix);
+    }
+
+    @Override
+    public List<OrderWithCustomerData> getOrdersSortedByPriceWithNumberStartingWith(String prefix) {
+        return jdbc.query(GET_ORDERS_SORTED_BY_BY_PRICE_WITH_NUMBER_STARTING_WITH, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR, prefix);
+    }
+
+    @Override
+    public List<OrderWithCustomerData> getOrdersSortedByExpDateWithNumberStartingWith(String prefix) {
+        return jdbc.query(GET_ORDERS_SORTED_BY_EXP_DATE_WITH_NUMBER_STARTING_WITH, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR, prefix);
+    }
+
+    @Override
     public List<Batch> getAllBatchesOfOrderByNumberSortedByProdDate(String orderNumber) {
         return jdbc.query(GET_BATCHES_OF_ORDER_BY_NUMBER_SORTED_BY_PROD_DATE, BATCH_ROW_MAPPER, orderNumber);
     }

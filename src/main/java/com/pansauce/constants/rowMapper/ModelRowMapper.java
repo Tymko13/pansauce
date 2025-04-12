@@ -15,10 +15,7 @@ import com.pansauce.security.User;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 public class ModelRowMapper {
 
@@ -125,7 +122,7 @@ public class ModelRowMapper {
     };
 
     public static final ResultSetExtractor<List<SauceWithRecipe>> SAUCE_WITH_RECIPE_EXTRACTOR = rs -> {
-        Map<String, SauceWithRecipe> sauceMap = new HashMap<>();
+        Map<String, SauceWithRecipe> sauceMap = new LinkedHashMap<>();
         while (rs.next()) {
             String sauceNumber = rs.getString("sauce_number");
             SauceWithRecipe sauce = sauceMap.get(sauceNumber);
@@ -155,7 +152,7 @@ public class ModelRowMapper {
     };
 
     public static final ResultSetExtractor<List<CustomerWithOrders>> CUSTOMER_WITH_ORDERS_EXTRACTOR = rs -> {
-        Map<String, CustomerWithOrders> ordersMap = new HashMap<>();
+        Map<String, CustomerWithOrders> ordersMap = new LinkedHashMap<>();
         while (rs.next()) {
             String sauceNumber = rs.getString("customer_number");
             CustomerWithOrders customer = ordersMap.get(sauceNumber);
@@ -186,7 +183,7 @@ public class ModelRowMapper {
     };
 
     public static final ResultSetExtractor<List<Customer>> CUSTOMER_WITH_PHONES_EXTRACTOR = rs -> {
-        Map<String, Customer> customerMap = new HashMap<>();
+        Map<String, Customer> customerMap = new LinkedHashMap<>();
         while (rs.next()) {
             String customerNumber = rs.getString("customer_number");
             Customer customer = customerMap.get(customerNumber);
@@ -212,7 +209,7 @@ public class ModelRowMapper {
     };
 
     public static final ResultSetExtractor<List<OrderWithCustomerData>> ORDER_WITH_CUSTOMER_DATA_EXTRACTOR = rs -> {
-        Map<String, OrderWithCustomerData> orderMap = new HashMap<>();
+        Map<String, OrderWithCustomerData> orderMap = new LinkedHashMap<>();
         while (rs.next()) {
             String orderNumber = rs.getString("order_number");
             OrderWithCustomerData order = orderMap.get(orderNumber);
