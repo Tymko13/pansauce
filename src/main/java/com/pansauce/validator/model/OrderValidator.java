@@ -22,6 +22,7 @@ public class OrderValidator implements ModelValidator<Order> {
     private void chainDeliveryCostValidator(Order order) {
         CostAttributeValidator costValidator =
                 new CostAttributeValidator(String.valueOf(order.getDeliveryCost()));
+        costValidator.setRequired(false);
         validatorHandler.chain(costValidator);
     }
 
