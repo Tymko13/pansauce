@@ -3,6 +3,7 @@ package com.pansauce.controller;
 import com.pansauce.model.Batch;
 import com.pansauce.model.order.Order;
 import com.pansauce.model.dto.OrderDTO;
+import com.pansauce.model.order.OrderWithBatchKeys;
 import com.pansauce.model.order.OrderWithCustomerData;
 import com.pansauce.service.OrderService;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +58,7 @@ public class OrderController {
 
     @PostMapping("/order")
     public void addOrder(
-            @RequestBody Order order
+            @RequestBody OrderWithBatchKeys order
     ) {
         orderService.addOrder(order);
     }

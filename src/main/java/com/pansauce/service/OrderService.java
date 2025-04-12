@@ -1,10 +1,14 @@
 package com.pansauce.service;
 
+import com.pansauce.dao.BatchDao;
 import com.pansauce.dao.OrderDao;
+import com.pansauce.exception.batch.NonExistingBatchException;
 import com.pansauce.exception.order.*;
 import com.pansauce.model.Batch;
+import com.pansauce.model.dto.BatchDTO;
 import com.pansauce.model.order.Order;
 import com.pansauce.model.dto.OrderDTO;
+import com.pansauce.model.order.OrderWithBatchKeys;
 import com.pansauce.model.order.OrderWithCustomerData;
 import com.pansauce.validator.model.OrderValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,12 +21,16 @@ import java.util.List;
 public class OrderService {
 
     private final OrderDao orderRepository;
+    private final BatchDao batchRepository;
 
     public OrderService(
             @Qualifier(value = "orderRepo")
-            OrderDao orderRepository
+            OrderDao orderRepository,
+            @Qualifier(value = "batchRepo")
+            BatchDao batchRepository
     ) {
         this.orderRepository = orderRepository;
+        this.batchRepository = batchRepository;
     }
 
     public List<OrderWithCustomerData> getAllOrdersSortedBy(String attribute) {
@@ -66,17 +74,22 @@ public class OrderService {
         return orderRepository.findByKey(key);
     }
 
-    public void addOrder(Order order) {
-        OrderValidator orderValidator = new OrderValidator();
-        List<String> errorMessages = orderValidator.validate(order);
-        if (errorMessages.isEmpty())
-            orderRepository.add(order);
-        else throw new InvalidOrderException(errorMessages);
+    public void addOrder(OrderWithBatchKeys order) {
+        orderRepository.add(order);
+        for (String batchKey : order.getBatchKeys()) {
+            if (!batchRepository.exists(batchKey))
+                throw new NonExistingBatchException();
+            BatchDTO batch = new BatchDTO();
+            batch.setNumber(batchKey);
+            batch.setOrderNumber(order.getNumber());
+            batchRepository.updateBatch(batch);
+        }
     }
 
     public void deleteOrder(String key) {
-        validateOrderExistence(key);
-        orderRepository.delete(key);
+        throw new UnsupportedOperationException();
+//        validateOrderExistence(key);
+//        orderRepository.delete(key);
     }
 
     public void updateOrder(OrderDTO order) {
