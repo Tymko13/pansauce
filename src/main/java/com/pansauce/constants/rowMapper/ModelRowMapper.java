@@ -224,7 +224,7 @@ public class ModelRowMapper {
                 order.setRealDate(rs.getDate("real_date"));
                 order.setDeliveryCost(rs.getBigDecimal("delivery_cost"));
                 order.setTotalCost(rs.getBigDecimal("total_order_cost"));
-                order.setNumber(rs.getString("customer_number"));
+                order.setCustomerNumber(rs.getString("customer_number"));
                 order.setCustomerName(rs.getString("customer_name"));
                 order.setCustomerSurname(rs.getString("customer_surname"));
                 order.setCustomerPatronymic(rs.getString("customer_patronymic"));
