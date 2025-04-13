@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from '../environment';
 import { Order } from '../_models/order';
 import {Batch} from '../_models/batch';
+import {OrderWithCustomerData} from '../_models/order-with-customer-data';
+import {OrderWithBatchKeys} from '../_models/order-with-batch-keys';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +16,14 @@ export class OrderService {
 
   constructor(private http: HttpClient) {}
 
-  getAllOrdersSortedBy(attribute: string): Observable<Order[]> {
+  getAllOrdersSortedBy(attribute: string): Observable<OrderWithCustomerData[]> {
     const params = new HttpParams().set('sorted', attribute);
-    return this.http.get<Order[]>(this.apiUrl, { params });
+    return this.http.get<OrderWithCustomerData[]>(this.apiUrl, { params });
+  }
+
+  getAllOrdersWithOrderNumber(orderNumber: string, attribute: string): Observable<OrderWithCustomerData[]> {
+    const params = new HttpParams().set('order', orderNumber).set('sorted', attribute);
+    return this.http.get<OrderWithCustomerData[]>(this.apiUrl, { params });
   }
 
   getBatchesOfOrderSortedBy(orderNumber: string, attribute: string): Observable<Batch[]> {
@@ -26,15 +33,15 @@ export class OrderService {
     return this.http.get<Batch[]>(`${this.apiUrl}`, { params });
   }
 
-  getAllOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(this.apiUrl);
+  getAllOrders(): Observable<OrderWithCustomerData[]> {
+    return this.http.get<OrderWithCustomerData[]>(this.apiUrl);
   }
 
   getOrderByKey(key: string): Observable<Order> {
     return this.http.get<Order>(`${this.apiUrl}/${key}`);
   }
 
-  addOrder(order: Partial<Order>): Observable<void> {
+  addOrder(order: Partial<OrderWithBatchKeys>): Observable<void> {
     return this.http.post<void>(this.apiUrl, order);
   }
 

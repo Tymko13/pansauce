@@ -10,8 +10,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {SauceService} from '../../_services/sauce.service';
 import {Sauce} from '../../_models/sauce';
-import {Order} from '../../_models/order';
-import {OrderService} from '../../_services/order.service';
 import {DateValidator} from '../../_validators/date.validator';
 
 @Component({
@@ -32,27 +30,23 @@ import {DateValidator} from '../../_validators/date.validator';
     MatDialogTitle,
     MatSelectModule
   ],
-  styles: "mat-form-field {margin-right: 1rem;}"
+  styles: "mat-form-field {width: 45%;} mat-form-field:nth-of-type(2n+1) {margin-right: 5%;}"
 })
 export class AddBatchDialogComponent {
   private fb = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<AddBatchDialogComponent>);
   private sauceService = inject(SauceService);
-  private orderService = inject(OrderService);
 
   sauces: Sauce[] = [];
-  orders: Order[] = [];
   constructor() {
     this.sauceService.findAllSauce("name").subscribe(data => {this.sauces = data;});
-    this.orderService.getAllOrders().subscribe(data => {this.orders = data;});
   }
 
   form = this.fb.group({
     productionDate: [null, [Validators.required]],
     expirationDate: [null, Validators.required],
     quantity: [null, [Validators.required, Validators.min(1)]],
-    sauceNumber: [null, Validators.required],
-    orderNumber: [null]
+    sauceNumber: [null, Validators.required]
   }, {validators: DateValidator('productionDate', 'expirationDate')});
 
   submit() {

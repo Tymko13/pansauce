@@ -18,6 +18,7 @@ import {AddOrderDialogComponent} from './add-order-dialog/add-order-dialog.compo
 import {UpdateOrderDialogComponent} from './update-order-dialog/update-order-dialog.component';
 import {CustomerService} from '../_services/customer.service';
 import {Order} from '../_models/order';
+import {OrderWithBatchKeys} from '../_models/order-with-batch-keys';
 
 @Component({
   selector: 'app-batch',
@@ -80,8 +81,7 @@ export class OrderComponent {
     const sort = this.selectedSort();
     if (term) switch (this.selectedSearch()) {
       case 'Order Number':
-        // return this.orderService.getOrderByKey(term);
-        return this.orderService.getAllOrdersSortedBy(sort);
+        return this.orderService.getAllOrdersWithOrderNumber(term, sort)
       case 'Customer Number':
         return this.customerService.getCustomerOrdersByNumberSortedBy(term, sort);
       case 'Customer Phone':
@@ -128,16 +128,16 @@ export class OrderComponent {
   add() {
     const input = this.dialog.open(AddOrderDialogComponent);
     input.afterClosed().subscribe(res => {
-      // if(res){
-      //   let newOrder: Partial<Order> = {
-      //     expirationDate: res.expirationDate,
-      //     productionDate: res.productionDate,
-      //     quantity: res.quantity,
-      //     sauceNumber: res.sauceNumber,
-      //     orderNumber: res.orderNumber ? res.orderNumber : null
-      //   }
-      //   this.orderService.addOrder(newOrder).subscribe(()=>{this.updateDB();});
-      // }
+      if(res){
+        let newOrder: Partial<OrderWithBatchKeys> = {
+          registrationDate: res.registrationDate,
+          expectedDate: res.expectedDate,
+          deliveryCost: res.deliveryCost,
+          customerNumber: res.customerNumber,
+          batchKeys: res.batchKeys
+        }
+        this.orderService.addOrder(newOrder).subscribe(()=>{this.updateDB();});
+      }
     });
   }
 }

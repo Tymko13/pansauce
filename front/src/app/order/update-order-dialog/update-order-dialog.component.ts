@@ -35,7 +35,7 @@ import {OrderService} from '../../_services/order.service';
     MatDialogTitle,
     MatSelectModule
   ],
-  styles: "mat-form-field {margin-right: 1rem;}"
+  styles: "mat-form-field {width: 45%;} mat-form-field:nth-of-type(2n+1) {margin-right: 5%;}"
 })
 export class UpdateOrderDialogComponent {
   private fb = inject(FormBuilder);

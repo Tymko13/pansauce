@@ -23,7 +23,7 @@ export class AnalyticsComponent {
   popularityType: string = 'top';
   // saucesByIncome: SauceWithIncome[] = [];
   saucesByIncome = signal<SauceWithIncome[]>([]);
-  saucesBySales: SauceWithSalesCount[] = [];
+  saucesBySales = signal<SauceWithSalesCount[]>([]);
   saucesRecipes: SauceWithRecipe[] = [];
   selectedType: string = '';
   selectedSauceKey: string = '';
@@ -44,7 +44,7 @@ export class AnalyticsComponent {
 
   loadPopularSaucesBySales(): void {
     this.sauceService.getTopSaucesWithSalesCount(this.popularityType).subscribe(data => {
-      this.saucesBySales = data;
+      this.saucesBySales.set(data);
     });
   }
 
