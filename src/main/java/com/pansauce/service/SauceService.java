@@ -1,10 +1,12 @@
 package com.pansauce.service;
 
 import com.pansauce.dao.SauceDao;
+import com.pansauce.dao.SauceIngredientDao;
 import com.pansauce.dao.TypeDao;
 import com.pansauce.exception.batch.NonExistingBatchException;
 import com.pansauce.exception.sauce.*;
 import com.pansauce.model.Batch;
+import com.pansauce.model.SauceIngredient;
 import com.pansauce.model.dto.SauceDTO;
 import com.pansauce.model.sauce.Sauce;
 import com.pansauce.model.Type;
@@ -23,15 +25,19 @@ public class SauceService {
 
     private final SauceDao sauceRepository;
     private final TypeDao typeRepository;
+    private final SauceIngredientDao ingredientRepository;
 
     public SauceService(
             @Qualifier(value = "sauceRepo")
             SauceDao sauceRepository,
             @Qualifier(value = "typeRepo")
-            TypeDao typeRepository
+            TypeDao typeRepository,
+            @Qualifier("sauceIngredientRepo")
+            SauceIngredientDao ingredientRepository
     ) {
         this.sauceRepository = sauceRepository;
         this.typeRepository = typeRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     public List<Sauce> getAllSauce(String attribute) {
@@ -126,22 +132,28 @@ public class SauceService {
         return sauceRepository.findByKey(key);
     }
 
-    public void addSauce(Sauce sauce) {
+    public void addSauceWithRecipe(SauceWithRecipe sauce) {
         SauceValidator validator = new SauceValidator();
         List<String> errorMessages = validator.validate(sauce);
         if (errorMessages.isEmpty())
-            sauceRepository.add(sauce);
-        else throw new InvalidSauceException(errorMessages);
+            throw new InvalidSauceException(errorMessages);
+        String typeNumber = sauce.getTypeNumber();
+        if (!typeRepository.exists(typeNumber)) {
+            Type type = new Type();
+            type.setTypeNumber(typeNumber);
+            type.setTypeName(sauce.getTypeName());
+            typeRepository.add(type);
+        }
+        sauceRepository.add(sauce);
+        for (SauceIngredient ingredient : sauce.getRecipe()) {
+            ingredientRepository.addSauceIngredientByKey(sauce.getNumber(), ingredient);
+        }
     }
 
     public void deleteSauce(String key) {
         if (sauceRepository.exists(key))
             deleteSauce(key);
         else throw new NonExistingSauceException();
-    }
-
-    public Type getSauceTypeByKey(String sauceKey) {
-        return typeRepository.findByKey(sauceKey);
     }
 
 }

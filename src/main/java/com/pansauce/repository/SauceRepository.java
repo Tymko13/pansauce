@@ -11,6 +11,8 @@ import java.util.List;
 
 import static com.pansauce.constants.keyLength.KeyLength.SAUCE_KEY_LENGTH;
 import static com.pansauce.constants.query.SauceQuery.*;
+import static com.pansauce.constants.query.TypeQuery.ADD_TYPE;
+import static com.pansauce.constants.query.TypeQuery.GET_TYPE_BY_KEY;
 import static com.pansauce.constants.rowMapper.ModelRowMapper.*;
 
 @Repository(value = "sauceRepo")
@@ -198,4 +200,5 @@ public class SauceRepository implements SauceDao {
                 sauce.getTypeNumber(),
                 sauce.getNumber());
     }
+
 }

@@ -103,9 +103,9 @@ public class SauceController {
 
     @PostMapping("/sauce")
     public void addSauce(
-            @RequestBody Sauce sauce
+            @RequestBody SauceWithRecipe sauce
     ) {
-        sauceService.addSauce(sauce);
+        sauceService.addSauceWithRecipe(sauce);
     }
 
     @DeleteMapping("/sauce/{key}")
@@ -119,7 +119,7 @@ public class SauceController {
     public void updateSauce(
             @RequestBody SauceDTO sauce
     ) {
-
+        sauceService.updateSauce(sauce);
     }
 
 }

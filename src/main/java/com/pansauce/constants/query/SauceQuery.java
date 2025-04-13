@@ -116,21 +116,20 @@ public class SauceQuery {
             "ORDER BY batch_number\n";
 
     public static final String GET_ALL_SAUCE_RECIPE_SORTED_BY_NAME =
-            "SELECT * \n" +
-            "FROM (ingredient_sauce AS is INNER JOIN ingredient AS i\n" +
-            "ON ingredient.gti_number = ingredient_sauce.gti_number) INNER JOIN\n" +
-            "sauce AS s ON is.sauce_number = sauce.sauce_number\n" +
-            "WHERE s.sauce_number = ?\n" +
-            "ORDER BY s.sauce_name\n";
+            "SELECT *\n" +
+            "FROM sauce AS s\n" +
+            "LEFT JOIN ingredient_sauce AS ins ON s.sauce_number = ins.sauce_number\n" +
+            "LEFT JOIN ingredient AS i ON ins.gti_number = i.gti_number\n" +
+            "INNER JOIN type AS t ON s.type_number = t.type_number\n" +
+            "ORDER BY s.sauce_name;\n";
 
     public static final String GET_ALL_SAUCE_RECIPE_SORTED_BY_WEIGHT =
-            "SELECT * \n" +
-            "FROM ((ingredient_sauce AS is INNER JOIN ingredient AS i\n" +
-            "ON ingredient.gti_number = ingredient_sauce.gti_number) INNER JOIN\n" +
-            "sauce AS s ON is.sauce_number = sauce.sauce_number) INNER JOIN\n" +
-            "type ON type.type_number = s.type_number" +
-            "WHERE s.sauce_number = ?\n" +
-            "ORDER BY s.sauce_weight\n";
+            "SELECT *\n" +
+            "FROM sauce AS s\n" +
+            "LEFT JOIN ingredient_sauce AS ins ON s.sauce_number = ins.sauce_number\n" +
+            "LEFT JOIN ingredient AS i ON ins.gti_number = i.gti_number\n" +
+            "INNER JOIN type AS t ON s.type_number = t.type_number\n" +
+            "ORDER BY s.sauce_weight;\n";
 
     public static final String GET_TOP_FIVE_SAUCE_BY_INCOME =
             "SELECT\n" +

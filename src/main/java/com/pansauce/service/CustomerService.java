@@ -1,9 +1,11 @@
 package com.pansauce.service;
 
 import com.pansauce.dao.CustomerDao;
+import com.pansauce.dao.PhoneDao;
 import com.pansauce.exception.customer.InvalidCustomerException;
 import com.pansauce.exception.customer.NoCustomersFoundException;
 import com.pansauce.exception.customer.NonExistingCustomerException;
+import com.pansauce.model.Phone;
 import com.pansauce.model.customer.Customer;
 import com.pansauce.model.customer.CustomerWithOrders;
 import com.pansauce.model.order.Order;
@@ -20,12 +22,16 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerDao customerRepository;
+    private final PhoneDao phoneRepository;
 
     public CustomerService(
-            @Qualifier(value = "customerRepo")
-            CustomerDao customerRepository
+            @Qualifier("customerRepo")
+            CustomerDao customerRepository,
+            @Qualifier("phoneRepo")
+            PhoneDao phoneRepository
     ) {
         this.customerRepository = customerRepository;
+        this.phoneRepository = phoneRepository;
     }
 
     public List<OrderWithCustomerData> getCustomerOrdersByNumberSortedBy(String customerKey, String attribute) {
@@ -85,9 +91,15 @@ public class CustomerService {
     public void addCustomer(Customer customer) {
         CustomerValidator validator = new CustomerValidator();
         List<String> errorMessages = validator.validate(customer);
-        if (errorMessages.isEmpty())
-            customerRepository.add(customer);
-        else throw new InvalidCustomerException(errorMessages);
+        if (!errorMessages.isEmpty())
+            throw new InvalidCustomerException(errorMessages);
+        customerRepository.add(customer);
+        for (String phoneNumber : customer.getPhones()) {
+            Phone phone = new Phone();
+            phone.setPhoneNumber(phoneNumber);
+            phone.setCustomerNumber(customer.getNumber());
+            phoneRepository.addCustomerPhone(phone);
+        }
     }
 
     public void updateCustomer(Customer customer) {

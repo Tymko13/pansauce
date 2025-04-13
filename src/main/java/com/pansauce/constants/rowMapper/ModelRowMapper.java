@@ -198,12 +198,8 @@ public class ModelRowMapper {
                 customerMap.put(customerNumber, customer);
             }
             String phoneNumber = rs.getString("contact_number");
-            if (phoneNumber != null) {
-                Phone phone = new Phone();
-                phone.setPhoneNumber(phoneNumber);
-                phone.setCustomerNumber(customer.getNumber());
-                customer.getPhones().add(phone);
-            }
+            if (phoneNumber != null)
+                customer.getPhones().add(phoneNumber);
         }
         return new ArrayList<>(customerMap.values());
     };

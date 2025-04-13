@@ -1,7 +1,5 @@
 package com.pansauce.model.customer;
 
-import com.pansauce.model.Phone;
-
 import java.util.ArrayList;
 
 public class Customer {
@@ -11,7 +9,7 @@ public class Customer {
     private String surname;
     private String patronymic;
     private String address;
-    private ArrayList<Phone> phones;
+    private ArrayList<String> phones;
 
     public String getNumber() {
         return number;
@@ -53,11 +51,11 @@ public class Customer {
         this.address = address;
     }
 
-    public ArrayList<Phone> getPhones() {
+    public ArrayList<String> getPhones() {
         return phones;
     }
 
-    public void setPhones(ArrayList<Phone> phones) {
+    public void setPhones(ArrayList<String> phones) {
         this.phones = phones;
     }
 }

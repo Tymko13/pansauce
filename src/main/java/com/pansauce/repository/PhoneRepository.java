@@ -10,7 +10,7 @@ import java.util.List;
 import static com.pansauce.constants.query.PhoneQuery.*;
 import static com.pansauce.constants.rowMapper.ModelRowMapper.PHONE_ROW_MAPPER;
 
-@Repository(value = "phoneRepo")
+@Repository("phoneRepo")
 public class PhoneRepository implements PhoneDao {
 
     private final JdbcTemplate jdbc;
@@ -25,6 +25,12 @@ public class PhoneRepository implements PhoneDao {
                     phone.getPhoneNumber(),
                     phone.getCustomerNumber());
     }
+
+    @Override
+    public void deleteCustomerPhone(String phoneNumber) {
+        jdbc.update(DELETE_PHONE_FROM_CUSTOMER, phoneNumber);
+    }
+
 
     @Override
     public List<Phone> getCustomerPhonesByKey(String customerKey) {

@@ -1,6 +1,7 @@
 package com.pansauce.controller;
 
 import com.pansauce.model.Phone;
+import com.pansauce.model.dto.PhoneDTO;
 import com.pansauce.service.PhoneService;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,13 @@ public class PhoneController {
             @PathVariable String key
     ) {
         return phoneService.getCustomerPhonesByKey(key);
+    }
+
+    @DeleteMapping("/phone/{key}")
+    public void deletePhoneFromCustomer(
+            @PathVariable String key
+    ) {
+        phoneService.deletePhoneFromCustomer(key);
     }
 
 }
