@@ -1,6 +1,7 @@
 package com.pansauce.service;
 
 import com.pansauce.dao.CustomerDao;
+import com.pansauce.dao.OrderDao;
 import com.pansauce.dao.PhoneDao;
 import com.pansauce.exception.customer.InvalidCustomerException;
 import com.pansauce.exception.customer.NoCustomersFoundException;
@@ -23,15 +24,19 @@ public class CustomerService {
 
     private final CustomerDao customerRepository;
     private final PhoneDao phoneRepository;
+    private final OrderDao orderRepository;
 
     public CustomerService(
             @Qualifier("customerRepo")
             CustomerDao customerRepository,
             @Qualifier("phoneRepo")
-            PhoneDao phoneRepository
+            PhoneDao phoneRepository,
+            @Qualifier("orderRepo")
+            OrderDao orderRepository
     ) {
         this.customerRepository = customerRepository;
         this.phoneRepository = phoneRepository;
+        this.orderRepository = orderRepository;
     }
 
     public List<OrderWithCustomerData> getCustomerOrdersByNumberSortedBy(String customerKey, String attribute) {
@@ -88,7 +93,7 @@ public class CustomerService {
         return customerRepository.findByKey(key);
     }
 
-    public void addCustomer(Customer customer) {
+    public void addCustomer(CustomerWithOrders customer) {
         CustomerValidator validator = new CustomerValidator();
         List<String> errorMessages = validator.validate(customer);
         if (!errorMessages.isEmpty())
@@ -100,6 +105,9 @@ public class CustomerService {
             phone.setCustomerNumber(customer.getNumber());
             phoneRepository.addCustomerPhone(phone);
         }
+        Order customerOrder = customer.getOrders().getFirst();
+        customerOrder.setCustomerNumber(customer.getNumber());
+        orderRepository.add(customerOrder);
     }
 
     public void updateCustomer(Customer customer) {

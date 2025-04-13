@@ -31,5 +31,4 @@ public interface BatchDao extends GenericDao<Batch, String> {
     TotalIncome getIncomeFromSoldBatchesBetweenDatesByTypeKey(Date from, Date to, String typeKey);
 
     void updateBatch(BatchDTO batchDTO);
-
 }
