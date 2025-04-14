@@ -14,14 +14,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
-import {Order} from '../../_models/order';
 import {OrderService} from '../../_services/order.service';
 import {Batch} from '../../_models/batch';
 import {BatchService} from '../../_services/batch.service';
+import {OrderWithCustomerData} from '../../_models/order-with-customer-data';
 
 @Component({
   standalone: true,
-  selector: 'app-add-batch-dialog',
+  selector: 'app-update-batch-dialog',
   templateUrl: './update-batch-dialog.component.html',
   imports: [
     CommonModule,
@@ -37,14 +37,14 @@ import {BatchService} from '../../_services/batch.service';
     MatDialogTitle,
     MatSelectModule
   ],
-  styles: "mat-form-field {margin-right: 1rem;}"
+  styles: "mat-form-field {width: 45%;} mat-form-field:nth-of-type(2n+1) {margin-right: 5%;}"
 })
 export class UpdateBatchDialogComponent {
   private fb = inject(FormBuilder);
   private batchService = inject(BatchService);
   private orderService = inject(OrderService);
 
-  orders: Order[] = [];
+  orders: OrderWithCustomerData[] = [];
   batch: WritableSignal<Partial<Batch>> = signal({});
 
   constructor(

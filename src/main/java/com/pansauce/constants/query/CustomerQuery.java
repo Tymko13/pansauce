@@ -71,7 +71,7 @@ public class CustomerQuery {
             "ON o.customer_number = c.customer_number)\n" +
             "LEFT JOIN contact_number AS cn \n" +
             "ON c.customer_number = cn.customer_number\n" +
-            "WHERE c.contact_number LIKE ?\n" +
+            "WHERE cn.contact_number LIKE ?\n" +
             "ORDER BY o.total_order_cost\n";
 
     public static final String GET_ORDERS_OF_CUSTOMER_BY_PHONE_NUMBER_SORTED_BY_REG_DATE =
@@ -84,7 +84,7 @@ public class CustomerQuery {
             "ON o.customer_number = c.customer_number)\n" +
             "LEFT JOIN contact_number AS cn \n" +
             "ON c.customer_number = cn.customer_number\n" +
-            "WHERE c.contact_number LIKE ?\n" +
+            "WHERE cn.contact_number LIKE ?\n" +
             "ORDER BY o.registration_date\n";
 
     public static final String GET_ORDERS_OF_CUSTOMER_BY_PHONE_NUMBER_SORTED_BY_EXP_DATE =
@@ -97,7 +97,7 @@ public class CustomerQuery {
             "ON o.customer_number = c.customer_number)\n" +
             "LEFT JOIN contact_number AS cn \n" +
             "ON c.customer_number = cn.customer_number\n" +
-            "WHERE c.contact_number LIKE ?\n" +
+            "WHERE cn.contact_number LIKE ?\n" +
             "ORDER BY o.real_date\n";
 
     public static final String GET_CUSTOMERS_BY_PIB =

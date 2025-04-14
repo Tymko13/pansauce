@@ -8,15 +8,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
-import {SauceService} from '../../_services/sauce.service';
-import {Sauce} from '../../_models/sauce';
-import {Order} from '../../_models/order';
-import {OrderService} from '../../_services/order.service';
 import {DateValidator} from '../../_validators/date.validator';
+import {CustomerService} from '../../_services/customer.service';
+import {Customer} from '../../_models/customer';
+import {Batch} from '../../_models/batch';
+import {BatchService} from '../../_services/batch.service';
 
 @Component({
   standalone: true,
-  selector: 'app-add-batch-dialog',
+  selector: 'app-add-order-dialog',
   templateUrl: './add-order-dialog.component.html',
   imports: [
     CommonModule,
@@ -32,28 +32,30 @@ import {DateValidator} from '../../_validators/date.validator';
     MatDialogTitle,
     MatSelectModule
   ],
-  styles: "mat-form-field {margin-right: 1rem;}"
+  styles: "mat-form-field {width: 45%;} mat-form-field:nth-of-type(2n+1) {margin-right: 5%;}"
 })
 export class AddOrderDialogComponent {
   private fb = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<AddOrderDialogComponent>);
-  private sauceService = inject(SauceService);
-  private orderService = inject(OrderService);
+  private customerService = inject(CustomerService);
+  private batchService = inject(BatchService);
 
-  sauces: Sauce[] = [];
-  orders: Order[] = [];
+  customers: Customer[] = [];
+  batches: Batch[] = [];
   constructor() {
-    this.sauceService.findAllSauce("name").subscribe(data => {this.sauces = data;});
-    this.orderService.getAllOrders().subscribe(data => {this.orders = data;});
+    this.customerService.getAllCustomers().subscribe(data => {this.customers = data;});
+    this.batchService.getAllBatchesSortedBy().subscribe(data => {
+      this.batches = data.filter(batch => batch.orderNumber === null);
+    });
   }
 
   form = this.fb.group({
-    productionDate: [null, [Validators.required]],
-    expirationDate: [null, Validators.required],
-    quantity: [null, [Validators.required, Validators.min(1)]],
-    sauceNumber: [null, Validators.required],
-    orderNumber: [null]
-  }, {validators: DateValidator('productionDate', 'expirationDate')});
+    registrationDate: [null, [Validators.required]],
+    expectedDate: [null, Validators.required],
+    deliveryCost: [null],
+    customerNumber: [null, Validators.required],
+    batchKeys: [null, Validators.required]
+  }, {validators: DateValidator('registrationDate', 'expectedDate')});
 
   submit() {
     if (this.form.valid) {

@@ -88,8 +88,7 @@ export class BatchComponent {
 
     switch (show) {
       case 'All': {
-        if (!term) return this.batchService.getAllBatchesSortedBy(sort);
-        switch (this.selectedSearch()) {
+        if (term) switch (this.selectedSearch()) {
           case 'Batch Number':
             return this.batchService.getBatchesByNumber(term);
           case 'Order Number':
@@ -153,8 +152,7 @@ export class BatchComponent {
           expirationDate: res.expirationDate,
           productionDate: res.productionDate,
           quantity: res.quantity,
-          sauceNumber: res.sauceNumber,
-          orderNumber: res.orderNumber ? res.orderNumber : null
+          sauceNumber: res.sauceNumber
         }
         this.batchService.addBatch(newBatch).subscribe(()=>{this.updateDB();});
       }

@@ -6,5 +6,5 @@ export interface Customer {
   surname: string;
   patronymic?: string;
   address: string;
-  phones: Phone[]
+  phones: Phone[];
 }
