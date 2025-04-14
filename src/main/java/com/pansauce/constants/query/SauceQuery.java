@@ -179,59 +179,75 @@ public class SauceQuery {
 
     public static final String GET_TOP_FIVE_SAUCE_RECIPE_BY_INCOME =
             "SELECT *\n" +
-            "FROM (ingredient AS i INNER JOIN ingredient_sauce AS is\n" +
-            "ON i.gti_number = is.gti_number) INNER JOIN Sauce AS s\n" +
-            "ON s.sauce_number = is.sauce_number\n" +
+            "FROM ((ingredient AS i\n" +
+            "INNER JOIN ingredient_sauce AS isn\n" +
+            "ON i.gti_number = isn.gti_number)\n" +
+            "INNER JOIN sauce AS s\n" +
+            "ON s.sauce_number = isn.sauce_number)\n" +
+            "INNER JOIN type AS t\n" +
+            "ON s.type_number = t.type_number\n" +
             "WHERE s.sauce_number IN (\n" +
-            "\tSELECT s1.sauce_number\n" +
-            "\tFROM Sauce AS s1 INNER JOIN batch AS b\n" +
-            "\tON s1.sauce_number = b.sauce_number\n" +
-            "\tGROUP BY s1.sauce_number\n" +
-            "\tORDER BY SUM(b.batch_cost) DESC\n" +
-             "\tLIMIT 5" +
-            ")\n";
+            "    SELECT s1. sauce_number\n" +
+            "    FROM sauce AS s1 INNER JOIN batch AS b\n" +
+            "    ON s1.sauce_number = b.sauce_number\n" +
+            "    GROUP BY s1.sauce_number\n" +
+            "    ORDER BY SUM(b.batch_cost) DESC\n" +
+            "    LIMIT 5\n" +
+            ");\n";
 
     public static final String GET_TOP_FIVE_SAUCE_RECIPE_BY_SALES_COUNT =
             "SELECT *\n" +
-            "FROM (ingredient AS i INNER JOIN ingredient_sauce AS is\n" +
-            "ON i.gti_number = is.gti_number) INNER JOIN Sauce AS s\n" +
-            "ON s.sauce_number = is.sauce_number\n" +
-            "WHERE s. sauce_number IN (\n" +
-            "\tSELECT s1. sauce_number\n" +
-            "\tFROM Sauce AS s1 INNER JOIN batch AS b\n" +
-            "\tON s1.sauce_number = b.sauce_number\n" +
-            "\tGROUP BY s1.sauce_number\n" +
-            "\tORDER BY COUNT(b.batch_number) DESC\n" +
-            "\tLIMIT 5\n" +
-            ")\n";
+            "FROM ((ingredient AS i\n" +
+            "INNER JOIN ingredient_sauce AS isn\n" +
+            "ON i.gti_number = isn.gti_number)\n" +
+            "INNER JOIN sauce AS s\n" +
+            "ON s.sauce_number = isn.sauce_number)\n" +
+            "INNER JOIN type AS t\n" +
+            "ON s.type_number = t.type_number\n" +
+            "WHERE s.sauce_number IN (\n" +
+            "    SELECT s1. sauce_number\n" +
+            "    FROM sauce AS s1 INNER JOIN batch AS b\n" +
+            "    ON s1.sauce_number = b.sauce_number\n" +
+            "    GROUP BY s1.sauce_number\n" +
+            "    ORDER BY COUNT(b.batch_number) DESC\n" +
+            "    LIMIT 5\n" +
+            ");\n";
 
     public static final String GET_LAST_FIVE_SAUCE_RECIPE_BY_INCOME =
             "SELECT *\n" +
-            "FROM (ingredient AS i INNER JOIN ingredient_sauce AS is\n" +
-            "ON i.gti_number = is.gti_number) INNER JOIN Sauce AS s\n" +
-            "ON s.sauce_number = is.sauce_number\n" +
+            "FROM ((ingredient AS i\n" +
+            "INNER JOIN ingredient_sauce AS isn\n" +
+            "ON i.gti_number = isn.gti_number)\n" +
+            "INNER JOIN sauce AS s\n" +
+            "ON s.sauce_number = isn.sauce_number)\n" +
+            "INNER JOIN type AS t\n" +
+            "ON s.type_number = t.type_number\n" +
             "WHERE s.sauce_number IN (\n" +
-            "\tSELECT s1.sauce_number\n" +
-            "\tFROM Sauce AS s1 INNER JOIN batch AS b\n" +
-            "\tON s1.sauce_number = b.sauce_number\n" +
-            "\tGROUP BY s1.sauce_number\n" +
-            "\tORDER BY SUM(b.batch_cost)\n" +
-            "\tLIMIT 5\n" +
-            ")\n";
+            "    SELECT s1. sauce_number\n" +
+            "    FROM sauce AS s1 INNER JOIN batch AS b\n" +
+            "    ON s1.sauce_number = b.sauce_number\n" +
+            "    GROUP BY s1.sauce_number\n" +
+            "    ORDER BY SUM(b.batch_cost)\n" +
+            "    LIMIT 5\n" +
+            ");\n";
 
     public static final String GET_LAST_FIVE_SAUCE_RECIPE_BY_SALES_COUNT =
             "SELECT *\n" +
-            "FROM (ingredient AS i INNER JOIN ingredient_sauce AS is\n" +
-            "ON i.gti_number = is.gti_number) INNER JOIN Sauce AS s\n" +
-            "ON s.sauce_number = is.sauce_number\n" +
-            "WHERE s. sauce_number IN (\n" +
-            "\tSELECT s1. sauce_number\n" +
-            "\tFROM Sauce AS s1 INNER JOIN batch AS b\n" +
-            "\tON s1.sauce_number = b.sauce_number\n" +
-            "\tGROUP BY s1.sauce_number\n" +
-            "\tORDER BY COUNT(b.batch_number)\n" +
-            "\tLIMIT 5\n" +
-            ")\n";
+            "FROM ((ingredient AS i\n" +
+            "INNER JOIN ingredient_sauce AS isn\n" +
+            "ON i.gti_number = isn.gti_number)\n" +
+            "INNER JOIN sauce AS s\n" +
+            "ON s.sauce_number = isn.sauce_number)\n" +
+            "INNER JOIN type AS t\n" +
+            "ON s.type_number = t.type_number\n" +
+            "WHERE s.sauce_number IN (\n" +
+            "    SELECT s1. sauce_number\n" +
+            "    FROM sauce AS s1 INNER JOIN batch AS b\n" +
+            "    ON s1.sauce_number = b.sauce_number\n" +
+            "    GROUP BY s1.sauce_number\n" +
+            "    ORDER BY COUNT(b.batch_number)\n" +
+            "    LIMIT 5\n" +
+            ");\n";
 
     public static final String UPDATE_SAUCE =
             "UPDATE sauce\n" +
