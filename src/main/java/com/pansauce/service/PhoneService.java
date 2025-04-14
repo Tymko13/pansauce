@@ -28,7 +28,6 @@ public class PhoneService {
     }
 
     public void addPhoneToCustomer(String customerKey, Phone phone) {
-        validateCustomerKey(customerKey);
         phone.setCustomerNumber(customerKey);
         PhoneValidator validator = new PhoneValidator();
         List<String> errorMessages = validator.validate(phone);
