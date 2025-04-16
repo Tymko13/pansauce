@@ -59,11 +59,11 @@ public class CustomerService {
 
     public List<Customer> getCustomersWithOrderThatHasThisAttribute(String attribute, String value) {
         return switch (attribute) {
-            case "type_number" -> customerRepository.getCustomersWhoOrderedSauceWithTypeNumberSortedBySurname(value);
-            case "type_name" -> customerRepository.getCustomersWhoOrderedSauceWithTypeNameSortedBySurname(value);
-            case "sauce_number" -> customerRepository.getCustomersWhoOrderedSauceWithSauceNumberSortedBySurname(value);
-            case "sauce_name" -> customerRepository.getCustomersWhoOrderedSauceWithSauceNameSortedBySurname(value);
-            case "batch_number" -> customerRepository.getCustomerWhoOrderedBatchWithNumber(value);
+            case "type_number" -> customerRepository.getCustomersWhoOrderedSauceWithTypeNumberSortedBySurname(value + "%");
+            case "type_name" -> customerRepository.getCustomersWhoOrderedSauceWithTypeNameSortedBySurname(value + "%");
+            case "sauce_number" -> customerRepository.getCustomersWhoOrderedSauceWithSauceNumberSortedBySurname(value + "%");
+            case "sauce_name" -> customerRepository.getCustomersWhoOrderedSauceWithSauceNameSortedBySurname(value+ "%");
+            case "batch_number" -> customerRepository.getCustomerWhoOrderedBatchWithNumber(value + "%");
             default -> new ArrayList<>();
         };
     }
