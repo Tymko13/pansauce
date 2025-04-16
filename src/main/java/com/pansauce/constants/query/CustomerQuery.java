@@ -103,10 +103,29 @@ public class CustomerQuery {
     public static final String GET_CUSTOMERS_BY_PIB =
             "SELECT *\n" +
             "FROM customer LEFT JOIN contact_number\n" +
-            "ON customer.customer_number = contact_number.customer_number; \n" +
+            "ON customer.customer_number = contact_number.customer_number \n" +
             "WHERE customer.customer_name LIKE ?\n" +
             "AND customer.customer_surname LIKE ?\n" +
             "AND customer.customer_patronymic LIKE ?;\n";
+
+    public static final String GET_CUSTOMERS_WITH_NUMBER_STARTING_WITH_SORTED_BY_SURNAME =
+            "SELECT *\n" +
+            "FROM customer AS c INNER JOIN contact_number AS cn\n" +
+            "ON c.customer_number = cn.customer_number\n" +
+            "WHERE c.customer_number LIKE ?\n" +
+            "ORDER BY c.customer_surname;\n";
+
+    public static final String GET_CUSTOMERS_WITH_PHONE_NUMBER_STARTING_WITH_SORTED_BY_SURNAME =
+            "SELECT *\n" +
+            "FROM customer INNER JOIN contact_number\n" +
+            "ON customer.customer_number = contact_number.customer_number\n" +
+            "WHERE customer.customer_number IN (\n" +
+            "SELECT c.customer_number\n" +
+            "FROM customer AS c INNER JOIN contact_number AS cn\n" +
+            "ON c.customer_number = cn.customer_number\n" +
+            "WHERE cn.contact_number LIKE ?\n" +
+            "ORDER BY c.customer_surname\n" +
+            ");\n";
 
     public static final String GET_CUSTOMERS_WITH_THEIR_ORDERS =
             "SELECT *\n" +
@@ -127,7 +146,7 @@ public class CustomerQuery {
             "LEFT JOIN contact_number AS cn \n" +
             "ON c.customer_number = cn.customer_number \n" +
             "WHERE o.registration_date BETWEEN ?  AND ? \n" +
-            "ORDER BY o.customer_surname;\n";
+            "ORDER BY c.customer_surname;\n";
 
     public static final String GET_CUSTOMERS_WHO_ORDERED_BATCHES_WITH_TYPE_NUMBER =
             "SELECT c.customer_number,\n" +
@@ -174,7 +193,7 @@ public class CustomerQuery {
             "ON s.sauce_number = b.sauce_number) LEFT JOIN contact_number AS cn\n" +
             "ON c.customer_number = cn.customer_number\n" +
             "WHERE s.sauce_number LIKE ? \n" +
-            "ORDER BY o.customer_surname;\n";
+            "ORDER BY c.customer_surname;\n";
 
     public static final String GET_CUSTOMERS_WHO_ORDERED_BATCHES_WITH_SAUCE_NAME =
             "SELECT c.customer_number,\n" +
@@ -189,7 +208,7 @@ public class CustomerQuery {
             "ON s.sauce_number = b.sauce_number) LEFT JOIN contact_number AS cn\n" +
             "ON c.customer_number = cn.customer_number\n" +
             "WHERE s.sauce_name LIKE ? \n" +
-            "ORDER BY o.customer_surname;\n";
+            "ORDER BY c.customer_surname;\n";
 
     public static final String GET_CUSTOMER_WHO_ORDERED_BATCH_NUMBER =
             "SELECT c.customer_number,\n" +
@@ -198,10 +217,10 @@ public class CustomerQuery {
             "c.customer_patronymic,\n" +
             "c.customer_address,\n" +
             "cn.contact_number\n" +
-            "FROM (customer AS c INNER JOIN order AS o\n" +
+            "FROM ((customer AS c INNER JOIN order AS o\n" +
             "ON c.customer_number = o.customer_number) INNER JOIN batch AS b\n" +
             "ON b.order_number = o.order_number) LEFT JOIN contact_number AS cn\n" +
-            "ON  c.customer_number = cn.customer_number\n" +
+            "ON c.customer_number = cn.customer_number\n" +
             "WHERE batch_number LIKE ?\n";
 
     public static final String UPDATE_CUSTOMER =

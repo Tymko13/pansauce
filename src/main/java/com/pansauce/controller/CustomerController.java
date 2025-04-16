@@ -46,6 +46,20 @@ public class CustomerController {
         return customerService.getCustomersByPIB(name, surname, patronymic);
     }
 
+    @GetMapping(value = "/customer/search", params = {"number"})
+    public List<Customer> getCustomersWithNumberStartingWith(
+            @RequestParam("number") String customerNumber
+    ) {
+        return customerService.getCustomersWithNumberStartingWith(customerNumber);
+    }
+
+    @GetMapping(value = "/customer/search", params = {"phone"})
+    public List<Customer> getCustomersWithPhoneStartingWith(
+            @RequestParam("phone") String customerPhone
+    ) {
+        return customerService.getCustomersWithPhoneStartingWith(customerPhone);
+    }
+
     @GetMapping("/customer/order")
     public List<CustomerWithOrders> getCustomersAndTheirOrders() {
         return customerService.getCustomersAndTheirOrdersSortedByName();

@@ -68,6 +68,14 @@ public class CustomerService {
         };
     }
 
+    public List<Customer> getCustomersWithNumberStartingWith(String customerNumber) {
+        return customerRepository.getCustomersWithNumberStartingWithSortedBySurname(customerNumber + "%");
+    }
+
+    public List<Customer> getCustomersWithPhoneStartingWith(String customerPhone) {
+        return customerRepository.getCustomerWithPhoneNumberStartingWithSortedBytSurname(customerPhone + "%");
+    }
+
     public List<Customer> getCustomersByPIB(String name, String surname, String patronymic) {
         return customerRepository.getCustomersByPIB(name + "%", surname + "%", patronymic + "%");
     }
