@@ -99,6 +99,16 @@ public class CustomerRepository implements CustomerDao {
     }
 
     @Override
+    public List<Customer> getCustomersWithNumberStartingWithSortedBySurname(String customerNumber) {
+        return jdbc.query(GET_CUSTOMERS_WITH_NUMBER_STARTING_WITH_SORTED_BY_SURNAME, CUSTOMER_WITH_PHONES_EXTRACTOR, customerNumber);
+    }
+
+    @Override
+    public List<Customer> getCustomerWithPhoneNumberStartingWithSortedBytSurname(String customerPhoneNumber) {
+        return jdbc.query(GET_CUSTOMERS_WITH_PHONE_NUMBER_STARTING_WITH_SORTED_BY_SURNAME, CUSTOMER_WITH_PHONES_EXTRACTOR, customerPhoneNumber);
+    }
+
+    @Override
     public List<CustomerWithOrders> getCustomersAndTheirOrdersSortedByName() {
         return jdbc.query(GET_CUSTOMERS_WITH_THEIR_ORDERS, CUSTOMER_WITH_ORDERS_EXTRACTOR);
     }
