@@ -58,7 +58,10 @@ export class UpdateBatchDialogComponent {
   form = computed(() => this.fb.group({
     sauceCost: [this.batch().sauceCost, Validators.required],
     quantity: [this.batch().quantity, [Validators.required, Validators.min(1)]],
-    orderNumber: [this.batch().orderNumber]
+    orderNumber: [{
+      value: this.batch().orderNumber,
+      disabled: this.batch().status !== "IN STOCK"
+    }]
   }));
 
   submit() {
