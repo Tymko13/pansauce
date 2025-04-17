@@ -40,4 +40,11 @@ public class PhoneController {
         phoneService.deletePhoneFromCustomer(key);
     }
 
+    @GetMapping("/phone/{key}")
+    public boolean existsPhone(
+            @PathVariable String key
+    ) {
+        return phoneService.phoneExists(key);
+    }
+
 }
