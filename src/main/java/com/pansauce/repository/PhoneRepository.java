@@ -31,6 +31,16 @@ public class PhoneRepository implements PhoneDao {
         jdbc.update(DELETE_PHONE_FROM_CUSTOMER, phoneNumber);
     }
 
+    @Override
+    public void deleteAllCustomersPhones(String customerNumber) {
+        jdbc.update(DELETE_PHONES_FROM_CUSTOMER, customerNumber);
+    }
+
+    @Override
+    public boolean phoneExists(String phoneNumber) {
+        List<String> result = jdbc.queryForList(PHONE_NUMBER_EXISTS, String.class, phoneNumber);
+        return !result.isEmpty();
+    }
 
     @Override
     public List<Phone> getCustomerPhonesByKey(String customerKey) {

@@ -45,6 +45,10 @@ public class PhoneService {
         phoneRepository.deleteCustomerPhone(phoneNumber);
     }
 
+    public boolean phoneExists(String phoneNumber) {
+        return phoneRepository.phoneExists(phoneNumber);
+    }
+
     private void validateCustomerKey(String customerKey) {
         if (!customerRepository.exists(customerKey))
             throw new NonExistingCustomerException();

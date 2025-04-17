@@ -9,6 +9,8 @@ public interface PhoneDao {
 
     void addCustomerPhone(Phone phone);
     void deleteCustomerPhone(String phoneNumber);
+    void deleteAllCustomersPhones(String customerNumber);
+    boolean phoneExists(String phoneNumber);
 
     List<Phone> getCustomerPhonesByKey(String customerKey);
 

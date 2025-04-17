@@ -79,10 +79,13 @@ public class OrderService {
         for (String batchKey : order.getBatchKeys()) {
             if (!batchRepository.exists(batchKey))
                 throw new NonExistingBatchException();
-            BatchDTO batch = new BatchDTO();
-            batch.setNumber(batchKey);
-            batch.setOrderNumber(order.getNumber());
-            batchRepository.updateBatch(batch);
+            Batch batch = batchRepository.findByKey(batchKey);
+            BatchDTO batchDTO = new BatchDTO();
+            batchDTO.setNumber(batchKey);
+            batchDTO.setQuantity(batch.getQuantity());
+            batchDTO.setSauceCost(batch.getSauceCost());
+            batchDTO.setOrderNumber(order.getNumber());
+            batchRepository.updateBatch(batchDTO);
         }
     }
 

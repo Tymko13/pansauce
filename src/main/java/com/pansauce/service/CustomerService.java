@@ -123,6 +123,14 @@ public class CustomerService {
         if (!customerRepository.exists(customerNumber))
             throw new NonExistingCustomerException();
         customerRepository.updateCustomer(customer);
+        List<String> phones = customer.getPhones();
+        phoneRepository.deleteAllCustomersPhones(customerNumber);
+        for (String phoneNumber : phones) {
+            Phone phone = new Phone();
+            phone.setPhoneNumber(phoneNumber);
+            phone.setCustomerNumber(customer.getNumber());
+            phoneRepository.addCustomerPhone(phone);
+        }
     }
 
     public void deleteCustomer(String key) {
