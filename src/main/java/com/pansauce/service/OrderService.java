@@ -10,12 +10,15 @@ import com.pansauce.model.order.Order;
 import com.pansauce.model.dto.OrderDTO;
 import com.pansauce.model.order.OrderWithBatchKeys;
 import com.pansauce.model.order.OrderWithCustomerData;
+import com.pansauce.util.RandomKeyGenerator;
 import com.pansauce.validator.model.OrderValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.pansauce.constants.keyLength.KeyLength.ORDER_KEY_LENGTH;
 
 @Service
 public class OrderService {
@@ -75,7 +78,9 @@ public class OrderService {
     }
 
     public void addOrder(OrderWithBatchKeys order) {
-        orderRepository.add(order);
+        RandomKeyGenerator keyGenerator = new RandomKeyGenerator(ORDER_KEY_LENGTH);
+        String orderKey = keyGenerator.nextString();
+        orderRepository.insert(order, orderKey);
         for (String batchKey : order.getBatchKeys()) {
             if (!batchRepository.exists(batchKey))
                 throw new NonExistingBatchException();
@@ -84,7 +89,7 @@ public class OrderService {
             batchDTO.setNumber(batchKey);
             batchDTO.setQuantity(batch.getQuantity());
             batchDTO.setSauceCost(batch.getSauceCost());
-            batchDTO.setOrderNumber(order.getNumber());
+            batchDTO.setOrderNumber(orderKey);
             batchRepository.updateBatch(batchDTO);
         }
     }
