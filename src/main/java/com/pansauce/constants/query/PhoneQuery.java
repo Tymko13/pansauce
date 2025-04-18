@@ -11,7 +11,7 @@ public class PhoneQuery {
             "WHERE contact_number = ?\n";
 
     public static final String DELETE_PHONES_FROM_CUSTOMER =
-            "SELECT FROM contact_number\n" +
+            "DELETE FROM contact_number\n" +
             "WHERE customer_number = ?\n";
 
     public static final String PHONE_NUMBER_EXISTS =

@@ -16,7 +16,7 @@
       <mat-datepicker #expPicker></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field *ngIf="data.askForCustomer" appearance="outline">
       <mat-label>Customer</mat-label>
       <mat-select formControlName="customerNumber">
         <mat-option *ngFor="let customer of customers" [value]="customer.number">

@@ -1,5 +1,11 @@
-import {Component, inject} from '@angular/core';
-import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
+import {Component, Inject, inject, signal, WritableSignal} from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -42,11 +48,15 @@ export class AddOrderDialogComponent {
 
   customers: Customer[] = [];
   batches: Batch[] = [];
-  constructor() {
-    this.customerService.getAllCustomers().subscribe(data => {this.customers = data;});
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { askForCustomer: boolean }) {
     this.batchService.getAllBatchesSortedBy().subscribe(data => {
       this.batches = data.filter(batch => batch.orderNumber === null);
     });
+    if(this.data.askForCustomer) {
+      this.customerService.getAllCustomers().subscribe(data => {this.customers = data;});
+    } else {
+      this.form.controls.customerNumber.clearValidators();
+    }
   }
 
   form = this.fb.group({

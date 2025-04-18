@@ -6,6 +6,7 @@ import com.pansauce.model.customer.CustomerWithOrdersAndBatches;
 import com.pansauce.model.order.Order;
 import com.pansauce.model.order.OrderWithCustomerData;
 import com.pansauce.service.CustomerService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -68,8 +69,8 @@ public class CustomerController {
 
     @GetMapping(value = "/customer", params = {"from", "to"})
     public List<Customer> getCustomersWithOrdersBetweenDates(
-            @RequestParam("from") Date from,
-            @RequestParam("to") Date to
+            @RequestParam("from") @DateTimeFormat(pattern = "yyyy-MM-dd") Date from,
+            @RequestParam("to") @DateTimeFormat(pattern = "yyyy-MM-dd") Date to
     ) {
         return customerService.getCustomersWithOrdersBetweenDates(from, to);
     }

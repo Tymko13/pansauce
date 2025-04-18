@@ -7,21 +7,21 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { BatchService } from '../_services/batch.service';
 import {MatOption, MatSelect} from '@angular/material/select';
+import {SauceService} from '../_services/sauce.service';
 import {OrderService} from '../_services/order.service';
 import {MatIconModule} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import {AddOrderDialogComponent} from './add-order-dialog/add-order-dialog.component';
-import {UpdateOrderDialogComponent} from './update-order-dialog/update-order-dialog.component';
-import {CustomerService} from '../_services/customer.service';
-import {Order} from '../_models/order';
-import {OrderWithBatchKeys} from '../_models/order-with-batch-keys';
+import {AddSauceDialogComponent} from './add-batch-dialog/add-sauce-dialog.component';
+import {Batch} from '../_models/batch';
+import {UpdateSauceDialogComponent} from './update-batch-dialog/update-sauce-dialog.component';
 
 @Component({
-  selector: 'app-order',
+  selector: 'app-sauce',
   standalone: true,
   imports: [
     CommonModule,
@@ -36,11 +36,12 @@ import {OrderWithBatchKeys} from '../_models/order-with-batch-keys';
     MatOption,
     MatIconModule
   ],
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.css'],
+  templateUrl: './sauce.component.html',
+  styleUrls: ['./sauce.component.css'],
 })
-export class OrderComponent {
-  private customerService = inject(CustomerService);
+export class SauceComponent {
+  private batchService = inject(BatchService);
+  private sauceService = inject(SauceService);
   private orderService = inject(OrderService);
 
   private iconRegistry = inject(MatIconRegistry);
@@ -56,17 +57,16 @@ export class OrderComponent {
       this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/add.svg'));
   }
 
-  searchOptions = ['Order Number', 'Customer Number', 'Customer Phone'];
-  sortOptions = ["reg_date", "real_date", "price"];
+  searchOptions = ['Sauce Number', 'Sauce Name', 'Type Number', 'Type Name'];
+  sortOptions = ["name","number", "type", "cost"];
   displayedColumns = [
     'number',
-    'registrationDate',
-    'expectedDate',
-    'realDate',
-    'deliveryCost',
-    'totalCost',
-    'customer',
-    'customerNumber',
+    'name',
+    'type',
+    'weight',
+    'cost',
+    'recipe',
+    'shelfLife',
     'action'
   ];
 
@@ -75,69 +75,71 @@ export class OrderComponent {
   selectedSearch = signal<string>(this.searchOptions[0]);
 
   dbUpdated = signal(0);
-  orders = computed(() => {
+  sauces = computed(() => {
     this.dbUpdated();
     const term = this.searchTerm();
     const sort = this.selectedSort();
-    if (term) switch (this.selectedSearch()) {
-      case 'Order Number':
-        return this.orderService.getAllOrdersWithOrderNumber(term, sort)
-      case 'Customer Number':
-        return this.customerService.getCustomerOrdersByNumberSortedBy(term, sort);
-      case 'Customer Phone':
-        return this.customerService.getCustomerOrdersByPhoneSortedBy(term, sort);
-    }
-    return this.orderService.getAllOrdersSortedBy(sort);
+    // if (term) switch (this.selectedSearch()) {
+    //   case 'Batch Number':
+    //     return this.batchService.getBatchesByNumber(term);
+    //   case 'Order Number':
+    //     return this.orderService.getBatchesOfOrderSortedBy(term, sort);
+    //   case 'Sauce Number':
+    //     return this.sauceService.getSauceBatches(term, sort);
+    //   case 'Sauce Name':
+    //     return this.sauceService.getSauceBatchesByName(term, sort);
+    // }
+    return this.sauceService.getAllSauceWithRecipe(sort);
   });
 
   updateDB() { this.dbUpdated.update(e => ++e); }
 
   delete(number: string) {
     const confirmation = this.dialog.open(ConfirmDialogComponent, {
-      data: {message: `Are you sure you want to delete this Order?`}
+      data: {message: `Are you sure you want to delete this Sauce?`}
     });
     confirmation.afterClosed().subscribe(res => {
       if (res) {
-        this.orderService.deleteOrderByKey(number).subscribe(()=>{this.updateDB();});
+        this.sauceService.deleteSauce(number).subscribe(()=>{this.updateDB();});
       }
     });
   }
 
   update(number: string) {
-    const update = this.dialog.open(UpdateOrderDialogComponent, {
-      data: {order: number}
+    const update = this.dialog.open(UpdateSauceDialogComponent, {
+      data: {batch: number}
     });
     update.afterClosed().subscribe(res => {
       if (res) {
-        let updatedOrder: Partial<Order> = {
+        let updatedBatch: Partial<Batch> = {
           number: number,
-          expectedDate: res.expectedDate,
-          realDate: res.realDate,
-          deliveryCost: res.deliveryCost
+          sauceCost: res.sauceCost,
+          quantity: res.quantity,
+          orderNumber: res.orderNumber
         }
-        this.orderService.getOrderByKey(number).subscribe(curr => {
-          if (curr.expectedDate == updatedOrder.expectedDate
-            && curr.realDate == updatedOrder.realDate
-            && curr.deliveryCost === updatedOrder.deliveryCost) return;
-          this.orderService.updateOrder(updatedOrder).subscribe(() => {this.updateDB();});
+        this.batchService.getBatchByKey(number).subscribe(curr => {
+          if (curr.sauceCost == updatedBatch.sauceCost
+            && curr.quantity == updatedBatch.quantity
+            && curr.orderNumber === updatedBatch.orderNumber) return;
+          this.batchService.updateBatch(updatedBatch).subscribe(() => {
+            this.updateDB();
+          });
         });
       }
     });
   }
 
   add() {
-    const input = this.dialog.open(AddOrderDialogComponent, {data: {askForCustomer: true}});
+    const input = this.dialog.open(AddSauceDialogComponent);
     input.afterClosed().subscribe(res => {
       if(res){
-        let newOrder: Partial<OrderWithBatchKeys> = {
-          registrationDate: res.registrationDate,
-          expectedDate: res.expectedDate,
-          deliveryCost: res.deliveryCost,
-          customerNumber: res.customerNumber,
-          batchKeys: res.batchKeys
+        let newBatch: Partial<Batch> = {
+          expirationDate: res.expirationDate,
+          productionDate: res.productionDate,
+          quantity: res.quantity,
+          sauceNumber: res.sauceNumber
         }
-        console.log(JSON.stringify(newOrder));
-        this.orderService.addOrder(newOrder).subscribe(()=>{this.updateDB();});
+        this.batchService.addBatch(newBatch).subscribe(()=>{this.updateDB();});
       }
     });
   }
