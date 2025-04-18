@@ -15,6 +15,7 @@ import com.pansauce.validator.model.OrderValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,10 +81,10 @@ public class OrderService {
     public void addOrder(OrderWithBatchKeys order) {
         RandomKeyGenerator keyGenerator = new RandomKeyGenerator(ORDER_KEY_LENGTH);
         String orderKey = keyGenerator.nextString();
+        BigDecimal totalCost = calculateTotalCost(order.getBatchKeys(), order.getDeliveryCost());
+        order.setTotalCost(totalCost);
         orderRepository.insert(order, orderKey);
         for (String batchKey : order.getBatchKeys()) {
-            if (!batchRepository.exists(batchKey))
-                throw new NonExistingBatchException();
             Batch batch = batchRepository.findByKey(batchKey);
             BatchDTO batchDTO = new BatchDTO();
             batchDTO.setNumber(batchKey);
@@ -96,8 +97,6 @@ public class OrderService {
 
     public void deleteOrder(String key) {
         throw new UnsupportedOperationException();
-//        validateOrderExistence(key);
-//        orderRepository.delete(key);
     }
 
     public void updateOrder(OrderDTO order) {
@@ -109,6 +108,15 @@ public class OrderService {
     private void validateOrderExistence(String key){
         if (!orderRepository.exists(key))
             throw new NonExistingOrderException();
+    }
+
+    private BigDecimal calculateTotalCost(List<String> batchKeys, BigDecimal deliveryCost) {
+        BigDecimal totalCost = deliveryCost == null ? BigDecimal.ZERO : deliveryCost;
+        for (String batchKey : batchKeys) {
+            Batch batch = batchRepository.findByKey(batchKey);
+            totalCost = totalCost.add(batch.getCost());
+        }
+        return totalCost;
     }
 
 }
