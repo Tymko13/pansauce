@@ -27,8 +27,8 @@ public class OrderQuery {
 
     public static final String ADD_ORDER = "INSERT INTO order " +
                                             "(order_number, registration_date, expected_date, " +
-                                            "real_date, delivery_cost, total_order_cost) " +
-                                            "VALUES(?, ?, ?, ?, ?, ?)";
+                                            "real_date, delivery_cost, total_order_cost, customer_number) " +
+                                            "VALUES(?, ?, ?, ?, ?, ?, ?)";
 
     public static final String DELETE_ORDER_BY_KEY = "DELETE FROM order WHERE order_number = ?";
 

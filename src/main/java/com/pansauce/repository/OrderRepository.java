@@ -32,7 +32,8 @@ public class OrderRepository implements OrderDao {
                 order.getExpectedDate(),
                 order.getRealDate(),
                 order.getDeliveryCost(),
-                order.getTotalCost());
+                order.getTotalCost(),
+                order.getCustomerNumber());
     }
 
     @Override
