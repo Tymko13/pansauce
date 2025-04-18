@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -95,13 +96,14 @@ public class BatchService {
     public void addBatch(Batch batch) {
         BatchValidator validator = new BatchValidator();
         List<String> errorMessages = validator.validate(batch);
-        if (errorMessages.isEmpty()) {
-            String sauceKey = batch.getSauceNumber();
-            Sauce sauce = sauceRepository.findByKey(sauceKey);
-            batch.setSauceCost(sauce.getCost());
-            batchRepository.add(batch);
-        }
-        else throw new InvalidBatchException(errorMessages);
+        if (!errorMessages.isEmpty())
+            throw new InvalidBatchException(errorMessages);
+        String sauceKey = batch.getSauceNumber();
+        Sauce sauce = sauceRepository.findByKey(sauceKey);
+        batch.setSauceCost(sauce.getCost());
+        Date expirationDate = calculateBatchExpiryDate(batch, sauce);
+        batch.setExpirationDate(expirationDate);
+        batchRepository.add(batch);
     }
 
     public void deleteBatch(String key) {
@@ -115,6 +117,15 @@ public class BatchService {
         if (!batchRepository.exists(batchKey))
             throw new NonExistingBatchException();
         batchRepository.updateBatch(batchDTO);
+    }
+
+    private Date calculateBatchExpiryDate(Batch batch, Sauce sauce) {
+        Date productionDate = batch.getProductionDate();
+        int shelfLife = sauce.getShelfLife();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(productionDate);
+        calendar.add(Calendar.DAY_OF_MONTH, shelfLife);
+        return calendar.getTime();
     }
 
 }
