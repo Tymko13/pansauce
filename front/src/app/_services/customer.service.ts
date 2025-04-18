@@ -5,6 +5,7 @@ import { Customer } from '../_models/customer';
 import { Order } from '../_models/order';
 import { CustomerWithOrders } from '../_models/customer-with-orders';
 import { environment } from '../environment';
+import {CustomerWithOrdersAndBatches} from '../_models/customer-with-orders-and-batches';
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +65,7 @@ export class CustomerService {
     return this.http.get<Customer>(`${this.apiUrl}/${key}`);
   }
 
-  addCustomer(customer: Partial<Customer>): Observable<void> {
+  addCustomer(customer: Partial<CustomerWithOrdersAndBatches>): Observable<void> {
     return this.http.post<void>(this.apiUrl, customer);
   }
 

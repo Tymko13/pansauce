@@ -26,6 +26,7 @@ import {
 import {Customer} from '../_models/customer';
 import {PhoneService} from '../_services/phone.service';
 import {CustomerWithOrders} from '../_models/customer-with-orders';
+import {CustomerWithOrdersAndBatches} from '../_models/customer-with-orders-and-batches';
 
 @Component({
   selector: 'app-customer',
@@ -152,15 +153,15 @@ export class CustomerComponent {
     const input = this.dialog.open(AddCustomerDialogComponent);
     input.afterClosed().subscribe(res => {
       if(res){
-        let newCustomer: Partial<CustomerWithOrders> = {
+        let newCustomer: Partial<CustomerWithOrdersAndBatches> = {
           name: res.name,
           surname: res.surname,
           patronymic: res.patronymic,
           address: res.address,
           phones: res.phones,
-          orders: [res.order]
+          orders: [res.order],
+          batchKeys: res.order.batchKeys
         }
-        console.log(newCustomer);
         this.customerService.addCustomer(newCustomer).subscribe(()=>{this.updateDB();});
       }
     });
