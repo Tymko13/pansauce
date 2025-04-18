@@ -6,11 +6,15 @@ import com.pansauce.dao.PhoneDao;
 import com.pansauce.exception.customer.InvalidCustomerException;
 import com.pansauce.exception.customer.NoCustomersFoundException;
 import com.pansauce.exception.customer.NonExistingCustomerException;
+import com.pansauce.model.Batch;
 import com.pansauce.model.Phone;
 import com.pansauce.model.customer.Customer;
 import com.pansauce.model.customer.CustomerWithOrders;
+import com.pansauce.model.customer.CustomerWithOrdersAndBatches;
+import com.pansauce.model.dto.BatchDTO;
 import com.pansauce.model.order.Order;
 import com.pansauce.model.order.OrderWithCustomerData;
+import com.pansauce.repository.BatchRepository;
 import com.pansauce.util.RandomKeyGenerator;
 import com.pansauce.validator.model.CustomerValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.pansauce.constants.keyLength.KeyLength.CUSTOMER_KEY_LENGTH;
+import static com.pansauce.constants.keyLength.KeyLength.ORDER_KEY_LENGTH;
 
 @Service
 public class CustomerService {
@@ -28,6 +33,7 @@ public class CustomerService {
     private final CustomerDao customerRepository;
     private final PhoneDao phoneRepository;
     private final OrderDao orderRepository;
+    private final BatchRepository batchRepo;
 
     public CustomerService(
             @Qualifier("customerRepo")
@@ -35,11 +41,14 @@ public class CustomerService {
             @Qualifier("phoneRepo")
             PhoneDao phoneRepository,
             @Qualifier("orderRepo")
-            OrderDao orderRepository
-    ) {
+            OrderDao orderRepository,
+            @Qualifier("batchRepo")
+            BatchRepository batchRepo)
+    {
         this.customerRepository = customerRepository;
         this.phoneRepository = phoneRepository;
         this.orderRepository = orderRepository;
+        this.batchRepo = batchRepo;
     }
 
     public List<OrderWithCustomerData> getCustomerOrdersByNumberSortedBy(String customerKey, String attribute) {
@@ -104,13 +113,13 @@ public class CustomerService {
         return customerRepository.findByKey(key);
     }
 
-    public void addCustomer(CustomerWithOrders customer) {
+    public void addCustomer(CustomerWithOrdersAndBatches customer) {
         CustomerValidator validator = new CustomerValidator();
         List<String> errorMessages = validator.validate(customer);
         if (!errorMessages.isEmpty())
             throw new InvalidCustomerException(errorMessages);
-        RandomKeyGenerator keyGenerator = new RandomKeyGenerator(CUSTOMER_KEY_LENGTH);
-        String customerKey = keyGenerator.nextString();
+        RandomKeyGenerator customerKeyGenerator = new RandomKeyGenerator(CUSTOMER_KEY_LENGTH);
+        String customerKey = customerKeyGenerator.nextString();
         customerRepository.insert(customer, customerKey);
         for (String phoneNumber : customer.getPhones()) {
             Phone phone = new Phone();
@@ -120,7 +129,18 @@ public class CustomerService {
         }
         Order customerOrder = customer.getOrders().getFirst();
         customerOrder.setCustomerNumber(customerKey);
-        orderRepository.add(customerOrder);
+        RandomKeyGenerator orderKeyGenerator = new RandomKeyGenerator(ORDER_KEY_LENGTH);
+        String orderKey = orderKeyGenerator.nextString();
+        orderRepository.insert(customerOrder, orderKey);
+        for (String batchNumber : customer.getBatchKeys()) {
+            Batch batch = batchRepo.findByKey(batchNumber);
+            BatchDTO updatedBatch = new BatchDTO();
+            updatedBatch.setNumber(batchNumber);
+            updatedBatch.setSauceCost(batch.getSauceCost());
+            updatedBatch.setQuantity(batch.getQuantity());
+            updatedBatch.setOrderNumber(orderKey);
+            batchRepo.updateBatch(updatedBatch);
+        }
     }
 
     public void updateCustomer(Customer customer) {

@@ -2,6 +2,7 @@ package com.pansauce.controller;
 
 import com.pansauce.model.customer.Customer;
 import com.pansauce.model.customer.CustomerWithOrders;
+import com.pansauce.model.customer.CustomerWithOrdersAndBatches;
 import com.pansauce.model.order.Order;
 import com.pansauce.model.order.OrderWithCustomerData;
 import com.pansauce.service.CustomerService;
@@ -95,7 +96,7 @@ public class CustomerController {
 
     @PostMapping("/customer")
     public void addCustomer(
-            @RequestBody CustomerWithOrders customer
+            @RequestBody CustomerWithOrdersAndBatches customer
     ) {
         customerService.addCustomer(customer);
     }
