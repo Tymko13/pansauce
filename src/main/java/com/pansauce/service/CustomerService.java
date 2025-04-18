@@ -11,6 +11,7 @@ import com.pansauce.model.customer.Customer;
 import com.pansauce.model.customer.CustomerWithOrders;
 import com.pansauce.model.order.Order;
 import com.pansauce.model.order.OrderWithCustomerData;
+import com.pansauce.util.RandomKeyGenerator;
 import com.pansauce.validator.model.CustomerValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.pansauce.constants.keyLength.KeyLength.CUSTOMER_KEY_LENGTH;
 
 @Service
 public class CustomerService {
@@ -106,15 +109,17 @@ public class CustomerService {
         List<String> errorMessages = validator.validate(customer);
         if (!errorMessages.isEmpty())
             throw new InvalidCustomerException(errorMessages);
-        customerRepository.add(customer);
+        RandomKeyGenerator keyGenerator = new RandomKeyGenerator(CUSTOMER_KEY_LENGTH);
+        String customerKey = keyGenerator.nextString();
+        customerRepository.insert(customer, customerKey);
         for (String phoneNumber : customer.getPhones()) {
             Phone phone = new Phone();
             phone.setPhoneNumber(phoneNumber);
-            phone.setCustomerNumber(customer.getNumber());
+            phone.setCustomerNumber(customerKey);
             phoneRepository.addCustomerPhone(phone);
         }
         Order customerOrder = customer.getOrders().getFirst();
-        customerOrder.setCustomerNumber(customer.getNumber());
+        customerOrder.setCustomerNumber(customerKey);
         orderRepository.add(customerOrder);
     }
 
