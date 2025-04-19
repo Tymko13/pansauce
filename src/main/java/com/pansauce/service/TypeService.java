@@ -28,6 +28,8 @@ public class TypeService {
         return switch (attribute) {
             case "name" -> typeRepository.getSaucesWithTypeNumberSortedBySauceName(typeNumber + "%");
             case "price" -> typeRepository.getSaucesWithTypeNumberSortedByPrice(typeNumber + "%");
+            case "number" -> typeRepository.getSauceWithTypeNumberSortedBySauceNumber(typeNumber + "%");
+            case "type_name" -> typeRepository.getSaucesWithTypeNameSortedByTypeName(typeNumber + "%");
             default -> new ArrayList<>();
         };
     }
@@ -36,6 +38,8 @@ public class TypeService {
         return switch (attribute) {
             case "name" -> typeRepository.getSaucesWithTypeNameSortedBySauceName(typeName + "%");
             case "price" -> typeRepository.getSaucesWithTypeNameSortedByPrice(typeName + "%");
+            case "number" -> typeRepository.getSaucesWithTypeNameSortedBySauceNumber(typeName + "%");
+            case "type_name" -> typeRepository.getSaucesWithTypeNameSortedByTypeName(typeName + "%");
             default -> new ArrayList<>();
         };
     }

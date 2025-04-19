@@ -7,13 +7,61 @@ public class SauceQuery {
     public static final String GET_SAUCE_BY_KEY = "SELECT * FROM sauce INNER JOIN type ON sauce.type_number = type.type_number\n" +
                                                   "WHERE sauce_number = ?";
 
-    public static final String GET_SAUCE_BY_NAME_PREFIX =
-            "SELECT * FROM sauce INNER JOIN type ON sauce.type_number = type.type_number\n" +
-            "WHERE sauce_name LIKE ?";
+    public static final String GET_SAUCE_BY_NAME_PREFIX_SORTED_BY_NAME =
+            "SELECT *\n" +
+            "FROM sauce INNER JOIN type\n" +
+            "ON sauce.type_number = type.type_number\n" +
+            "WHERE sauce.sauce_name LIKE ?\n" +
+            "ORDER BY sauce.sauce_name;\n";
 
-    public static final String GET_SAUCE_BY_NUMBER_PREFIX =
-            "SELECT * FROM sauce INNER JOIN type ON sauce.type_number = type.type_number\n" +
-            "WHERE sauce_number LIKE ?";
+    public static final String GET_SAUCE_BY_NAME_PREFIX_SORTED_BY_NUMBER =
+            "SELECT *\n" +
+            "FROM sauce INNER JOIN type\n" +
+            "ON sauce.type_number = type.type_number\n" +
+            "WHERE sauce.sauce_name LIKE ?\n" +
+            "ORDER BY sauce.sauce_number;\n";
+
+    public static final String GET_SAUCE_BY_NAME_PREFIX_SORTED_BY_TYPE_NAME =
+            "SELECT *\n" +
+            "FROM sauce INNER JOIN type\n" +
+            "ON sauce.type_number = type.type_number\n" +
+            "WHERE sauce.sauce_name LIKE ?\n" +
+            "ORDER BY type.type_name;\n";
+
+    public static final String GET_SAUCE_BY_NAME_PREFIX_SORTED_BY_PRICE =
+            "SELECT *\n" +
+            "FROM sauce INNER JOIN type\n" +
+            "ON sauce.type_number = type.type_number\n" +
+            "WHERE sauce.sauce_name LIKE ?\n" +
+            "ORDER BY sauce.sauce_cost;\n";
+
+    public static final String GET_SAUCE_BY_NUMBER_PREFIX_SORTED_BY_NAME =
+            "SELECT *\n" +
+            "FROM sauce INNER JOIN type\n" +
+            "ON sauce.type_number = type.type_number\n" +
+            "WHERE sauce.sauce_number LIKE ?\n" +
+            "ORDER BY sauce.sauce_name;\n";
+
+    public static final String GET_SAUCE_BY_NUMBER_PREFIX_SORTED_BY_NUMBER =
+            "SELECT *\n" +
+            "FROM sauce INNER JOIN type\n" +
+            "ON sauce.type_number = type.type_number\n" +
+            "WHERE sauce.sauce_number LIKE ?\n" +
+            "ORDER BY sauce.sauce_number;\n";
+
+    public static final String GET_SAUCE_BY_NUMBER_PREFIX_SORTED_BY_TYPE_NAME =
+            "SELECT *\n" +
+            "FROM sauce INNER JOIN type\n" +
+            "ON sauce.type_number = type.type_number\n" +
+            "WHERE sauce.sauce_number LIKE ?\n" +
+            "ORDER BY type.type_name;\n";
+
+    public static final String GET_SAUCE_BY_NUMBER_PREFIX_SORTED_BY_PRICE =
+            "SELECT *\n" +
+            "FROM sauce INNER JOIN type\n" +
+            "ON sauce.type_number = type.type_number\n" +
+            "WHERE sauce.sauce_number LIKE ?\n" +
+            "ORDER BY sauce.sauce_cost;\n";
 
     public static final String ADD_SAUCE = "INSERT INTO sauce" + '\n' +
                                            "(sauce_number, sauce_name, shelf_life," + '\n' +
@@ -34,6 +82,7 @@ public class SauceQuery {
     public static final String GET_ALL_SAUCES_SORTED_BY_NAME = "SELECT * FROM sauce INNER JOIN type ON sauce.type_number = type.type_number ORDER BY sauce_name";
     public static final String GET_ALL_SAUCES_SORTED_BY_NUMBER = "SELECT * FROM sauce INNER JOIN type ON sauce.type_number = type.type_number ORDER BY sauce_number";
     public static final String GET_ALL_SAUCES_SORTED_BY_TYPE_NAME = "SELECT * FROM sauce INNER JOIN type ON sauce.type_number = type.type_number ORDER BY type_number";
+    public static final String GET_ALL_SAUCES_SORTED_BY_PRICE = "SELECT * FROM sauce INNER JOIN type ON sauce.type_number = type.type_number ORDER BY sauce_cost";
 
     public static final String GET_ALL_BATCHES_OF_SAUCE_BY_NUMBER_SORTED_BY_STATUS =
             "SELECT batch_number, sauce_quantity, production_date,\n" +

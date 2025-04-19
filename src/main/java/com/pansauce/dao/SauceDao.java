@@ -11,12 +11,20 @@ import java.util.List;
 
 public interface SauceDao extends GenericDao<Sauce, String> {
 
-    List<Sauce> getSaucesWithNameStartingWith(String prefix);
-    List<Sauce> getSaucesWithNumberStartingWith(String prefix);
+    List<Sauce> getSaucesWithNameStartingWithSortedByName(String prefix);
+    List<Sauce> getSaucesWithNameStartingWithSortedByNumber(String prefix);
+    List<Sauce> getSaucesWithNameStartingWithSortedByTypeName(String prefix);
+    List<Sauce> getSaucesWithNameStartingWithSortedByPrice(String prefix);
+
+    List<Sauce> getSaucesWithNumberStartingWithSortedByName(String prefix);
+    List<Sauce> getSaucesWithNumberStartingWithSortedByNumber(String prefix);
+    List<Sauce> getSaucesWithNumberStartingWithSortedByTypeName(String prefix);
+    List<Sauce> getSaucesWithNumberStartingWithSortedByPrice(String prefix);
 
     List<Sauce> getAllSaucesSortedByName();
-    List<Sauce> getAllSaucesSortedByType();
+    List<Sauce> getAllSaucesSortedByTypeName();
     List<Sauce> getAllSaucesSortedByNumber();
+    List<Sauce> getAllSaucesSortedByPrice();
 
     List<Batch> getAllBatchesOfSauceSortedByStatusBySauceKey(String sauceKey);
     List<Batch> getAllBatchesOfSauceSortedByPriceBySauceKey(String sauceKey);

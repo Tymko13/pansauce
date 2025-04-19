@@ -7,4 +7,39 @@ public class IngredientQuery {
                                                 "(gti_number, ingredient_name)" + '\n' +
                                                 " VALUES (?, ?)";
     public static final String DELETE_INGREDIENT_BY_KEY = "DELETE FROM ingredient WHERE gti_number = ?";
+
+    public static final String GET_ALL_INGREDIENTS_SORTED_BY_NUMBER =
+            "SELECT *\n" +
+            "FROM ingredient\n" +
+            "ORDER BY gti_number\n";
+
+    public static final String GET_ALL_INGREDIENTS_SORTED_BY_NAME =
+            "SELECT *\n" +
+            "FROM ingredient\n" +
+            "ORDER BY ingredient_name\n";
+
+    public static final String GET_INGREDIENTS_WITH_NUMBER_STARTING_WITH_SORTED_BY_NUMBER =
+            "SELECT *\n" +
+            "FROM ingredient\n" +
+            "WHERE gti_number LIKE ?\n" +
+            "ORDER BY gti_number\n";
+
+    public static final String GET_INGREDIENTS_WITH_NUMBER_STARTING_WITH_SORTED_BY_NAME =
+            "SELECT *\n" +
+            "FROM ingredient\n" +
+            "WHERE gti_number LIKE ?\n" +
+            "ORDER BY ingredient_name\n";
+
+    public static final String GET_INGREDIENTS_WITH_NAME_STARTING_WITH_SORTED_BY_NUMBER =
+            "SELECT *\n" +
+            "FROM ingredient\n" +
+            "WHERE ingredient_name LIKE ?\n" +
+            "ORDER BY gti_number\n";
+
+    public static final String GET_INGREDIENTS_WITH_NAME_STARTING_WITH_SORTED_BY_NAME =
+            "SELECT *\n" +
+            "FROM ingredient\n" +
+            "WHERE ingredient_name LIKE ?\n" +
+            "ORDER BY ingredient_name\n";
+
 }

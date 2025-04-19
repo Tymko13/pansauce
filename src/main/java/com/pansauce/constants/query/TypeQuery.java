@@ -21,6 +21,18 @@ public class TypeQuery {
             "WHERE t.type_number LIKE ?\n" +
             "ORDER BY s.sauce_cost;\n";
 
+    public static final String GET_SAUCES_OF_TYPE_BY_NUMBER_SORTED_BY_SAUCE_NUMBER =
+            "SELECT *\n" +
+            "FROM Sauce AS s INNER JOIN type AS t ON t.type_number = s.type_number\n" +
+            "WHERE t.type_number LIKE ?\n" +
+            "ORDER BY s.sauce_number;\n";
+
+    public static final String GET_SAUCES_OF_TYPE_BY_NUMBER_SORTED_BY_TYPE_NAME =
+            "SELECT *\n" +
+            "FROM Sauce AS s INNER JOIN type AS t ON t.type_number = s.type_number\n" +
+            "WHERE t.type_number LIKE ?\n" +
+            "ORDER BY t.type_name;\n";
+
     public static final String GET_SAUCES_OF_TYPE_BY_NAME_SORTED_BY_SAUCE_NAME =
             "SELECT *\n" +
             "FROM Sauce AS s INNER JOIN type AS t ON t.type_number = s.type_number\n" +
@@ -32,6 +44,18 @@ public class TypeQuery {
             "FROM Sauce AS s INNER JOIN type AS t ON t.type_number = s.type_number\n" +
             "WHERE t.type_name LIKE ?\n" +
             "ORDER BY s.sauce_cost;\n";
+
+    public static final String GET_SAUCES_OF_TYPE_BY_NAME_SORTED_BY_SAUCE_NUMBER =
+            "SELECT *\n" +
+            "FROM Sauce AS s INNER JOIN type AS t ON t.type_number = s.type_number\n" +
+            "WHERE t.type_name LIKE ?\n" +
+            "ORDER BY s.sauce_number;\n";
+
+    public static final String GET_SAUCES_OF_TYPE_BY_NAME_SORTED_BY_TYPE_NAME =
+            "SELECT *\n" +
+            "FROM Sauce AS s INNER JOIN type AS t ON t.type_number = s.type_number\n" +
+            "WHERE t.type_name LIKE ?\n" +
+            "ORDER BY t.type_name;\n";
 
     public static final String UPDATE_TYPE =
             "UPDATE type\n" +
