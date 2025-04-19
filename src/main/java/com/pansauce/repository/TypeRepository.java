@@ -33,8 +33,8 @@ public class TypeRepository implements TypeDao {
     @Override
     public void add(Type type) {
         RandomKeyGenerator keyGenerator = new RandomKeyGenerator(TYPE_KEY_LENGTH);
-        String batchKey = keyGenerator.nextString();
-        insert(type, batchKey);
+        String typeKey = keyGenerator.nextString();
+        insert(type, typeKey);
     }
 
     @Override

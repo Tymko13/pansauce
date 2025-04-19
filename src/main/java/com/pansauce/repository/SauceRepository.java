@@ -226,7 +226,7 @@ public class SauceRepository implements SauceDao {
     }
 
     @Override
-    public void updateSauce(SauceDTO sauce) {
+    public void updateSauce(SauceWithRecipe sauce) {
         jdbc.update(UPDATE_SAUCE,
                 sauce.getName(),
                 sauce.getShelfLife(),
@@ -234,6 +234,11 @@ public class SauceRepository implements SauceDao {
                 sauce.getCost(),
                 sauce.getTypeNumber(),
                 sauce.getNumber());
+    }
+
+    @Override
+    public void deleteSauceIngredients(String sauceKey) {
+        jdbc.update(DELETE_SAUCE_INGREDIENTS, sauceKey);
     }
 
 }

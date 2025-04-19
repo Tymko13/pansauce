@@ -1,5 +1,4 @@
 package com.pansauce.model.dto;
-
 import java.math.BigDecimal;
 
 public class SauceDTO {

@@ -1,5 +1,6 @@
 package com.pansauce.service;
 
+import com.pansauce.dao.IngredientDao;
 import com.pansauce.dao.SauceDao;
 import com.pansauce.dao.SauceIngredientDao;
 import com.pansauce.dao.TypeDao;
@@ -12,6 +13,7 @@ import com.pansauce.model.Type;
 import com.pansauce.model.sauce.SauceWithIncome;
 import com.pansauce.model.sauce.SauceWithRecipe;
 import com.pansauce.model.sauce.SauceWithSalesCount;
+import com.pansauce.util.RandomKeyGenerator;
 import com.pansauce.validator.model.SauceValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -19,12 +21,15 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.pansauce.constants.keyLength.KeyLength.*;
+
 @Service
 public class SauceService {
 
     private final SauceDao sauceRepository;
     private final TypeDao typeRepository;
-    private final SauceIngredientDao ingredientRepository;
+    private final SauceIngredientDao sauceIngredientRepository;
+    private final IngredientDao ingredientRepository;
 
     public SauceService(
             @Qualifier(value = "sauceRepo")
@@ -32,10 +37,13 @@ public class SauceService {
             @Qualifier(value = "typeRepo")
             TypeDao typeRepository,
             @Qualifier("sauceIngredientRepo")
-            SauceIngredientDao ingredientRepository
+            SauceIngredientDao sauceIngredientRepository,
+            @Qualifier("ingredientRepo")
+            IngredientDao ingredientRepository
     ) {
         this.sauceRepository = sauceRepository;
         this.typeRepository = typeRepository;
+        this.sauceIngredientRepository = sauceIngredientRepository;
         this.ingredientRepository = ingredientRepository;
     }
 
@@ -131,11 +139,34 @@ public class SauceService {
         };
     }
 
-    public void updateSauce(SauceDTO sauce) {
+    public void updateSauce(SauceWithRecipe sauce) {
         String sauceNumber = sauce.getNumber();
         if (!sauceRepository.exists(sauceNumber))
             throw new NonExistingSauceException();
+        List<SauceIngredient> ingredients = sauce.getRecipe();
+        if (ingredients.isEmpty())
+            throw new RuntimeException("Ingredients list is empty");
+        String typeNumber = sauce.getTypeNumber();
+        if (!typeRepository.exists(typeNumber)) {
+            Type type = new Type();
+            type.setTypeName(sauce.getTypeName());
+            RandomKeyGenerator keyGenerator = new RandomKeyGenerator(TYPE_KEY_LENGTH);
+            String typeKey = keyGenerator.nextString();
+            typeRepository.insert(type, typeKey);
+            sauce.setTypeNumber(typeKey);
+        }
+        sauceRepository.deleteSauceIngredients(sauceNumber);
         sauceRepository.updateSauce(sauce);
+        for (SauceIngredient ingredient : ingredients) {
+            String gtiNumber = ingredient.getGti();
+            if (!ingredientRepository.exists(gtiNumber)) {
+                RandomKeyGenerator keyGenerator = new RandomKeyGenerator(INGREDIENT_KEY_LENGTH);
+                gtiNumber = keyGenerator.nextString();
+                ingredientRepository.insert(ingredient, gtiNumber);
+            }
+            ingredient.setGti(gtiNumber);
+            sauceIngredientRepository.addSauceIngredientByKey(sauceNumber, ingredient);
+        }
     }
 
     public Sauce getSauceByKey(String key) {
@@ -152,13 +183,24 @@ public class SauceService {
         String typeNumber = sauce.getTypeNumber();
         if (!typeRepository.exists(typeNumber)) {
             Type type = new Type();
-            type.setTypeNumber(typeNumber);
             type.setTypeName(sauce.getTypeName());
-            typeRepository.add(type);
+            RandomKeyGenerator keyGenerator = new RandomKeyGenerator(TYPE_KEY_LENGTH);
+            String typeKey = keyGenerator.nextString();
+            typeRepository.insert(type, typeKey);
+            sauce.setTypeNumber(typeKey);
         }
-        sauceRepository.add(sauce);
+        RandomKeyGenerator sauceKeyGenerator = new RandomKeyGenerator(SAUCE_KEY_LENGTH);
+        String sauceNumber = sauceKeyGenerator.nextString();
+        sauceRepository.insert(sauce, sauceNumber);
         for (SauceIngredient ingredient : sauce.getRecipe()) {
-            ingredientRepository.addSauceIngredientByKey(sauce.getNumber(), ingredient);
+            String ingredientNumber = ingredient.getGti();
+            if (!ingredientRepository.exists(ingredientNumber)) {
+                RandomKeyGenerator keyGenerator = new RandomKeyGenerator(INGREDIENT_KEY_LENGTH);
+                String gtiNumber = keyGenerator.nextString();
+                ingredientRepository.insert(ingredient, gtiNumber);
+                ingredient.setGti(gtiNumber);
+            }
+            sauceIngredientRepository.addSauceIngredientByKey(sauceNumber, ingredient);
         }
     }
 
