@@ -308,4 +308,9 @@ public class SauceQuery {
             "typeNumber = ?\n" +
             "WHERE sauce_number = ?\n";
 
+    public static final String DELETE_SAUCE_INGREDIENTS =
+            "DELETE \n" +
+            "FROM ingredient_sauce\n" +
+            "WHERE sauce_number = ?\n";
+
 }

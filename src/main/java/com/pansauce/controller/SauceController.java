@@ -119,7 +119,7 @@ public class SauceController {
 
     @PatchMapping("/sauce")
     public void updateSauce(
-            @RequestBody SauceDTO sauce
+            @RequestBody SauceWithRecipe sauce
     ) {
         sauceService.updateSauce(sauce);
     }
