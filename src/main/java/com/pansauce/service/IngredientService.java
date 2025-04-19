@@ -7,6 +7,7 @@ import com.pansauce.validator.model.IngredientValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,6 +26,30 @@ public class IngredientService {
         if (ingredients.isEmpty())
             throw new NoIngredientsFoundException();
         return ingredients;
+    }
+
+    public List<Ingredient> getAllIngredientsSortedBy(String attribute) {
+        return switch (attribute) {
+            case "name" -> ingredientRepository.getAllIngredientsSortedByName();
+            case "number" -> ingredientRepository.getAllIngredientsSortedByNumber();
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<Ingredient> getIngredientsWithNumberStartingWithSortedBy(String prefix, String attribute) {
+        return switch (attribute) {
+            case "name" -> ingredientRepository.getIngredientWithNumberStartingWithSortedByName(prefix + "%");
+            case "number" -> ingredientRepository.getIngredientWithNumberStartingWithSortedByNumber(prefix + "%");
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<Ingredient> getIngredientsWithNameStartingWithSortedBy(String prefix, String attribute) {
+        return switch (attribute) {
+            case "name" -> ingredientRepository.getIngredientsWithNameStartingWithSortedByName(prefix + "%");
+            case "number" -> ingredientRepository.getIngredientsWithNameStartingWithSortedByNumber(prefix + "%");
+            default -> new ArrayList<>();
+        };
     }
 
     public Ingredient getIngredientByKey(String key) {

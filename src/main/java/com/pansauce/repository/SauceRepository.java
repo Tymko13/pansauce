@@ -66,13 +66,43 @@ public class SauceRepository implements SauceDao {
     }
 
     @Override
-    public List<Sauce> getSaucesWithNameStartingWith(String prefix) {
-        return jdbc.query(GET_SAUCE_BY_NAME_PREFIX, SAUCE_ROW_MAPPER, prefix);
+    public List<Sauce> getSaucesWithNameStartingWithSortedByName(String prefix) {
+        return jdbc.query(GET_SAUCE_BY_NAME_PREFIX_SORTED_BY_NAME, SAUCE_ROW_MAPPER, prefix);
     }
 
     @Override
-    public List<Sauce> getSaucesWithNumberStartingWith(String prefix) {
-        return jdbc.query(GET_SAUCE_BY_NUMBER_PREFIX, SAUCE_ROW_MAPPER, prefix);
+    public List<Sauce> getSaucesWithNameStartingWithSortedByNumber(String prefix) {
+        return jdbc.query(GET_SAUCE_BY_NAME_PREFIX_SORTED_BY_NUMBER, SAUCE_ROW_MAPPER, prefix);
+    }
+
+    @Override
+    public List<Sauce> getSaucesWithNameStartingWithSortedByTypeName(String prefix) {
+        return jdbc.query(GET_SAUCE_BY_NAME_PREFIX_SORTED_BY_TYPE_NAME, SAUCE_ROW_MAPPER, prefix);
+    }
+
+    @Override
+    public List<Sauce> getSaucesWithNameStartingWithSortedByPrice(String prefix) {
+        return jdbc.query(GET_SAUCE_BY_NAME_PREFIX_SORTED_BY_PRICE, SAUCE_ROW_MAPPER, prefix);
+    }
+
+    @Override
+    public List<Sauce> getSaucesWithNumberStartingWithSortedByName(String prefix) {
+        return jdbc.query(GET_SAUCE_BY_NUMBER_PREFIX_SORTED_BY_NAME, SAUCE_ROW_MAPPER, prefix);
+    }
+
+    @Override
+    public List<Sauce> getSaucesWithNumberStartingWithSortedByNumber(String prefix) {
+        return jdbc.query(GET_SAUCE_BY_NUMBER_PREFIX_SORTED_BY_NUMBER, SAUCE_ROW_MAPPER, prefix);
+    }
+
+    @Override
+    public List<Sauce> getSaucesWithNumberStartingWithSortedByTypeName(String prefix) {
+        return jdbc.query(GET_SAUCE_BY_NUMBER_PREFIX_SORTED_BY_TYPE_NAME, SAUCE_ROW_MAPPER, prefix);
+    }
+
+    @Override
+    public List<Sauce> getSaucesWithNumberStartingWithSortedByPrice(String prefix) {
+        return jdbc.query(GET_SAUCE_BY_NUMBER_PREFIX_SORTED_BY_PRICE, SAUCE_ROW_MAPPER, prefix);
     }
 
     @Override
@@ -81,13 +111,18 @@ public class SauceRepository implements SauceDao {
     }
 
     @Override
-    public List<Sauce> getAllSaucesSortedByType() {
+    public List<Sauce> getAllSaucesSortedByTypeName() {
         return jdbc.query(GET_ALL_SAUCES_SORTED_BY_TYPE_NAME, SAUCE_ROW_MAPPER);
     }
 
     @Override
     public List<Sauce> getAllSaucesSortedByNumber() {
         return jdbc.query(GET_ALL_SAUCES_SORTED_BY_NUMBER, SAUCE_ROW_MAPPER);
+    }
+
+    @Override
+    public List<Sauce> getAllSaucesSortedByPrice() {
+        return jdbc.query(GET_ALL_SAUCES_SORTED_BY_PRICE, SAUCE_ROW_MAPPER);
     }
 
     @Override

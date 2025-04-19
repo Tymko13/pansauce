@@ -69,6 +69,16 @@ public class TypeRepository implements TypeDao {
     }
 
     @Override
+    public List<Sauce> getSauceWithTypeNumberSortedBySauceNumber(String typeNumber) {
+        return jdbc.query(GET_SAUCES_OF_TYPE_BY_NUMBER_SORTED_BY_SAUCE_NUMBER, SAUCE_ROW_MAPPER, typeNumber);
+    }
+
+    @Override
+    public List<Sauce> getSauceWithTypeNumberSortedByTypeName(String typeName) {
+        return jdbc.query(GET_SAUCES_OF_TYPE_BY_NUMBER_SORTED_BY_TYPE_NAME, SAUCE_ROW_MAPPER, typeName);
+    }
+
+    @Override
     public List<Sauce> getSaucesWithTypeNameSortedBySauceName(String typeName) {
         return jdbc.query(GET_SAUCES_OF_TYPE_BY_NAME_SORTED_BY_SAUCE_NAME, SAUCE_ROW_MAPPER, typeName);
     }
@@ -76,6 +86,16 @@ public class TypeRepository implements TypeDao {
     @Override
     public List<Sauce> getSaucesWithTypeNameSortedByPrice(String typeName) {
         return jdbc.query(GET_SAUCES_OF_TYPE_BY_NAME_SORTED_BY_SAUCE_PRICE, SAUCE_ROW_MAPPER, typeName);
+    }
+
+    @Override
+    public List<Sauce> getSaucesWithTypeNameSortedBySauceNumber(String typeName) {
+        return jdbc.query(GET_SAUCES_OF_TYPE_BY_NAME_SORTED_BY_SAUCE_NUMBER, SAUCE_ROW_MAPPER, typeName);
+    }
+
+    @Override
+    public List<Sauce> getSaucesWithTypeNameSortedByTypeName(String typeName) {
+        return jdbc.query(GET_SAUCES_OF_TYPE_BY_NAME_SORTED_BY_TYPE_NAME, SAUCE_ROW_MAPPER, typeName);
     }
 
     @Override

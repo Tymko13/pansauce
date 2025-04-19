@@ -3,7 +3,6 @@ package com.pansauce.service;
 import com.pansauce.dao.SauceDao;
 import com.pansauce.dao.SauceIngredientDao;
 import com.pansauce.dao.TypeDao;
-import com.pansauce.exception.batch.NonExistingBatchException;
 import com.pansauce.exception.sauce.*;
 import com.pansauce.model.Batch;
 import com.pansauce.model.SauceIngredient;
@@ -43,8 +42,9 @@ public class SauceService {
     public List<Sauce> getAllSauce(String attribute) {
         return switch (attribute) {
             case "name" -> sauceRepository.getAllSaucesSortedByName();
-            case "type" -> sauceRepository.getAllSaucesSortedByType();
+            case "type" -> sauceRepository.getAllSaucesSortedByTypeName();
             case "number" -> sauceRepository.getAllSaucesSortedByNumber();
+            case "price" -> sauceRepository.getAllSaucesSortedByPrice();
             default -> new ArrayList<>();
         };
     }
@@ -111,19 +111,31 @@ public class SauceService {
         };
     }
 
+    public List<Sauce> getSauceWithNamePrefixSortedBy(String sauceName, String attribute) {
+        return switch (attribute) {
+            case "name" -> sauceRepository.getSaucesWithNameStartingWithSortedByName(sauceName + "%");
+            case "number" -> sauceRepository.getSaucesWithNameStartingWithSortedByNumber(sauceName + "%");
+            case "type_name" -> sauceRepository.getSaucesWithNameStartingWithSortedByTypeName(sauceName + "%");
+            case "price" -> sauceRepository.getSaucesWithNameStartingWithSortedByPrice(sauceName + "%");
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<Sauce> getSauceWithNumberPrefixSortedBy(String sauceNumber, String attribute) {
+        return switch (attribute) {
+            case "name" -> sauceRepository.getSaucesWithNumberStartingWithSortedByName(sauceNumber + "%");
+            case "number" -> sauceRepository.getSaucesWithNumberStartingWithSortedByNumber(sauceNumber + "%");
+            case "type_name" -> sauceRepository.getSaucesWithNumberStartingWithSortedByTypeName(sauceNumber + "%");
+            case "price" -> sauceRepository.getSaucesWithNumberStartingWithSortedByPrice(sauceNumber + "%");
+            default -> new ArrayList<>();
+        };
+    }
+
     public void updateSauce(SauceDTO sauce) {
         String sauceNumber = sauce.getNumber();
         if (!sauceRepository.exists(sauceNumber))
             throw new NonExistingSauceException();
         sauceRepository.updateSauce(sauce);
-    }
-
-    public List<Sauce> getSauceByNumber(String number) {
-        return sauceRepository.getSaucesWithNumberStartingWith(number + "%");
-    }
-
-    public List<Sauce> getSauceByName(String name) {
-        return sauceRepository.getSaucesWithNameStartingWith(name + "%");
     }
 
     public Sauce getSauceByKey(String key) {

@@ -22,7 +22,7 @@ public class SauceController {
         this.sauceService = sauceService;
     }
 
-    @GetMapping("/sauce")
+    @GetMapping(value = "/sauce", params = {"sorted"})
     public List<Sauce> findAllSauce(
             @RequestParam("sorted") String attribute
     ) {
@@ -87,18 +87,20 @@ public class SauceController {
         return sauceService.getSauceByKey(key);
     }
 
-    @GetMapping(value = "/sauce", params = {"number"})
-    public List<Sauce> getSauceByNumber(
-        @RequestParam("number") String number
+    @GetMapping(value = "/sauce", params = {"number", "sorted"})
+    public List<Sauce> getSauceByNumberPrefixSortedBy(
+        @RequestParam("number") String number,
+        @RequestParam("sorted") String attribute
     ) {
-        return sauceService.getSauceByNumber(number);
+        return sauceService.getSauceWithNumberPrefixSortedBy(number, attribute);
     }
 
-    @GetMapping(value = "/sauce", params = {"name"})
-    public List<Sauce> getSauceByName(
-            @RequestParam("name") String name
+    @GetMapping(value = "/sauce", params = {"name", "sorted"})
+    public List<Sauce> getSauceByNamePrefixSortedBy(
+            @RequestParam("name") String name,
+            @RequestParam("sorted") String attribute
     ) {
-        return sauceService.getSauceByName(name);
+        return sauceService.getSauceWithNamePrefixSortedBy(name, attribute);
     }
 
     @PostMapping("/sauce")
