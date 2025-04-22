@@ -3,7 +3,7 @@ package com.pansauce.service;
 import com.pansauce.dao.BatchDao;
 import com.pansauce.dao.SauceDao;
 import com.pansauce.exception.batch.*;
-import com.pansauce.model.Batch;
+import com.pansauce.model.basic.Batch;
 import com.pansauce.model.analysis.TotalAmount;
 import com.pansauce.model.analysis.TotalIncome;
 import com.pansauce.model.dto.BatchDTO;

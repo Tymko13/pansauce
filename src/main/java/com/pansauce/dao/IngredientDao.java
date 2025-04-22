@@ -1,6 +1,6 @@
 package com.pansauce.dao;
 
-import com.pansauce.model.Ingredient;
+import com.pansauce.model.basic.Ingredient;
 
 import java.util.List;
 

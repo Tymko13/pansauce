@@ -1,6 +1,6 @@
 package com.pansauce.model.dto;
 
-import com.pansauce.model.Phone;
+import com.pansauce.model.basic.Phone;
 
 public class PhoneDTO extends Phone {
 

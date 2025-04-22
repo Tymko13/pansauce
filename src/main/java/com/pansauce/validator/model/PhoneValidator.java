@@ -1,6 +1,6 @@
 package com.pansauce.validator.model;
 
-import com.pansauce.model.Phone;
+import com.pansauce.model.basic.Phone;
 import com.pansauce.validator.attribute.NumberAttributeValidator;
 
 import java.util.List;

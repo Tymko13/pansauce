@@ -1,4 +1,4 @@
-package com.pansauce.model;
+package com.pansauce.model.basic;
 
 public class Type {
     private String typeNumber;

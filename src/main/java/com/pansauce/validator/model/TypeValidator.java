@@ -1,6 +1,6 @@
 package com.pansauce.validator.model;
 
-import com.pansauce.model.Type;
+import com.pansauce.model.basic.Type;
 import com.pansauce.validator.attribute.TypeNameAttributeValidator;
 
 import java.util.List;

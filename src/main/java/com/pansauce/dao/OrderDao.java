@@ -1,6 +1,6 @@
 package com.pansauce.dao;
 
-import com.pansauce.model.Batch;
+import com.pansauce.model.basic.Batch;
 import com.pansauce.model.dto.OrderDTO;
 import com.pansauce.model.order.Order;
 import com.pansauce.model.order.OrderWithCustomerData;

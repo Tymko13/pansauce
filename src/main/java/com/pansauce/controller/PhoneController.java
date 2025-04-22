@@ -1,7 +1,6 @@
 package com.pansauce.controller;
 
-import com.pansauce.model.Phone;
-import com.pansauce.model.dto.PhoneDTO;
+import com.pansauce.model.basic.Phone;
 import com.pansauce.service.PhoneService;
 import org.springframework.web.bind.annotation.*;
 

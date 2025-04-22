@@ -1,7 +1,7 @@
 package com.pansauce.repository;
 
 import com.pansauce.dao.PhoneDao;
-import com.pansauce.model.Phone;
+import com.pansauce.model.basic.Phone;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 

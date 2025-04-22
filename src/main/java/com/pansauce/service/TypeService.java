@@ -4,7 +4,7 @@ import com.pansauce.dao.TypeDao;
 import com.pansauce.exception.type.InvalidTypeException;
 import com.pansauce.exception.type.NoTypesFoundException;
 import com.pansauce.exception.type.NonExistingTypeException;
-import com.pansauce.model.Type;
+import com.pansauce.model.basic.Type;
 import com.pansauce.model.sauce.Sauce;
 import com.pansauce.validator.model.TypeValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
