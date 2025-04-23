@@ -1,7 +1,7 @@
 package com.pansauce.repository;
 
 import com.pansauce.dao.SauceIngredientDao;
-import com.pansauce.model.SauceIngredient;
+import com.pansauce.model.basic.SauceIngredient;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 

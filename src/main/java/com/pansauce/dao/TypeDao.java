@@ -1,6 +1,6 @@
 package com.pansauce.dao;
 
-import com.pansauce.model.Type;
+import com.pansauce.model.basic.Type;
 import com.pansauce.model.sauce.Sauce;
 
 import java.util.List;

@@ -4,7 +4,7 @@ import com.pansauce.dao.CustomerDao;
 import com.pansauce.dao.PhoneDao;
 import com.pansauce.exception.customer.NonExistingCustomerException;
 import com.pansauce.exception.phone.InvalidPhoneException;
-import com.pansauce.model.Phone;
+import com.pansauce.model.basic.Phone;
 import com.pansauce.validator.model.PhoneValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

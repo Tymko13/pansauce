@@ -1,7 +1,6 @@
 package com.pansauce.controller;
 
-import com.pansauce.model.Batch;
-import com.pansauce.model.dto.SauceDTO;
+import com.pansauce.model.basic.Batch;
 import com.pansauce.model.sauce.Sauce;
 import com.pansauce.model.sauce.SauceWithIncome;
 import com.pansauce.model.sauce.SauceWithRecipe;

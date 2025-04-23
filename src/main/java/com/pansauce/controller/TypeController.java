@@ -1,6 +1,6 @@
 package com.pansauce.controller;
 
-import com.pansauce.model.Type;
+import com.pansauce.model.basic.Type;
 import com.pansauce.model.sauce.Sauce;
 import com.pansauce.service.TypeService;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,6 @@
 package com.pansauce.model.sauce;
 
-import com.pansauce.model.SauceIngredient;
+import com.pansauce.model.basic.SauceIngredient;
 
 import java.util.List;
 

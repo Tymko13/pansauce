@@ -1,7 +1,7 @@
 package com.pansauce.repository;
 
 import com.pansauce.dao.TypeDao;
-import com.pansauce.model.Type;
+import com.pansauce.model.basic.Type;
 import com.pansauce.model.sauce.Sauce;
 import com.pansauce.util.RandomKeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;

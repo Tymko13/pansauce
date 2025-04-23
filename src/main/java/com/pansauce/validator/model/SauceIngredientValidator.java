@@ -1,6 +1,6 @@
 package com.pansauce.validator.model;
 
-import com.pansauce.model.SauceIngredient;
+import com.pansauce.model.basic.SauceIngredient;
 import com.pansauce.validator.attribute.ProductNameAttributeValidator;
 import com.pansauce.validator.attribute.WeightAttributeValidator;
 

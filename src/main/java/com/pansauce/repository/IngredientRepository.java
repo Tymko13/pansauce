@@ -1,7 +1,7 @@
 package com.pansauce.repository;
 
 import com.pansauce.dao.IngredientDao;
-import com.pansauce.model.Ingredient;
+import com.pansauce.model.basic.Ingredient;
 import com.pansauce.util.RandomKeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

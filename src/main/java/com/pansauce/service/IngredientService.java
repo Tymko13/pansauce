@@ -2,7 +2,7 @@ package com.pansauce.service;
 
 import com.pansauce.dao.IngredientDao;
 import com.pansauce.exception.ingredient.*;
-import com.pansauce.model.Ingredient;
+import com.pansauce.model.basic.Ingredient;
 import com.pansauce.validator.model.IngredientValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

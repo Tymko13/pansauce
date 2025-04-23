@@ -1,6 +1,6 @@
 package com.pansauce.validator.model;
 
-import com.pansauce.model.Batch;
+import com.pansauce.model.basic.Batch;
 import com.pansauce.validator.attribute.QuantityAttributeValidator;
 
 import java.util.List;

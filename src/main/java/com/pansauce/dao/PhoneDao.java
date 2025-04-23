@@ -1,7 +1,6 @@
 package com.pansauce.dao;
 
-import com.pansauce.model.Phone;
-import com.pansauce.model.dto.PhoneDTO;
+import com.pansauce.model.basic.Phone;
 
 import java.util.List;
 

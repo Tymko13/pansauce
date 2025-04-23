@@ -4,7 +4,7 @@ import com.pansauce.dao.SauceDao;
 import com.pansauce.dao.SauceIngredientDao;
 import com.pansauce.exception.sauce.NonExistingSauceException;
 import com.pansauce.exception.sauceIngredient.SauceWithoutRecipeException;
-import com.pansauce.model.SauceIngredient;
+import com.pansauce.model.basic.SauceIngredient;
 import com.pansauce.validator.model.SauceIngredientValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

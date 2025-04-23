@@ -2,16 +2,14 @@ package com.pansauce.service;
 
 import com.pansauce.dao.BatchDao;
 import com.pansauce.dao.OrderDao;
-import com.pansauce.exception.batch.NonExistingBatchException;
 import com.pansauce.exception.order.*;
-import com.pansauce.model.Batch;
+import com.pansauce.model.basic.Batch;
 import com.pansauce.model.dto.BatchDTO;
 import com.pansauce.model.order.Order;
 import com.pansauce.model.dto.OrderDTO;
 import com.pansauce.model.order.OrderWithBatchKeys;
 import com.pansauce.model.order.OrderWithCustomerData;
 import com.pansauce.util.RandomKeyGenerator;
-import com.pansauce.validator.model.OrderValidator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 

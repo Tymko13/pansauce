@@ -1,8 +1,8 @@
 package com.pansauce.constants.rowMapper;
 
-import com.pansauce.model.*;
 import com.pansauce.model.analysis.TotalAmount;
 import com.pansauce.model.analysis.TotalIncome;
+import com.pansauce.model.basic.*;
 import com.pansauce.model.customer.Customer;
 import com.pansauce.model.customer.CustomerWithOrders;
 import com.pansauce.model.order.Order;
