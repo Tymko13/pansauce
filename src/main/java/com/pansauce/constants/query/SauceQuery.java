@@ -305,7 +305,7 @@ public class SauceQuery {
             "shelf_life = ?,\n" +
             "sauce_weight = ?,\n" +
             "sauce_cost = ?,\n" +
-            "typeNumber = ?\n" +
+            "type_number = ?\n" +
             "WHERE sauce_number = ?\n";
 
     public static final String DELETE_SAUCE_INGREDIENTS =
