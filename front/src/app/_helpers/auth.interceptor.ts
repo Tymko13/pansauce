@@ -6,17 +6,14 @@ import {environment} from '../environment';
 
 @Injectable()
 export class BasicAuthInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private authService: AuthenticationService) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const user = this.authenticationService.userValue;
-    const isLoggedIn = user?.authdata;
-    const isApiUrl = request.url.startsWith(environment.apiUrl);
-    if (isLoggedIn && isApiUrl) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: 'Basic ' + user?.authdata
-        }
+    const token = this.authService.getToken();
+    if (token) {
+      const cloned = request.clone({
+        headers: request.headers.set('Authorization', `Bearer ${token}`)
       });
+      return next.handle(cloned);
     }
     return next.handle(request);
   }

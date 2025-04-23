@@ -122,7 +122,7 @@ public class SauceService {
         return switch (attribute) {
             case "name" -> sauceRepository.getSaucesWithNameStartingWithSortedByName(sauceName + "%");
             case "number" -> sauceRepository.getSaucesWithNameStartingWithSortedByNumber(sauceName + "%");
-            case "type_name" -> sauceRepository.getSaucesWithNameStartingWithSortedByTypeName(sauceName + "%");
+            case "type" -> sauceRepository.getSaucesWithNameStartingWithSortedByTypeName(sauceName + "%");
             case "price" -> sauceRepository.getSaucesWithNameStartingWithSortedByPrice(sauceName + "%");
             default -> new ArrayList<>();
         };
@@ -132,7 +132,7 @@ public class SauceService {
         return switch (attribute) {
             case "name" -> sauceRepository.getSaucesWithNumberStartingWithSortedByName(sauceNumber + "%");
             case "number" -> sauceRepository.getSaucesWithNumberStartingWithSortedByNumber(sauceNumber + "%");
-            case "type_name" -> sauceRepository.getSaucesWithNumberStartingWithSortedByTypeName(sauceNumber + "%");
+            case "type" -> sauceRepository.getSaucesWithNumberStartingWithSortedByTypeName(sauceNumber + "%");
             case "price" -> sauceRepository.getSaucesWithNumberStartingWithSortedByPrice(sauceNumber + "%");
             default -> new ArrayList<>();
         };

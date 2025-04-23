@@ -35,8 +35,8 @@ import {MatDialog} from '@angular/material/dialog';
   `,
   template: `
     <button mat-icon-button  (click)="act()">
-      <mat-icon *ngIf="!authService.userValue">login</mat-icon>
-      <mat-icon *ngIf="authService.userValue">logout</mat-icon>
+      <mat-icon *ngIf="!authService.isLoggedIn()">login</mat-icon>
+      <mat-icon *ngIf="authService.isLoggedIn()">logout</mat-icon>
     </button>
   `,
   standalone: true
@@ -58,7 +58,7 @@ export class LoginLogoutBtnComponent {
 
 
   act() {
-    if(!this.authService.userValue) {
+    if(!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']).catch(err => console.log(err));
     }
     else {

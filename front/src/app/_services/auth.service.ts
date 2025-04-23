@@ -1,46 +1,61 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import {User} from "../_models/user";
+import {tap} from 'rxjs';
 import {environment} from '../environment';
+import {AuthRequest} from '../_models/auth-request';
+import {AuthResponse} from '../_models/auth-response';
+import {jwtDecode} from 'jwt-decode';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private userSubject: BehaviorSubject<User | null>;
-  public user: Observable<User | null>;
+  private readonly TOKEN_KEY = 'auth-token';
 
-  constructor(
-    private router: Router,
-    private http: HttpClient
-  ) {
-    this.userSubject = new BehaviorSubject(JSON.parse(sessionStorage.getItem('user')!));
-    this.user = this.userSubject.asObservable();
-  }
+  constructor(private http: HttpClient) {}
 
-  public get userValue() {
-    return this.userSubject.value;
-  }
-
-  login(username: string, password: string) {
-    const auth = btoa(username + ':' + password)
-    const headers = new HttpHeaders({
-      Authorization: 'Basic ' + auth
-    });
-    return this.http.get<any>(`${environment.apiUrl}/login`, {headers})
-      .pipe(map(user => {
-        user.authdata = auth;
-        sessionStorage.setItem('user', JSON.stringify(user));
-        this.userSubject.next(user);
-        return user;
-      }));
+  login(credentials: AuthRequest) {
+    return this.http.post<AuthResponse>(`${environment.apiUrl}/login`, credentials).pipe(
+      tap(response => {
+        localStorage.setItem(this.TOKEN_KEY, response.token);
+      })
+    );
   }
 
   logout() {
-    sessionStorage.removeItem('user');
-    this.userSubject.next(null);
-    this.router.navigate(['/login']).catch(error => console.error('Navigation error:', error));
-    console.log(this.userValue);
+    localStorage.removeItem(this.TOKEN_KEY);
   }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+
+  getUserRole(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const decoded: JwtPayload = jwtDecode(token);
+      return decoded.role;
+    } catch (e) {
+      console.error('Invalid token', e);
+      return null;
+    }
+  }
+
+  isTopManager(): boolean {
+    return this.getUserRole() === "TOP_MANAGER";
+  }
+
+  isSalesManager(): boolean {
+    return this.getUserRole() === "SALES_MANAGER";
+  }
+}
+
+interface JwtPayload {
+  username: string;
+  password: string;
+  role: string;
 }

@@ -16,9 +16,10 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import {AddSauceDialogComponent} from './add-batch-dialog/add-sauce-dialog.component';
+import {AddSauceDialogComponent} from './add-sauce-dialog/add-sauce-dialog.component';
 import {Batch} from '../_models/batch';
 import {UpdateSauceDialogComponent} from './update-batch-dialog/update-sauce-dialog.component';
+import {TypeService} from '../_services/type.service';
 
 @Component({
   selector: 'app-sauce',
@@ -42,13 +43,15 @@ import {UpdateSauceDialogComponent} from './update-batch-dialog/update-sauce-dia
 export class SauceComponent {
   private batchService = inject(BatchService);
   private sauceService = inject(SauceService);
-  private orderService = inject(OrderService);
+  private typeService = inject(TypeService);
 
   private iconRegistry = inject(MatIconRegistry);
   private sanitizer = inject(DomSanitizer);
   private dialog = inject(MatDialog);
 
   constructor() {
+    this.iconRegistry.addSvgIcon('see',
+      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/see.svg'));
     this.iconRegistry.addSvgIcon('edit',
       this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/edit.svg'));
     this.iconRegistry.addSvgIcon('delete',
@@ -58,7 +61,7 @@ export class SauceComponent {
   }
 
   searchOptions = ['Sauce Number', 'Sauce Name', 'Type Number', 'Type Name'];
-  sortOptions = ["name","number", "type", "cost"];
+  sortOptions = ["number","name", "type", "price"];
   displayedColumns = [
     'number',
     'name',
@@ -79,17 +82,17 @@ export class SauceComponent {
     this.dbUpdated();
     const term = this.searchTerm();
     const sort = this.selectedSort();
-    // if (term) switch (this.selectedSearch()) {
-    //   case 'Batch Number':
-    //     return this.batchService.getBatchesByNumber(term);
-    //   case 'Order Number':
-    //     return this.orderService.getBatchesOfOrderSortedBy(term, sort);
-    //   case 'Sauce Number':
-    //     return this.sauceService.getSauceBatches(term, sort);
-    //   case 'Sauce Name':
-    //     return this.sauceService.getSauceBatchesByName(term, sort);
-    // }
-    return this.sauceService.getAllSauceWithRecipe(sort);
+    if (term) switch (this.selectedSearch()) {
+      case 'Sauce Number':
+        return this.sauceService.getByNumberPrefixSorted(term, sort);
+      case 'Sauce Name':
+        return this.sauceService.getByNamePrefixSorted(term, sort);
+      case 'Type Number':
+        return this.typeService.getSaucesWithTypeNumberSortedBy(term, sort);
+      case 'Type Name':
+        return this.typeService.getSaucesWithTypeNameSortedBy(term, sort);
+    }
+    return this.sauceService.findAllSauce(sort);
   });
 
   updateDB() { this.dbUpdated.update(e => ++e); }
@@ -104,6 +107,16 @@ export class SauceComponent {
       }
     });
   }
+
+  seeRecipe(number: string) {
+    this.sauceService.getSauceByKey(number).subscribe(sauce => {
+      if(sauce) {
+        // const show = this.dialog.open()
+      }
+    });
+  }
+
+  editRecipe(number: string){}
 
   update(number: string) {
     const update = this.dialog.open(UpdateSauceDialogComponent, {

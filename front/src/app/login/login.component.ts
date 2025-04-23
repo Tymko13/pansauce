@@ -19,7 +19,7 @@ export class LoginComponent{
   private router = inject(Router);
 
   constructor() {
-    if (this.authService.userValue) {
+    if (this.authService.isLoggedIn()) {
       this.router.navigate(['/']).catch(err => console.log(err));
     }
   }
@@ -31,14 +31,10 @@ export class LoginComponent{
 
   submit() {
     if(this.loginForm.valid) {
-      this.authService.login(this.loginForm.value.username!, this.loginForm.value.password!).subscribe(() => {
+      this.authService.login({username: this.loginForm.value.username!, password: this.loginForm.value.password!}).subscribe(() => {
         this.router.navigate([this.route.snapshot.queryParams['returnUrl'] || '/'])
           .catch(err => console.log(err));
       });
-    }
-
-    if (this.loginForm.invalid) {
-      return;
     }
   }
 }
