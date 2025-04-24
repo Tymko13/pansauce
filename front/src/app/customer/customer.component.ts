@@ -8,24 +8,18 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import {MatOption, MatSelect} from '@angular/material/select';
-import {OrderService} from '../_services/order.service';
 import {MatIconModule} from '@angular/material/icon';
-import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry} from '@angular/material/icon';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {AddCustomerDialogComponent} from './add-customer-dialog/add-customer-dialog.component';
 import {UpdateCustomerDialogComponent} from './update-customer-dialog/update-customer-dialog.component';
 import {CustomerService} from '../_services/customer.service';
-import {OrderWithBatchKeys} from '../_models/order-with-batch-keys';
 import {
   MatDatepickerToggle,
   MatDateRangeInput,
   MatDateRangePicker, MatEndDate, MatStartDate
 } from '@angular/material/datepicker';
 import {Customer} from '../_models/customer';
-import {PhoneService} from '../_services/phone.service';
-import {CustomerWithOrders} from '../_models/customer-with-orders';
 import {CustomerWithOrdersAndBatches} from '../_models/customer-with-orders-and-batches';
 
 @Component({
@@ -55,21 +49,7 @@ import {CustomerWithOrdersAndBatches} from '../_models/customer-with-orders-and-
 })
 export class CustomerComponent {
   private customerService = inject(CustomerService);
-  private orderService = inject(OrderService);
-  private phoneService = inject(PhoneService);
-
-  private iconRegistry = inject(MatIconRegistry);
-  private sanitizer = inject(DomSanitizer);
   private dialog = inject(MatDialog);
-
-  constructor() {
-    this.iconRegistry.addSvgIcon('edit',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/edit.svg'));
-    this.iconRegistry.addSvgIcon('delete',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/delete.svg'));
-    this.iconRegistry.addSvgIcon('add',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/add.svg'));
-  }
 
   searchOptions = ['customer_number', 'phone_number', 'full_name', 'type_number', 'type_name', 'sauce_number', 'sauce_name', 'batch_number'];
   showOptions = ["all", "order_period"];

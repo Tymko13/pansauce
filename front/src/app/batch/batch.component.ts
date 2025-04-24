@@ -12,8 +12,6 @@ import {MatOption, MatSelect} from '@angular/material/select';
 import {SauceService} from '../_services/sauce.service';
 import {OrderService} from '../_services/order.service';
 import {MatIconModule} from '@angular/material/icon';
-import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry} from '@angular/material/icon';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {AddBatchDialogComponent} from './add-batch-dialog/add-batch-dialog.component';
@@ -43,19 +41,7 @@ export class BatchComponent {
   private batchService = inject(BatchService);
   private sauceService = inject(SauceService);
   private orderService = inject(OrderService);
-
-  private iconRegistry = inject(MatIconRegistry);
-  private sanitizer = inject(DomSanitizer);
   private dialog = inject(MatDialog);
-
-  constructor() {
-    this.iconRegistry.addSvgIcon('edit',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/edit.svg'));
-    this.iconRegistry.addSvgIcon('delete',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/delete.svg'));
-    this.iconRegistry.addSvgIcon('add',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/add.svg'));
-  }
 
   searchOptions = ['Batch Number', 'Order Number', 'Sauce Number', 'Sauce Name'];
   sortOptions = ["number", "prod_date", "size", "price", "status"];

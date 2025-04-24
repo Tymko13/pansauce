@@ -10,8 +10,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {SauceService} from '../_services/sauce.service';
 import {MatIconModule} from '@angular/material/icon';
-import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry} from '@angular/material/icon';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {AddSauceDialogComponent} from './add-sauce-dialog/add-sauce-dialog.component';
@@ -45,20 +43,7 @@ export class SauceComponent {
   private sauceIngredientService = inject(SauceIngredientService);
   private typeService = inject(TypeService);
 
-  private iconRegistry = inject(MatIconRegistry);
-  private sanitizer = inject(DomSanitizer);
   private dialog = inject(MatDialog);
-
-  constructor() {
-    this.iconRegistry.addSvgIcon('visibility',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/visibility.svg'));
-    this.iconRegistry.addSvgIcon('edit',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/edit.svg'));
-    this.iconRegistry.addSvgIcon('delete',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/delete.svg'));
-    this.iconRegistry.addSvgIcon('add',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/add.svg'));
-  }
 
   searchOptions = ['Sauce Number', 'Sauce Name', 'Type Number', 'Type Name'];
   sortOptions = ["number", "name", "type", "price"];
