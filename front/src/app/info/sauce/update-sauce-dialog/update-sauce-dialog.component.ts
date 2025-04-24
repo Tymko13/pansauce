@@ -37,7 +37,7 @@ import {Type} from '../../../_models/type';
     MatDialogTitle,
     MatSelectModule
   ],
-  styles: "mat-form-field {width: 45%;} mat-form-field:nth-of-type(2n+1) {margin-right: 5%;} #types {width: 95%; margin: 0;}"
+  styles: "mat-form-field {width: 45%;} .left {margin-right: 5%;} #type {width: 25%; margin: 0 15%;}"
 })
 export class UpdateSauceDialogComponent {
   private fb = inject(FormBuilder);
@@ -61,7 +61,24 @@ export class UpdateSauceDialogComponent {
     weight: [this.sauce().weight, [Validators.required, Validators.min(1)]],
     cost: [this.sauce().cost, [Validators.required, Validators.min(0)]],
     typeNumber: [this.sauce().typeNumber, Validators.required],
+    typeName: [null]
   }));
+
+  isNewType = false;
+  toggleType() {
+    this.isNewType = !this.isNewType;
+    if(this.isNewType){
+      this.form().get("typeName")?.addValidators([Validators.required]);
+      this.form().get("typeNumber")?.clearValidators();
+      this.form().get("typeName")?.updateValueAndValidity();
+      this.form().get("typeNumber")?.updateValueAndValidity();
+    } else {
+      this.form().get("typeNumber")?.addValidators([Validators.required]);
+      this.form().get("typeName")?.clearValidators();
+      this.form().get("typeNumber")?.updateValueAndValidity();
+      this.form().get("typeName")?.updateValueAndValidity();
+    }
+  }
 
   submit() {
     if (this.form().valid) {

@@ -63,7 +63,6 @@ export class AddSauceDialogComponent {
       this.form.get("typeName")?.clearValidators();
       this.form.get("typeNumber")?.updateValueAndValidity();
     }
-
   }
 
   submit() {
