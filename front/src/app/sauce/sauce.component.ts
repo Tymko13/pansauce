@@ -1,13 +1,12 @@
 import {Component, inject, signal, computed} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatTableModule } from '@angular/material/table';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
-import { BatchService } from '../_services/batch.service';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {MatTableModule} from '@angular/material/table';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+import {MatButtonModule} from '@angular/material/button';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {SauceService} from '../_services/sauce.service';
 import {MatIconModule} from '@angular/material/icon';
@@ -16,9 +15,11 @@ import {MatIconRegistry} from '@angular/material/icon';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {AddSauceDialogComponent} from './add-sauce-dialog/add-sauce-dialog.component';
-import {Batch} from '../_models/batch';
 import {UpdateSauceDialogComponent} from './update-sauce-dialog/update-sauce-dialog.component';
 import {TypeService} from '../_services/type.service';
+import {SauceIngredientService} from '../_services/sauce-ingredient.service';
+import {SeeRecipeDialogComponent} from './see-recipe-dialog/see-recipe-dialog.component';
+import {SauceWithRecipe} from '../_models/sauce-with-recipe';
 
 @Component({
   selector: 'app-sauce',
@@ -40,8 +41,8 @@ import {TypeService} from '../_services/type.service';
   styleUrls: ['./sauce.component.css'],
 })
 export class SauceComponent {
-  private batchService = inject(BatchService);
   private sauceService = inject(SauceService);
+  private sauceIngredientService = inject(SauceIngredientService);
   private typeService = inject(TypeService);
 
   private iconRegistry = inject(MatIconRegistry);
@@ -60,7 +61,7 @@ export class SauceComponent {
   }
 
   searchOptions = ['Sauce Number', 'Sauce Name', 'Type Number', 'Type Name'];
-  sortOptions = ["number","name", "type", "price"];
+  sortOptions = ["number", "name", "type", "price"];
   displayedColumns = [
     'number',
     'name',
@@ -94,7 +95,9 @@ export class SauceComponent {
     return this.sauceService.findAllSauce(sort);
   });
 
-  updateDB() { this.dbUpdated.update(e => ++e); }
+  updateDB() {
+    this.dbUpdated.update(e => ++e);
+  }
 
   delete(number: string) {
     const confirmation = this.dialog.open(ConfirmDialogComponent, {
@@ -102,20 +105,22 @@ export class SauceComponent {
     });
     confirmation.afterClosed().subscribe(res => {
       if (res) {
-        this.sauceService.deleteSauce(number).subscribe(()=>{this.updateDB();});
+        this.sauceService.deleteSauce(number).subscribe(() => {
+          this.updateDB();
+        });
       }
     });
   }
 
   seeRecipe(number: string) {
-    this.sauceService.getSauceByKey(number).subscribe(sauce => {
-      if(sauce) {
-        // const show = this.dialog.open()
+    this.sauceIngredientService.getSauceIngredientsByKey(number).subscribe(recipe => {
+      if (recipe) {
+        this.dialog.open(SeeRecipeDialogComponent, {
+          data: {recipe: recipe}
+        })
       }
     });
   }
-
-  editRecipe(number: string){}
 
   update(number: string) {
     const update = this.dialog.open(UpdateSauceDialogComponent, {
@@ -123,19 +128,17 @@ export class SauceComponent {
     });
     update.afterClosed().subscribe(res => {
       if (res) {
-        let updatedBatch: Partial<Batch> = {
+        let updatedSauce: Partial<SauceWithRecipe> = {
           number: number,
-          sauceCost: res.sauceCost,
-          quantity: res.quantity,
-          orderNumber: res.orderNumber
+          cost: res.cost,
+          shelfLife: res.shelfLife,
+          name: res.name,
+          recipe: res.recipe,
+          weight: res.weight,
+          typeNumber: res.typeNumber
         }
-        this.batchService.getBatchByKey(number).subscribe(curr => {
-          if (curr.sauceCost == updatedBatch.sauceCost
-            && curr.quantity == updatedBatch.quantity
-            && curr.orderNumber === updatedBatch.orderNumber) return;
-          this.batchService.updateBatch(updatedBatch).subscribe(() => {
-            this.updateDB();
-          });
+        this.sauceService.updateSauce(updatedSauce).subscribe(() => {
+          this.updateDB();
         });
       }
     });
@@ -144,14 +147,18 @@ export class SauceComponent {
   add() {
     const input = this.dialog.open(AddSauceDialogComponent);
     input.afterClosed().subscribe(res => {
-      if(res){
-        let newBatch: Partial<Batch> = {
-          expirationDate: res.expirationDate,
-          productionDate: res.productionDate,
-          quantity: res.quantity,
-          sauceNumber: res.sauceNumber
+      if (res) {
+        let newSauce: Partial<SauceWithRecipe> = {
+          cost: res.cost,
+          shelfLife: res.shelfLife,
+          name: res.name,
+          recipe: res.recipe,
+          weight: res.weight,
+          typeNumber: res.typeNumber
         }
-        this.batchService.addBatch(newBatch).subscribe(()=>{this.updateDB();});
+        this.sauceService.addSauce(newSauce).subscribe(() => {
+          this.updateDB();
+        });
       }
     });
   }

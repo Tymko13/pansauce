@@ -84,6 +84,10 @@ export class SauceService {
     return this.http.post<void>(this.apiUrl, sauce);
   }
 
+  updateSauce(sauce: Partial<SauceWithRecipe>): Observable<void> {
+    return this.http.patch<void>(this.apiUrl, sauce);
+  }
+
   deleteSauce(key: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${key}`);
   }
