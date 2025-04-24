@@ -10,7 +10,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { BatchService } from '../_services/batch.service';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {SauceService} from '../_services/sauce.service';
-import {OrderService} from '../_services/order.service';
 import {MatIconModule} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
@@ -18,7 +17,7 @@ import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component
 import {MatDialog} from '@angular/material/dialog';
 import {AddSauceDialogComponent} from './add-sauce-dialog/add-sauce-dialog.component';
 import {Batch} from '../_models/batch';
-import {UpdateSauceDialogComponent} from './update-batch-dialog/update-sauce-dialog.component';
+import {UpdateSauceDialogComponent} from './update-sauce-dialog/update-sauce-dialog.component';
 import {TypeService} from '../_services/type.service';
 
 @Component({
@@ -50,8 +49,8 @@ export class SauceComponent {
   private dialog = inject(MatDialog);
 
   constructor() {
-    this.iconRegistry.addSvgIcon('see',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/see.svg'));
+    this.iconRegistry.addSvgIcon('visibility',
+      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/visibility.svg'));
     this.iconRegistry.addSvgIcon('edit',
       this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/edit.svg'));
     this.iconRegistry.addSvgIcon('delete',
@@ -120,7 +119,7 @@ export class SauceComponent {
 
   update(number: string) {
     const update = this.dialog.open(UpdateSauceDialogComponent, {
-      data: {batch: number}
+      data: {sauce: number}
     });
     update.afterClosed().subscribe(res => {
       if (res) {
