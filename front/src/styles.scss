@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
-@use 'theme_dark' as dark-theme;
-@use 'theme_light' as light-theme;
+@use 'assets/themes/dark' as dark-theme;
+@use 'assets/themes/light' as light-theme;
 
 html {
   color-scheme: light;
@@ -27,68 +27,6 @@ html {
 }
 
 body {
-  //color: dark#24272B;
     background-color: var(--secondary-color);
     font-family: "Nunito", sans-serif;
 }
-
-.text-btn {
-  position: relative;
-  background-color: transparent;
-  color: var(--text-color);
-  border: none;
-  font-weight: bold;
-  font-size: 2.25rem;
-  transition: 0.2s;
-}
-
-.text-btn::after {
-  position: absolute;
-  content: "";
-  width: 100%;
-  height: 3px;
-  top: 100%;
-  left: 0;
-  background: var(--accent-color);
-  transition: transform 0.2s;
-  transform: scaleX(0);
-  transform-origin: right;
-}
-
-.text-btn:hover {
-  color: var(--accent-color);
-  cursor: pointer;
-}
-
-.text-btn:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-.icon-btn {
-  background-color: transparent;
-  color: var(--text-color);
-  border: none;
-  font-weight: bold;
-  font-size: 0;
-}
-
-.icon-btn svg {
-  color: var(--text-color);
-  width: inherit;
-  height: inherit;
-  transition: 0.2s;
-}
-
-.icon-btn:hover svg {
-  color: var(--accent-color);
-  cursor: pointer;
-}
-
-
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

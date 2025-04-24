@@ -1,3 +1,36 @@
+.text-btn {
+  position: relative;
+  background-color: transparent;
+  color: var(--text-color);
+  border: none;
+  font-weight: bold;
+  font-size: 2.25rem;
+  transition: 0.2s;
+}
+
+.text-btn::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 3px;
+  top: 100%;
+  left: 0;
+  background: var(--accent-color);
+  transition: transform 0.2s;
+  transform: scaleX(0);
+  transform-origin: right;
+}
+
+.text-btn:hover {
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+.text-btn:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
 header {
   height: 10vh;
   width: 100%;
@@ -37,10 +70,3 @@ header {
   flex: 1;
   justify-content: flex-end;
 }
-
-/*#settings button {*/
-/*  margin: 0 2rem 0 1.5rem;*/
-
-/*  width: 2.5rem;*/
-/*  height: 2.5rem;*/
-/*}*/

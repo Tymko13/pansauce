@@ -2,11 +2,11 @@ import {Component, inject} from '@angular/core';
 import {MatIconModule, MatIconRegistry} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {DomSanitizer} from '@angular/platform-browser';
-import {AuthenticationService} from '../../_services/auth.service';
 import {NgIf} from '@angular/common';
 import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {AuthService} from '../../_auth/auth.service';
 
 @Component({
   selector: 'app-login-logout-btn',
@@ -45,7 +45,7 @@ export class LoginLogoutBtnComponent {
   private iconRegistry = inject(MatIconRegistry);
   private sanitizer = inject(DomSanitizer);
 
-  protected authService = inject(AuthenticationService);
+  protected authService = inject(AuthService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
 
