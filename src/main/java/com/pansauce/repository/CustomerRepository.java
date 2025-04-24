@@ -49,7 +49,7 @@ public class CustomerRepository implements CustomerDao {
 
     @Override
     public Customer findByKey(String key) {
-        List<Customer> result = jdbc.query(GET_CUSTOMER_BY_KEY, CUSTOMER_ROW_MAPPER, key);
+        List<Customer> result = jdbc.query(GET_CUSTOMER_BY_KEY, CUSTOMER_WITH_PHONES_EXTRACTOR, key);
         return result.isEmpty() ? null : result.getFirst();
     }
 

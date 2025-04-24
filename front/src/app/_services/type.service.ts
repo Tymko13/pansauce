@@ -31,12 +31,16 @@ export class TypeService {
     return this.http.get<Type>(`${this.apiUrl}/${key}`);
   }
 
-  addType(type: Partial<Type>): Observable<void> {
+  addType(type: Type): Observable<void> {
     return this.http.post<void>(this.apiUrl, type);
   }
 
   deleteType(key: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${key}`);
+  }
+
+  updateType(type: Type): Observable<void> {
+    return this.http.patch<void>(this.apiUrl, type);
   }
 }
 

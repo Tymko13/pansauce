@@ -5,12 +5,13 @@ public class CustomerQuery {
     public static final String GET_ALL_CUSTOMERS =
             "SELECT *\n" +
             "FROM customer LEFT JOIN contact_number\n" +
-            "ON customer.customer_number = contact_number.customer_number; \n";
+            "ON customer.customer_number = contact_number.customer_number\n" +
+            "ORDER BY customer.customer_surname;";
 
     public static final String GET_CUSTOMER_BY_KEY =
             "SELECT *\n" +
             "FROM customer LEFT JOIN contact_number\n" +
-            "ON customer.customer_number = contact_number.customer_number; \n" +
+            "ON customer.customer_number = contact_number.customer_number\n" +
             "WHERE customer.customer_number = ?;\n";
 
     public static final String ADD_CUSTOMER =
@@ -145,7 +146,7 @@ public class CustomerQuery {
             "ON o.customer_number = c.customer_number)\n" +
             "LEFT JOIN contact_number AS cn \n" +
             "ON c.customer_number = cn.customer_number \n" +
-            "WHERE o.registration_date BETWEEN ?  AND ? \n" +
+            "WHERE o.registration_date BETWEEN ? AND ? \n" +
             "ORDER BY c.customer_surname;\n";
 
     public static final String GET_CUSTOMERS_WHO_ORDERED_BATCHES_WITH_TYPE_NUMBER =

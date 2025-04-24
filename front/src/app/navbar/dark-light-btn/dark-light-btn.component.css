@@ -18,3 +18,24 @@
   width: 2.5rem;
   height: 2.5rem;
 }
+
+
+.icon-btn {
+  background-color: transparent;
+  color: var(--text-color);
+  border: none;
+  font-weight: bold;
+  font-size: 0;
+}
+
+.icon-btn svg {
+  color: var(--text-color);
+  width: inherit;
+  height: inherit;
+  transition: 0.2s;
+}
+
+.icon-btn:hover svg {
+  color: var(--accent-color);
+  cursor: pointer;
+}

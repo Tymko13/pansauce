@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {NgIf} from '@angular/common';
-import {AuthenticationService} from '../_services/auth.service';
 import {DarkLightBtnComponent} from './dark-light-btn/dark-light-btn.component';
 import {LoginLogoutBtnComponent} from './login-logout-btn/login-logout-btn.component';
 import {MatButtonModule} from '@angular/material/button';
+import {AuthService} from '../_auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -23,5 +23,5 @@ import {MatButtonModule} from '@angular/material/button';
 export class NavbarComponent {
   protected readonly DarkLightBtnComponent = DarkLightBtnComponent;
 
-  constructor(public authService: AuthenticationService) {}
+  constructor(public authService: AuthService) {}
 }

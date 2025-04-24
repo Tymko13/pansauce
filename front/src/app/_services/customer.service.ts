@@ -5,6 +5,7 @@ import { Customer } from '../_models/customer';
 import { Order } from '../_models/order';
 import { CustomerWithOrders } from '../_models/customer-with-orders';
 import { environment } from '../environment';
+import {CustomerWithOrdersAndBatches} from '../_models/customer-with-orders-and-batches';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class CustomerService {
     return this.http.get<Order[]>(this.apiUrl, { params });
   }
 
-  getCustomersByPIB(name: string = '%', surname: string = '%', patronymic: string = '%'): Observable<Customer[]> {
+  getCustomersByPIB(surname: string = '', name: string = '', patronymic: string = ''): Observable<Customer[]> {
     const params = new HttpParams()
       .set('name', name)
       .set('surname', surname)
@@ -36,8 +37,8 @@ export class CustomerService {
     return this.http.get<CustomerWithOrders[]>(`${this.apiUrl}/order`);
   }
 
-  getCustomersWithOrdersBetweenDates(from: string, to: string): Observable<Customer[]> {
-    const params = new HttpParams().set('from', from).set('to', to);
+  getCustomersWithOrdersBetweenDates(from: Date, to: Date): Observable<Customer[]> {
+    const params = new HttpParams().set('from', from.toISOString().split('T')[0]).set('to', to.toISOString().split('T')[0]);
     return this.http.get<Customer[]>(this.apiUrl, { params });
   }
 
@@ -50,11 +51,21 @@ export class CustomerService {
     return this.http.get<Customer[]>(this.apiUrl);
   }
 
+  getCustomersByNumber(number: string): Observable<Customer[]> {
+    const params = new HttpParams().set('number', number);
+    return this.http.get<Customer[]>(`${this.apiUrl}/search`, { params });
+  }
+
+  getCustomersByPhone(phone: string): Observable<Customer[]> {
+    const params = new HttpParams().set('phone', phone);
+    return this.http.get<Customer[]>(`${this.apiUrl}/search`, { params });
+  }
+
   getCustomerByKey(key: string): Observable<Customer> {
     return this.http.get<Customer>(`${this.apiUrl}/${key}`);
   }
 
-  addCustomer(customer: Partial<Customer>): Observable<void> {
+  addCustomer(customer: Partial<CustomerWithOrdersAndBatches>): Observable<void> {
     return this.http.post<void>(this.apiUrl, customer);
   }
 

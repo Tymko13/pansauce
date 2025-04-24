@@ -36,6 +36,16 @@ export class SauceService {
     return this.http.get<SauceWithRecipe[]>(`${this.apiUrl}/recipe`, { params });
   }
 
+  getByNumberPrefixSorted(number: string, sorted: string): Observable<Sauce[]> {
+    const params = new HttpParams().set('number', number).set('sorted', sorted);
+    return this.http.get<Sauce[]>(this.apiUrl, { params });
+  }
+
+  getByNamePrefixSorted(name: string, sorted: string): Observable<Sauce[]> {
+    const params = new HttpParams().set('name', name).set('sorted', sorted);
+    return this.http.get<Sauce[]>(this.apiUrl, { params });
+  }
+
   getTopSaucesWithIncome(popularity: string): Observable<SauceWithIncome[]> {
     const params = new HttpParams().set('popularity', popularity);
     return this.http.get<SauceWithIncome[]>(`${this.apiUrl}/income`, { params });
@@ -72,6 +82,10 @@ export class SauceService {
 
   addSauce(sauce: Partial<Sauce>): Observable<void> {
     return this.http.post<void>(this.apiUrl, sauce);
+  }
+
+  updateSauce(sauce: Partial<SauceWithRecipe>): Observable<void> {
+    return this.http.patch<void>(this.apiUrl, sauce);
   }
 
   deleteSauce(key: string): Observable<void> {

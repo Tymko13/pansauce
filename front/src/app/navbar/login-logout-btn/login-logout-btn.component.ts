@@ -2,11 +2,11 @@ import {Component, inject} from '@angular/core';
 import {MatIconModule, MatIconRegistry} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {DomSanitizer} from '@angular/platform-browser';
-import {AuthenticationService} from '../../_services/auth.service';
 import {NgIf} from '@angular/common';
 import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {AuthService} from '../../_auth/auth.service';
 
 @Component({
   selector: 'app-login-logout-btn',
@@ -35,8 +35,8 @@ import {MatDialog} from '@angular/material/dialog';
   `,
   template: `
     <button mat-icon-button  (click)="act()">
-      <mat-icon *ngIf="!authService.userValue">login</mat-icon>
-      <mat-icon *ngIf="authService.userValue">logout</mat-icon>
+      <mat-icon *ngIf="!authService.isLoggedIn()">login</mat-icon>
+      <mat-icon *ngIf="authService.isLoggedIn()">logout</mat-icon>
     </button>
   `,
   standalone: true
@@ -45,7 +45,7 @@ export class LoginLogoutBtnComponent {
   private iconRegistry = inject(MatIconRegistry);
   private sanitizer = inject(DomSanitizer);
 
-  protected authService = inject(AuthenticationService);
+  protected authService = inject(AuthService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
 
@@ -58,7 +58,7 @@ export class LoginLogoutBtnComponent {
 
 
   act() {
-    if(!this.authService.userValue) {
+    if(!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']).catch(err => console.log(err));
     }
     else {

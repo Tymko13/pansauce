@@ -1,10 +1,10 @@
 import {Component, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-import {AuthenticationService} from "../_services/auth.service";
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
+import {AuthService} from '../_auth/auth.service';
 
 @Component({
   standalone: true,
@@ -13,13 +13,13 @@ import {MatButton} from '@angular/material/button';
   styleUrl: 'login.component.css'
 })
 export class LoginComponent{
-  private authService = inject(AuthenticationService);
+  private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
   constructor() {
-    if (this.authService.userValue) {
+    if (this.authService.isLoggedIn()) {
       this.router.navigate(['/']).catch(err => console.log(err));
     }
   }
@@ -31,14 +31,10 @@ export class LoginComponent{
 
   submit() {
     if(this.loginForm.valid) {
-      this.authService.login(this.loginForm.value.username!, this.loginForm.value.password!).subscribe(() => {
+      this.authService.login({username: this.loginForm.value.username!, password: this.loginForm.value.password!}).subscribe(() => {
         this.router.navigate([this.route.snapshot.queryParams['returnUrl'] || '/'])
           .catch(err => console.log(err));
       });
-    }
-
-    if (this.loginForm.invalid) {
-      return;
     }
   }
 }

@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Enter Order Info</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <mat-form-field appearance="outline">
+      <mat-label>Registration Date</mat-label>
+      <input matInput [matDatepicker]="regPicker" formControlName="registrationDate" />
+      <mat-datepicker-toggle matSuffix [for]="regPicker"></mat-datepicker-toggle>
+      <mat-datepicker #regPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Expected Date</mat-label>
+      <input matInput [matDatepicker]="expPicker" formControlName="expectedDate" />
+      <mat-datepicker-toggle matSuffix [for]="expPicker"></mat-datepicker-toggle>
+      <mat-datepicker #expPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="data.askForCustomer" appearance="outline">
+      <mat-label>Customer</mat-label>
+      <mat-select formControlName="customerNumber">
+        <mat-option *ngFor="let customer of customers" [value]="customer.number">
+          {{customer.surname}} {{customer.name}}
+          {{customer.number}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Delivery Cost</mat-label>
+      <input matInput type="number" step="0.01" formControlName="deliveryCost" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width: 95%; margin: 0;">
+      <mat-label>Batches</mat-label>
+      <mat-select formControlName="batchKeys" multiple>
+        <mat-option *ngFor="let batch of batches" [value]="batch.number">
+          {{batch.sauceName}} - {{batch.quantity}}шт. - {{batch.number}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()">Cancel</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Submit</button>
+  </mat-dialog-actions>
+</form>

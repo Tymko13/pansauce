@@ -1,0 +1,95 @@
+<div id="container">
+  <mat-sidenav-container class="batch-container">
+    <mat-sidenav mode="side" opened class="sidebar">
+      <mat-nav-list>
+        <h3>Sort by</h3>
+        <mat-list-item
+          *ngFor="let sort of sortOptions"
+          (click)="selectedSort.set(sort)"
+          [class.selected]="selectedSort() === sort">
+          {{ sort.toUpperCase().replace("_", " ") }}
+        </mat-list-item>
+      </mat-nav-list>
+      <button id="add-button" (click)="add()"  mat-raised-button><mat-icon>add</mat-icon>ORDER</button>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="content">
+      <span id="search-field">
+        <mat-form-field appearance="outline">
+          <mat-label>Search By</mat-label>
+          <mat-select [value]="selectedSearch()" (selectionChange)="selectedSearch.set($event.value)">
+            <mat-option *ngFor="let option of searchOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search</mat-label>
+          <input matInput [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)"
+                 placeholder="Order #, customer #, or customer phone">
+        </mat-form-field>
+      </span>
+
+
+      <table mat-table [dataSource]="orders()" class="full-width-table">
+
+        <!-- Columns -->
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef>Order #</th>
+          <td mat-cell *matCellDef="let order">{{ order.number }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="registrationDate">
+          <th mat-header-cell *matHeaderCellDef>Registration Date</th>
+          <td mat-cell *matCellDef="let order">{{ order.registrationDate | date }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="expectedDate">
+          <th mat-header-cell *matHeaderCellDef>Expected Date</th>
+          <td mat-cell *matCellDef="let order">{{ order.expectedDate | date }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="realDate">
+          <th mat-header-cell *matHeaderCellDef>Real Date</th>
+          <td mat-cell *matCellDef="let order">{{ (order.realDate | date) || '-'  }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="deliveryCost">
+          <th mat-header-cell *matHeaderCellDef>Delivery Cost</th>
+          <td mat-cell *matCellDef="let order">{{ (order.deliveryCost | currency) || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalCost">
+          <th mat-header-cell *matHeaderCellDef>Total Cost</th>
+          <td mat-cell *matCellDef="let order">{{ order.totalCost | currency }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="customer">
+          <th mat-header-cell *matHeaderCellDef>Customer</th>
+          <td mat-cell *matCellDef="let order">
+            {{ order.customerSurname }} {{order.customerName}} {{order.customerPatronymic}}
+            <br>{{order.customerPhoneNumbers[0]}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="customerNumber">
+          <th mat-header-cell *matHeaderCellDef>Customer #</th>
+          <td mat-cell *matCellDef="let order">{{ order.customerNumber }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let order">
+            <button mat-icon-button (click)="update(order.number)"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button [disabled]="true" (click)="delete(order.number)"><mat-icon>delete</mat-icon></button>
+          </td>
+        </ng-container>
+
+        <!-- Header and Rows -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -64,6 +64,7 @@ export class BatchService {
   }
 
   addBatch(batch: Partial<Batch>): Observable<void> {
+    console.log(batch);
     return this.http.post<void>(this.apiUrl, batch);
   }
 

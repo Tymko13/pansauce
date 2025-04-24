@@ -1,0 +1,56 @@
+.sidebar {
+  font-family: "Nunito", sans-serif;
+  width: 12rem;
+  padding: 0.25rem 1rem;
+  min-height: 90vh;
+  box-shadow: 4px 0 6px -1px rgba(0, 0, 0, .1), 2px 0 4px -1px rgba(0, 0, 0, .06);
+}
+
+mat-nav-list h3 {
+  margin: 1rem 0;
+}
+
+.selected {
+  background-color: color-mix(in srgb, var(--primary-color) 50%, transparent);
+}
+
+.content {
+  padding: 1.5rem;
+}
+
+.search-field {
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.full-width-table {
+  width: 100%;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 90vh;
+}
+
+mat-sidenav-container {
+  flex: 1;
+}
+
+mat-sidenav {
+  border-radius: 0;
+}
+
+#search-field {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+
+#add-button {
+  color: var(--text-color);
+  background-color: var(--primary-color);
+  width: 100%;
+  z-index: 1000;
+}
