@@ -37,6 +37,29 @@ public class TypeController {
         return typeService.getAllTypes();
     }
 
+    @GetMapping(value = "/type", params = {"sorted"})
+    public List<Type> findAllTypesSortedBy(
+            @RequestParam("sorted") String attribute
+    ) {
+        return typeService.getTypesSortedBy(attribute);
+    }
+
+    @GetMapping(value = "/type/search", params = {"number", "sorted"})
+    public List<Type> getTypesWithNumberPrefixSortedBy(
+            @RequestParam("number") String prefix,
+            @RequestParam("sorted") String attribute
+    ) {
+        return typeService.getTypesWithNumberPrefixSortedBy(prefix, attribute);
+    }
+
+    @GetMapping(value = "/type/search", params = {"name", "sorted"})
+    public List<Type> getTypesWithNamePrefixSortedBy(
+            @RequestParam("name") String prefix,
+            @RequestParam("sorted") String attribute
+    ) {
+        return typeService.getTypesWithNamePrefixSortedBy(prefix, attribute);
+    }
+
     @GetMapping("/type/{key}")
     public Type getTypeByKey(
             @PathVariable String key

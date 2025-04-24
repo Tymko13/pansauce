@@ -17,6 +17,15 @@ public interface TypeDao extends GenericDao<Type, String> {
     List<Sauce> getSaucesWithTypeNameSortedBySauceNumber(String typeName);
     List<Sauce> getSaucesWithTypeNameSortedByTypeName(String typeName);
 
+    List<Type> getTypesSortedByNumber();
+    List<Type> getTypesSortedByName();
+
+    List<Type> getTypesWithNumberStartingWithSortedByNumber(String prefix);
+    List<Type> getTypesWithNumberStartingWithSortedByName(String prefix);
+
+    List<Type> getTypesWithNameStartingWithSortedByNumber(String prefix);
+    List<Type> getTypesWithNameStartingWithSortedByName(String prefix);
+
     void updateType(Type type);
 
 }

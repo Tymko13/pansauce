@@ -64,4 +64,38 @@ public class TypeQuery {
             "WHERE type_number = ?\n";
 
 
+    public static final String GET_ALL_SAUCES_SORTED_BY_NUMBER =
+            "SELECT *\n" +
+            "FROM type\n" +
+            "ORDER BY type_number ASC\n";
+
+    public static final String GET_ALL_SAUCES_SORTED_BY_NAME =
+            "SELECT *\n" +
+            "FROM type\n" +
+            "ORDER BY type_name ASC\n";
+
+    public static final String GET_SAUCES_WITH_NUMBER_WITH_PREFIX_SORTED_BY_NUMBER =
+            "SELECT *\n" +
+            "FROM type\n" +
+            "WHERE type_number LIKE ?\n" +
+            "ORDER BY type_number ASC\n";
+
+    public static final String GET_SAUCES_WITH_NUMBER_WITH_PREFIX_SORTED_BY_NAME =
+            "SELECT *\n" +
+            "FROM type\n" +
+            "WHERE type_number LIKE ?\n" +
+            "ORDER BY type_name ASC\n";
+
+    public static final String GET_SAUCES_WITH_NAME_WITH_PREFIX_SORTED_BY_NUMBER =
+            "SELECT *\n" +
+            "FROM type\n" +
+            "WHERE type_name LIKE ?\n" +
+            "ORDER BY type_number ASC\n";
+
+    public static final String GET_SAUCES_WITH_NAME_WITH_PREFIX_SORTED_BY_NAME =
+            "SELECT *\n" +
+            "FROM type\n" +
+            "WHERE type_name LIKE ?\n" +
+            "ORDER BY type_name ASC\n";
+
 }
