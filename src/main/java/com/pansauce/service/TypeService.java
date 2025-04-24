@@ -29,7 +29,7 @@ public class TypeService {
             case "name" -> typeRepository.getSaucesWithTypeNumberSortedBySauceName(typeNumber + "%");
             case "price" -> typeRepository.getSaucesWithTypeNumberSortedByPrice(typeNumber + "%");
             case "number" -> typeRepository.getSauceWithTypeNumberSortedBySauceNumber(typeNumber + "%");
-            case "type_name" -> typeRepository.getSaucesWithTypeNameSortedByTypeName(typeNumber + "%");
+            case "type_name" -> typeRepository.getSauceWithTypeNumberSortedByTypeName(typeNumber + "%");
             default -> new ArrayList<>();
         };
     }
@@ -40,6 +40,30 @@ public class TypeService {
             case "price" -> typeRepository.getSaucesWithTypeNameSortedByPrice(typeName + "%");
             case "number" -> typeRepository.getSaucesWithTypeNameSortedBySauceNumber(typeName + "%");
             case "type_name" -> typeRepository.getSaucesWithTypeNameSortedByTypeName(typeName + "%");
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<Type> getTypesSortedBy(String attribute) {
+        return switch (attribute) {
+            case "number" -> typeRepository.getTypesSortedByNumber();
+            case "type_name" -> typeRepository.getTypesSortedByName();
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<Type> getTypesWithNumberPrefixSortedBy(String prefix, String attribute) {
+        return switch (attribute) {
+            case "number" -> typeRepository.getTypesWithNumberStartingWithSortedByNumber(prefix);
+            case "type_name" -> typeRepository.getTypesWithNumberStartingWithSortedByName(prefix);
+            default -> new ArrayList<>();
+        };
+    }
+
+    public List<Type> getTypesWithNamePrefixSortedBy(String prefix, String attribute) {
+        return switch(attribute) {
+            case "number" -> typeRepository.getTypesWithNameStartingWithSortedByNumber(prefix);
+            case "type_name" -> typeRepository.getTypesWithNameStartingWithSortedByName(prefix);
             default -> new ArrayList<>();
         };
     }

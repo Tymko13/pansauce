@@ -99,6 +99,36 @@ public class TypeRepository implements TypeDao {
     }
 
     @Override
+    public List<Type> getTypesSortedByNumber() {
+        return jdbc.query(GET_ALL_SAUCES_SORTED_BY_NUMBER, TYPE_ROW_MAPPER);
+    }
+
+    @Override
+    public List<Type> getTypesSortedByName() {
+        return jdbc.query(GET_ALL_SAUCES_SORTED_BY_NAME, TYPE_ROW_MAPPER);
+    }
+
+    @Override
+    public List<Type> getTypesWithNumberStartingWithSortedByNumber(String prefix) {
+        return jdbc.query(GET_SAUCES_WITH_NUMBER_WITH_PREFIX_SORTED_BY_NUMBER, TYPE_ROW_MAPPER, prefix);
+    }
+
+    @Override
+    public List<Type> getTypesWithNumberStartingWithSortedByName(String prefix) {
+        return jdbc.query(GET_SAUCES_WITH_NUMBER_WITH_PREFIX_SORTED_BY_NAME, TYPE_ROW_MAPPER, prefix);
+    }
+
+    @Override
+    public List<Type> getTypesWithNameStartingWithSortedByNumber(String prefix) {
+        return jdbc.query(GET_SAUCES_WITH_NAME_WITH_PREFIX_SORTED_BY_NUMBER, TYPE_ROW_MAPPER, prefix);
+    }
+
+    @Override
+    public List<Type> getTypesWithNameStartingWithSortedByName(String prefix) {
+        return jdbc.query(GET_SAUCES_WITH_NAME_WITH_PREFIX_SORTED_BY_NAME, TYPE_ROW_MAPPER, prefix);
+    }
+
+    @Override
     public void updateType(Type type) {
         jdbc.update(UPDATE_TYPE,
                 type.getTypeName(),
