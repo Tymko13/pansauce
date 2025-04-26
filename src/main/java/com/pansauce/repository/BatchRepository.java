@@ -109,13 +109,15 @@ public class BatchRepository implements BatchDao {
 
     @Override
     public TotalIncome getIncomeFromSoldBatchesBetweenDates(Date from, Date to) {
-        List<TotalIncome> result = jdbc.query(GET_TOTAL_INCOME_FROM_SOLD_BATCHES_BETWEEN_DATES, TOTAL_INCOME_ROW_MAPPER);
+        List<TotalIncome> result = jdbc.query(GET_TOTAL_INCOME_FROM_SOLD_BATCHES_BETWEEN_DATES, TOTAL_INCOME_ROW_MAPPER,
+                                              from, to);
         return result.isEmpty() ? null : result.getFirst();
     }
 
     @Override
     public TotalAmount getAmountOfSoldBatchesBetweenDates(Date from, Date to) {
-        List<TotalAmount> result = jdbc.query(GET_TOTAL_AMOUNT_OF_SOLD_BATCHES_BETWEEN_DATES, TOTAL_AMOUNT_ROW_MAPPER);
+        List<TotalAmount> result = jdbc.query(GET_TOTAL_AMOUNT_OF_SOLD_BATCHES_BETWEEN_DATES, TOTAL_AMOUNT_ROW_MAPPER,
+                                              from, to);
         return result.isEmpty() ? null : result.getFirst();
     }
 
