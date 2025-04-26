@@ -12,7 +12,7 @@
     <button (click)="loadPopularSaucesBySales()">Отримати соуси за кількістю продажів</button>
 
     <ul>
-      <li *ngFor="let sauce of saucesByIncome()">{{ sauce.sauceName }} — {{ sauce.salesIncome }} грн</li>
+      <li *ngFor="let sauce of saucesByIncome()">{{ sauce.sauceName }} — {{ sauce.sauceIncome || 0  }} грн</li>
     </ul>
     <ul>
       <li *ngFor="let sauce of saucesBySales()">{{ sauce.sauceName }} — {{ sauce.salesCount }} продажів</li>
