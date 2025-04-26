@@ -1,72 +1,74 @@
-<!-- analytics.component.html -->
 <div class="analytics-container">
   <h1>Analytics Dashboard</h1>
 
   <section class="section">
-    <h2>Популярність соусів</h2>
+    <h2>Sauce Popularity</h2>
     <select [(ngModel)]="popularityType">
-      <option value="top">Найпопулярніші</option>
-      <option value="last">Найменш популярні</option>
+      <option value="top">The most popular</option>
+      <option value="last">The least popular</option>
     </select>
-    <button (click)="loadPopularSauces()">Отримати соуси за виручкою</button>
-    <button (click)="loadPopularSaucesBySales()">Отримати соуси за кількістю продажів</button>
+    <button (click)="loadPopularSauces()">Get sauces by income</button>
+    <button (click)="loadPopularSaucesBySales()">Get sauces by sales count</button>
 
     <ul>
       <li *ngFor="let sauce of saucesByIncome()">{{ sauce.sauceName }} — {{ sauce.sauceIncome || 0  }} грн</li>
     </ul>
     <ul>
-      <li *ngFor="let sauce of saucesBySales()">{{ sauce.sauceName }} — {{ sauce.salesCount }} продажів</li>
+      <li *ngFor="let sauce of saucesBySales()">{{ sauce.sauceName }} — {{ sauce.salesCount || 0 }} продажів</li>
     </ul>
   </section>
 
   <section class="section">
-    <h2>Рецепти популярних соусів</h2>
-    <button (click)="loadPopularRecipes(true)">Рецепти за виручкою</button>
-    <button (click)="loadPopularRecipes(false)">Рецепти за кількістю продажів</button>
+    <h2>Recipes of the most popular sauces</h2>
+    <button (click)="loadPopularRecipes(true)">Get recipes by income</button>
+    <button (click)="loadPopularRecipes(false)">Get recipes by sales count</button>
 
     <ul>
       <li *ngFor="let sauce of saucesRecipes()">
         <strong>{{ sauce.name }}</strong>
         <ul>
-          <li *ngFor="let ingredient of sauce.recipe">{{ ingredient }}</li>
+          <li *ngFor="let ingredient of sauce.recipe">
+            {{ ingredient.name }} — {{ ingredient.weight }} г
+          </li>
         </ul>
       </li>
     </ul>
+
   </section>
 
   <section class="section">
-    <h2>Статистика продажів за типом соусу</h2>
-    <input type="text" [(ngModel)]="selectedType" placeholder="Тип соусу">
-    <label>Від: <input type="date" [(ngModel)]="fromDate"></label>
-    <label>До: <input type="date" [(ngModel)]="toDate"></label>
-    <button (click)="loadSoldAmountByType()">Отримати кількість</button>
+    <h2>Sales statistics by sauce type</h2>
+    <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">
+    <label>From: <input type="date" [(ngModel)]="fromDate"></label>
+    <label>To: <input type="date" [(ngModel)]="toDate"></label>
+    <button (click)="loadSoldAmountByType()">Get number</button>
 
-    <p>Продано партій: {{ soldAmount()?.totalAmount }}</p>
+    <p>Sold batches: {{ soldAmount()?.totalAmount || 0 }}</p>
   </section>
 
   <section class="section">
-    <h2>Загальна виручка за період</h2>
-    <label>Від: <input type="date" [(ngModel)]="fromDate"></label>
-    <label>До: <input type="date" [(ngModel)]="toDate"></label>
-    <button (click)="loadTotalIncome()">Отримати виручку</button>
+    <h2>Overall income in period</h2>
+    <label>From: <input type="date" [(ngModel)]="fromDate"></label>
+    <label>To: <input type="date" [(ngModel)]="toDate"></label>
+    <button (click)="loadTotalIncome()">Get income</button>
 
-    <p>Виручка: {{ totalIncome()?.income }} грн</p>
+    <p>Income: {{ totalIncome()?.income || 0 }} $</p>
   </section>
 
   <section class="section">
-    <h2>Кількість/Виручка за соусом або типом</h2>
-    <input type="text" [(ngModel)]="selectedSauceKey" placeholder="Ключ соусу">
-    <input type="text" [(ngModel)]="selectedType" placeholder="Тип соусу">
-    <label>Від: <input type="date" [(ngModel)]="fromDate"></label>
-    <label>До: <input type="date" [(ngModel)]="toDate"></label>
+    <h2>Number/Income by sauce or type</h2>
+    <input type="text" [(ngModel)]="selectedSauceKey" placeholder="Sauce code">
+    <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">
+    <label>From: <input type="date" [(ngModel)]="fromDate"></label>
+    <label>To: <input type="date" [(ngModel)]="toDate"></label>
 
-    <button (click)="loadAmountByKey(false)">Кількість за соусом</button>
-    <button (click)="loadIncomeByKey(false)">Виручка за соусом</button>
-    <button (click)="loadAmountByKey(true)">Кількість за типом</button>
-    <button (click)="loadIncomeByKey(true)">Виручка за типом</button>
+    <button (click)="loadAmountByKey(false)">Number by sauce</button>
+    <button (click)="loadIncomeByKey(false)">Income by sauce</button>
+    <button (click)="loadAmountByKey(true)">Number by type</button>
+    <button (click)="loadIncomeByKey(true)">Income by type</button>
 
-    <p>Кількість: {{ queryAmount()?.totalAmount }}</p>
-    <p>Виручка: {{ queryIncome()?.income }} грн</p>
+    <p>Number: {{ queryAmount()?.totalAmount || 0 }}</p>
+    <p>Income: {{ queryIncome()?.income || 0}} $</p>
   </section>
 </div>
 
