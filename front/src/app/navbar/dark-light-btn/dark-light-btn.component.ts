@@ -45,12 +45,15 @@ export class DarkLightBtnComponent {
     document.documentElement.style.setProperty('--secondary-color', '#4A525A');
     document.documentElement.style.setProperty('--text-color', '#FFFFFF');
     document.documentElement.style.setProperty('--text-color', '#FFFFFF');
+    document.documentElement.style.setProperty('--white-color', '#6a5454')
 
   }
   setLightMode() {
     document.documentElement.style.setProperty('--primary-color', '#ffdcc7');
     document.documentElement.style.setProperty('--secondary-color', '#f8ebe6');
     document.documentElement.style.setProperty('--text-color', '#000000');
+    document.documentElement.style.setProperty('--white-color', '#faf8f8')
+
   }
 
   loadTheme() {
