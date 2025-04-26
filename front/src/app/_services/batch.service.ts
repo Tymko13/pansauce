@@ -25,32 +25,48 @@ export class BatchService {
   }
 
   getAmountBetweenDates(from: Date, to: Date): Observable<TotalAmount> {
-    const params = new HttpParams().set('from', from.toISOString()).set('to', to.toISOString());
+    const params = new HttpParams()
+      .set('from', from.toISOString().split('T')[0])
+      .set('to', to.toISOString().split('T')[0]);
     return this.http.get<TotalAmount>(`${this.apiUrl}/amount`, { params });
   }
 
   getIncomeBetweenDates(from: Date, to: Date): Observable<TotalIncome> {
-    const params = new HttpParams().set('from', from.toISOString()).set('to', to.toISOString());
+    const params = new HttpParams().
+    set('from', from.toISOString().split('T')[0])
+      .set('to', to.toISOString().split('T')[0]);
     return this.http.get<TotalIncome>(`${this.apiUrl}/income`, { params });
   }
 
   getAmountBySauceKey(from: Date, to: Date, sauce: string): Observable<TotalAmount> {
-    const params = new HttpParams().set('from', from.toISOString()).set('to', to.toISOString()).set('sauce', sauce);
+    const params = new HttpParams()
+      .set('from', from.toISOString().split('T')[0])
+      .set('to', to.toISOString().split('T')[0])
+      .set('sauce', sauce);
     return this.http.get<TotalAmount>(`${this.apiUrl}/amount`, { params });
   }
 
   getIncomeBySauceKey(from: Date, to: Date, sauce: string): Observable<TotalIncome> {
-    const params = new HttpParams().set('from', from.toISOString()).set('to', to.toISOString()).set('sauce', sauce);
+    const params = new HttpParams()
+      .set('from', from.toISOString().split('T')[0])
+      .set('to', to.toISOString().split('T')[0])
+      .set('sauce', sauce);
     return this.http.get<TotalIncome>(`${this.apiUrl}/income`, { params });
   }
 
   getAmountByTypeKey(from: Date, to: Date, type: string): Observable<TotalAmount> {
-    const params = new HttpParams().set('from', from.toISOString()).set('to', to.toISOString()).set('type', type);
+    const params = new HttpParams()
+      .set('from', from.toISOString().split('T')[0])
+      .set('to', to.toISOString().split('T')[0])
+      .set('type', type);
     return this.http.get<TotalAmount>(`${this.apiUrl}/amount`, { params });
   }
 
   getIncomeByTypeKey(from: Date, to: Date, type: string): Observable<TotalIncome> {
-    const params = new HttpParams().set('from', from.toISOString()).set('to', to.toISOString()).set('type', type);
+    const params = new HttpParams()
+      .set('from', from.toISOString().split('T')[0])
+      .set('to', to.toISOString().split('T')[0])
+      .set('type', type);
     return this.http.get<TotalIncome>(`${this.apiUrl}/income`, { params });
   }
 

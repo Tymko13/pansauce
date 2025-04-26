@@ -38,7 +38,9 @@ export class CustomerService {
   }
 
   getCustomersWithOrdersBetweenDates(from: Date, to: Date): Observable<Customer[]> {
-    const params = new HttpParams().set('from', from.toISOString().split('T')[0]).set('to', to.toISOString().split('T')[0]);
+    const params = new HttpParams()
+      .set('from', from.toISOString().split('T')[0])
+      .set('to', to.toISOString().split('T')[0]);
     return this.http.get<Customer[]>(this.apiUrl, { params });
   }
 
