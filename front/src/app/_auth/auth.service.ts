@@ -1,14 +1,16 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {tap} from 'rxjs';
 import {jwtDecode} from 'jwt-decode';
 import {AuthRequest} from './auth-request';
 import {AuthResponse} from './auth-response';
 import {environment} from '../environment';
+import {Router} from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly TOKEN_KEY = 'auth-token';
+  private router = inject(Router)
 
   constructor(private http: HttpClient) {}
 
@@ -22,6 +24,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem(this.TOKEN_KEY);
+    this.router.navigate(["/login"]);
   }
 
   getToken(): string | null {
