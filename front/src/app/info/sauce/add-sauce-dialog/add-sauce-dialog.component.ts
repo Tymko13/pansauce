@@ -74,6 +74,4 @@ export class AddSauceDialogComponent {
   cancel() {
     this.dialogRef.close(null);
   }
-
-  protected readonly name = name;
 }
