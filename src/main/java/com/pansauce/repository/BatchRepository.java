@@ -120,34 +120,34 @@ public class BatchRepository implements BatchDao {
     }
 
     @Override
-    public TotalAmount getAmountOfSoldBatchesBetweenDatesBySauceKey(Date from, Date to, String typeKey) {
+    public TotalAmount getAmountOfSoldBatchesBetweenDatesBySauceKey(Date from, Date to, String sauceKey) {
         List<TotalAmount> result = jdbc.query(GET_AMOUNT_OF_SOLD_BATCHES_BETWEEN_DATES_BY_SAUCE_KEY,
-                                              TOTAL_AMOUNT_ROW_MAPPER,
-                                              from, to, typeKey);
+                                              TOTAL_AMOUNT_ROW_MAPPER, sauceKey,
+                                              from, to);
         return result.isEmpty() ? null : result.getFirst();
     }
 
     @Override
-    public TotalIncome getIncomeFromSoldBatchesBetweenDatesBySauceKey(Date from, Date to, String typeKey) {
+    public TotalIncome getIncomeFromSoldBatchesBetweenDatesBySauceKey(Date from, Date to, String sauceKey) {
         List<TotalIncome> result = jdbc.query(GET_INCOME_FROM_SOLD_BATCHES_BETWEEN_DATES_BY_SAUCE_KEY,
-                                              TOTAL_INCOME_ROW_MAPPER,
-                                              from, to, typeKey);
+                                              TOTAL_INCOME_ROW_MAPPER, sauceKey,
+                                              from, to);
         return result.isEmpty() ? null : result.getFirst();
     }
 
     @Override
     public TotalAmount getAmountOfSoldBatchesBetweenDatesByTypeKey(Date from, Date to, String typeKey) {
         List<TotalAmount> result = jdbc.query(GET_AMOUNT_OF_SOLD_BATCHES_BETWEEN_DATES_BY_TYPE_KEY,
-                                              TOTAL_AMOUNT_ROW_MAPPER,
-                                              from, to, typeKey);
+                                              TOTAL_AMOUNT_ROW_MAPPER, typeKey,
+                                              from, to);
         return result.isEmpty() ? null : result.getFirst();
     }
 
     @Override
     public TotalIncome getIncomeFromSoldBatchesBetweenDatesByTypeKey(Date from, Date to, String typeKey) {
         List<TotalIncome> result = jdbc.query(GET_INCOME_FROM_SOLD_BATCHES_BETWEEN_DATES_BY_TYPE_KEY,
-                                              TOTAL_INCOME_ROW_MAPPER,
-                                              from, to, typeKey);
+                                              TOTAL_INCOME_ROW_MAPPER, typeKey,
+                                              from, to);
         return result.isEmpty() ? null : result.getFirst();
     }
 
