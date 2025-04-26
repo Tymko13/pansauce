@@ -21,11 +21,11 @@
 
   <section class="section">
     <h2>Рецепти популярних соусів</h2>
-    <button (click)="loadPopularRecipesByIncome()">Рецепти за виручкою</button>
-    <button (click)="loadPopularRecipesBySales()">Рецепти за кількістю продажів</button>
+    <button (click)="loadPopularRecipes(true)">Рецепти за виручкою</button>
+    <button (click)="loadPopularRecipes(false)">Рецепти за кількістю продажів</button>
 
     <ul>
-      <li *ngFor="let sauce of saucesRecipes">
+      <li *ngFor="let sauce of saucesRecipes()">
         <strong>{{ sauce.name }}</strong>
         <ul>
           <li *ngFor="let ingredient of sauce.recipe">{{ ingredient }}</li>
@@ -41,7 +41,7 @@
     <label>До: <input type="date" [(ngModel)]="toDate"></label>
     <button (click)="loadSoldAmountByType()">Отримати кількість</button>
 
-    <p>Продано партій: {{ soldAmount?.totalAmount }}</p>
+    <p>Продано партій: {{ soldAmount()?.totalAmount }}</p>
   </section>
 
   <section class="section">
@@ -50,7 +50,7 @@
     <label>До: <input type="date" [(ngModel)]="toDate"></label>
     <button (click)="loadTotalIncome()">Отримати виручку</button>
 
-    <p>Виручка: {{ totalIncome?.income }} грн</p>
+    <p>Виручка: {{ totalIncome()?.income }} грн</p>
   </section>
 
   <section class="section">
@@ -60,13 +60,13 @@
     <label>Від: <input type="date" [(ngModel)]="fromDate"></label>
     <label>До: <input type="date" [(ngModel)]="toDate"></label>
 
-    <button (click)="loadAmountBySauceKey()">Кількість за соусом</button>
-    <button (click)="loadIncomeBySauceKey()">Виручка за соусом</button>
-    <button (click)="loadAmountByTypeKey()">Кількість за типом</button>
-    <button (click)="loadIncomeByTypeKey()">Виручка за типом</button>
+    <button (click)="loadAmountByKey(false)">Кількість за соусом</button>
+    <button (click)="loadIncomeByKey(false)">Виручка за соусом</button>
+    <button (click)="loadAmountByKey(true)">Кількість за типом</button>
+    <button (click)="loadIncomeByKey(true)">Виручка за типом</button>
 
-    <p>Кількість: {{ queryAmount?.totalAmount }}</p>
-    <p>Виручка: {{ queryIncome?.income }} грн</p>
+    <p>Кількість: {{ queryAmount()?.totalAmount }}</p>
+    <p>Виручка: {{ queryIncome()?.income }} грн</p>
   </section>
 </div>
 
