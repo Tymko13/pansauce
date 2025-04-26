@@ -1,122 +1,126 @@
-import {Component, signal} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
-import {SauceWithIncome} from '../../_models/sauce-with-income';
-import {SauceWithSalesCount} from '../../_models/sauce-with-sales-count';
-import {SauceWithRecipe} from '../../_models/sauce-with-recipe';
-import {TotalAmount} from '../../_models/total-amount';
-import {TotalIncome} from '../../_models/total-income';
-import {BatchService} from '../../_services/batch.service';
-import {SauceService} from '../../_services/sauce.service';
-
+import { Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { SauceWithIncome } from '../../_models/sauce-with-income';
+import { SauceWithSalesCount } from '../../_models/sauce-with-sales-count';
+import { SauceWithRecipe } from '../../_models/sauce-with-recipe';
+import { TotalAmount } from '../../_models/total-amount';
+import { TotalIncome } from '../../_models/total-income';
+import { BatchService } from '../../_services/batch.service';
+import { SauceService } from '../../_services/sauce.service';
 
 @Component({
   selector: 'app-analytics',
-  templateUrl: './analytics.component.html',
+  standalone: true,
   imports: [
     FormsModule,
     CommonModule
   ],
-  standalone: true,
+  templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.css']
 })
 export class AnalyticsComponent {
-  popularityType: string = 'top';
-  // saucesByIncome: SauceWithIncome[] = [];
+  popularityType = 'top';
+
   saucesByIncome = signal<SauceWithIncome[]>([]);
   saucesBySales = signal<SauceWithSalesCount[]>([]);
-  saucesRecipes: SauceWithRecipe[] = [];
-  selectedType: string = '';
-  selectedSauceKey: string = '';
-  fromDate: string = '';
-  toDate: string = '';
-  soldAmount: TotalAmount | null = null;
-  totalIncome: TotalIncome | null = null;
-  queryAmount: TotalAmount | null = null;
-  queryIncome: TotalIncome | null = null;
+  saucesRecipes = signal<SauceWithRecipe[]>([]);
 
-  constructor(private batchService: BatchService, private sauceService: SauceService) {}
+  selectedType = '';
+  selectedSauceKey = '';
+  fromDate = '';
+  toDate = '';
+
+  soldAmount = signal<TotalAmount | null>(null);
+  totalIncome = signal<TotalIncome | null>(null);
+  queryAmount = signal<TotalAmount | null>(null);
+  queryIncome = signal<TotalIncome | null>(null);
+
+  constructor(
+    private batchService: BatchService,
+    private sauceService: SauceService
+  ) {}
+
+  private getDateRange(): { from: Date; to: Date } | null {
+    if (this.fromDate && this.toDate) {
+      return { from: new Date(this.fromDate), to: new Date(this.toDate) };
+    }
+    return null;
+  }
 
   loadPopularSauces(): void {
-    this.sauceService.getTopSaucesWithIncome(this.popularityType).subscribe(data => {
-      this.saucesByIncome.set(data);
+    this.sauceService.getTopSaucesWithIncome(this.popularityType).subscribe({
+      next: data => this.saucesByIncome.set(data),
+      error: err => console.error('Failed to load popular sauces by income', err)
     });
   }
 
   loadPopularSaucesBySales(): void {
-    this.sauceService.getTopSaucesWithSalesCount(this.popularityType).subscribe(data => {
-      this.saucesBySales.set(data);
+    this.sauceService.getTopSaucesWithSalesCount(this.popularityType).subscribe({
+      next: data => this.saucesBySales.set(data),
+      error: err => console.error('Failed to load popular sauces by sales', err)
     });
   }
 
-  loadPopularRecipesByIncome(): void {
-    this.sauceService.getTopSaucesRecipeWithIncome(this.popularityType).subscribe(data => {
-      this.saucesRecipes = data;
-    });
-  }
+  loadPopularRecipes(byIncome: boolean = true): void {
+    const loader = byIncome
+      ? this.sauceService.getTopSaucesRecipeWithIncome(this.popularityType)
+      : this.sauceService.getTopSaucesRecipeWithSalesCount(this.popularityType);
 
-  loadPopularRecipesBySales(): void {
-    this.sauceService.getTopSaucesRecipeWithSalesCount(this.popularityType).subscribe(data => {
-      this.saucesRecipes = data;
+    loader.subscribe({
+      next: data => this.saucesRecipes.set(data),
+      error: err => console.error('Failed to load popular recipes', err)
     });
   }
 
   loadSoldAmountByType(): void {
-    if (this.selectedType && this.fromDate && this.toDate) {
-      const from = new Date(this.fromDate);
-      const to = new Date(this.toDate);
-      this.batchService.getAmountByTypeKey( from, to, this.selectedType).subscribe(data => {
-        this.soldAmount = data;
+    const range = this.getDateRange();
+    if (range && this.selectedType) {
+      this.batchService.getAmountByTypeKey(range.from, range.to, this.selectedType).subscribe({
+        next: data => this.soldAmount.set(data),
+        error: err => console.error('Failed to load sold amount by type', err)
       });
     }
   }
 
   loadTotalIncome(): void {
-    if (this.fromDate && this.toDate) {
-      const from = new Date(this.fromDate);
-      const to = new Date(this.toDate);
-      this.batchService.getIncomeBetweenDates(from, to).subscribe(data => {
-        this.totalIncome = data;
+    const range = this.getDateRange();
+    if (range) {
+      this.batchService.getIncomeBetweenDates(range.from, range.to).subscribe({
+        next: data => this.totalIncome.set(data),
+        error: err => console.error('Failed to load total income', err)
       });
     }
   }
 
-  loadAmountBySauceKey(): void {
-    if (this.selectedSauceKey && this.fromDate && this.toDate) {
-      const from = new Date(this.fromDate);
-      const to = new Date(this.toDate);
-      this.batchService.getAmountBySauceKey(from, to, this.selectedSauceKey).subscribe(data => {
-        this.queryAmount = data;
+  loadAmountByKey(byType: boolean = true): void {
+    const range = this.getDateRange();
+    const key = byType ? this.selectedType : this.selectedSauceKey;
+
+    if (range && key) {
+      const loader = byType
+        ? this.batchService.getAmountByTypeKey(range.from, range.to, key)
+        : this.batchService.getAmountBySauceKey(range.from, range.to, key);
+
+      loader.subscribe({
+        next: data => this.queryAmount.set(data),
+        error: err => console.error('Failed to load amount', err)
       });
     }
   }
 
-  loadIncomeBySauceKey(): void {
-    if (this.selectedSauceKey && this.fromDate && this.toDate) {
-      const from = new Date(this.fromDate);
-      const to = new Date(this.toDate);
-      this.batchService.getIncomeBySauceKey(from, to, this.selectedSauceKey).subscribe(data => {
-        this.queryIncome = data;
-      });
-    }
-  }
+  loadIncomeByKey(byType: boolean = true): void {
+    const range = this.getDateRange();
+    const key = byType ? this.selectedType : this.selectedSauceKey;
 
-  loadAmountByTypeKey(): void {
-    if (this.selectedType && this.fromDate && this.toDate) {
-      const from = new Date(this.fromDate);
-      const to = new Date(this.toDate);
-      this.batchService.getAmountByTypeKey(from, to, this.selectedType).subscribe(data => {
-        this.queryAmount = data;
-      });
-    }
-  }
+    if (range && key) {
+      const loader = byType
+        ? this.batchService.getIncomeByTypeKey(range.from, range.to, key)
+        : this.batchService.getIncomeBySauceKey(range.from, range.to, key);
 
-  loadIncomeByTypeKey(): void {
-    if (this.selectedType && this.fromDate && this.toDate) {
-      const from = new Date(this.fromDate);
-      const to = new Date(this.toDate);
-      this.batchService.getIncomeByTypeKey(from, to, this.selectedType).subscribe(data => {
-        this.queryIncome = data;
+      loader.subscribe({
+        next: data => this.queryIncome.set(data),
+        error: err => console.error('Failed to load income', err)
       });
     }
   }
