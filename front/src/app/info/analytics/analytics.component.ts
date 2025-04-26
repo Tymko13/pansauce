@@ -124,5 +124,29 @@ export class AnalyticsComponent {
       });
     }
   }
+
+  clearPopularityResults() {
+    this.saucesByIncome = signal<SauceWithIncome[]>([]);
+    this.saucesBySales = signal<SauceWithSalesCount[]>([]);
+  }
+
+  clearRecipesResults() {
+    this.saucesRecipes = signal<SauceWithRecipe[]>([]);
+  }
+
+  clearSalesStatsResults() {
+    this.soldAmount = signal<TotalAmount | null>(null);
+  }
+
+  // Очищення результатів загальної виручки
+  clearIncomeResults() {
+    // Логіка очищення
+  }
+
+  // Очищення результатів кількості/виручки за типом або соусом
+  clearAmountIncomeResults() {
+    // Логіка очищення
+  }
+
 }
 

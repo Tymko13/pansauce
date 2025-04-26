@@ -1,3 +1,5 @@
+<div class="analytics-container-large">
+
 <div class="analytics-container">
   <h1>Analytics Dashboard</h1>
 
@@ -9,6 +11,9 @@
     </select>
     <button (click)="loadPopularSauces()">Get sauces by income</button>
     <button (click)="loadPopularSaucesBySales()">Get sauces by sales count</button>
+
+    <button class="clear" (click)="clearPopularityResults()">Clear</button>
+
 
     <ul>
       <li *ngFor="let sauce of saucesByIncome()">{{ sauce.sauceName }} — {{ sauce.sauceIncome || 0  }} грн</li>
@@ -22,6 +27,8 @@
     <h2>Recipes of the most popular sauces</h2>
     <button (click)="loadPopularRecipes(true)">Get recipes by income</button>
     <button (click)="loadPopularRecipes(false)">Get recipes by sales count</button>
+
+    <button class="clear" (click)="clearRecipesResults()">Clear</button>
 
     <ul>
       <li *ngFor="let sauce of saucesRecipes()">
@@ -43,6 +50,8 @@
     <label>To: <input type="date" [(ngModel)]="toDate"></label>
     <button (click)="loadSoldAmountByType()">Get number</button>
 
+<!--    <button (click)="clearSalesStatsResults()">Clear</button>-->
+
     <p>Sold batches: {{ soldAmount()?.totalAmount || 0 }}</p>
   </section>
 
@@ -51,6 +60,8 @@
     <label>From: <input type="date" [(ngModel)]="fromDate"></label>
     <label>To: <input type="date" [(ngModel)]="toDate"></label>
     <button (click)="loadTotalIncome()">Get income</button>
+<!--    <button (click)="clearIncomeResults()">Clear</button>-->
+
 
     <p>Income: {{ totalIncome()?.income || 0 }} $</p>
   </section>
@@ -62,13 +73,17 @@
     <label>From: <input type="date" [(ngModel)]="fromDate"></label>
     <label>To: <input type="date" [(ngModel)]="toDate"></label>
 
-    <button (click)="loadAmountByKey(false)">Number by sauce</button>
-    <button (click)="loadIncomeByKey(false)">Income by sauce</button>
-    <button (click)="loadAmountByKey(true)">Number by type</button>
-    <button (click)="loadIncomeByKey(true)">Income by type</button>
+    <button (click)="loadAmountByKey(false)">number by sauce</button>
+    <button (click)="loadIncomeByKey(false)">income by sauce</button>
+    <button (click)="loadAmountByKey(true)">number by type</button>
+    <button (click)="loadIncomeByKey(true)">income by type</button>
+
+<!--    <button (click)="clearAmountIncomeResults()">Очистити результат</button>-->
 
     <p>Number: {{ queryAmount()?.totalAmount || 0 }}</p>
     <p>Income: {{ queryIncome()?.income || 0}} $</p>
   </section>
 </div>
+</div>
+
 
