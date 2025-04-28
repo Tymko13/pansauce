@@ -224,6 +224,48 @@ public class CustomerQuery {
             "ON c.customer_number = cn.customer_number\n" +
             "WHERE batch_number LIKE ?\n";
 
+    public static final String GET_CUSTOMER_FAVOURITE_SAUCE_BY_CUSTOMER_NUMBER =
+            "SELECT s.sauce_name, s.sauce_number, COUNT(*) as total_batches_sold\n" +
+            "FROM (sauce AS s\n" +
+            "INNER JOIN batch AS b\n" +
+            "ON s.sauce_number = b.sauce_number)\n" +
+            "INNER JOIN order AS o\n" +
+            "ON o.order_number = b.order_number\n" +
+            "WHERE o.customer_number = ?\n" +
+            "GROUP BY s.sauce_number, s.sauce_name\n" +
+            "ORDER BY COUNT(s2.sauce_number) DESC\n" +
+            "LIMIT 1;\n";
+
+    public static final String GET_CUSTOMERS_WHO_ORDERED_ALL_TYPES_OF_SAUCE =
+            "SELECT *\n" +
+            "FROM customer AS c\n" +
+            "INNER JOIN contact_number AS ct\n" +
+            "ON c.contact_number = ct.contact_number\n" +
+            "WHERE NOT EXIST (\n" +
+            "SELECT *\n" +
+            "FROM sauce_type AS st\n" +
+            "WHERE NOT EXIST (\n" +
+            "\tSELECT *\n" +
+            "\tFROM (sauce AS s\n" +
+            "INNER JOIN batch AS b\n" +
+            "ON s.sauce_number = b.sauce_number)\n" +
+            "INNER JOIN order AS o\n" +
+            "ON o.order_number = b.order_number\n" +
+            "WHERE o.customer_number = c.customer_number\n" +
+            "AND s.type_number = st.type_number \n" +
+            ")\n" +
+            ");\n";
+
+    public static final String GET_CUSTOMERS_ORDER_DATA =
+            "SELECT c.customer_name, c.customer_surname," +
+            "COUNT(o.order_number) AS total_orders_count," +
+            "SUM(o.total_order_cost) AS total_orders_price\n" +
+            "FROM Customer AS c\n" +
+            "INNER JOIN order AS o ON c.customer_number = o.customer_number\n" +
+            "INNER JOIN batch AS b ON o.order_number = b.order_number\n" +
+            "GROUP BY c.customer_name, c.customer_surname\n" +
+            "ORDER BY total_spent DESC;\n";
+
     public static final String UPDATE_CUSTOMER =
             "UPDATE customer\n" +
             "SET \n" +

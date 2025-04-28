@@ -223,6 +223,11 @@ public class SauceRepository implements SauceDao {
     }
 
     @Override
+    public List<Sauce> getSaucesWithoutIngredientAndWithoutType(String ingredientNumber, String typeNumber) {
+        return jdbc.query(GET_SAUCES_WITHOUT_INGREDIENT_AND_WITHOUT_TYPE, SAUCE_ROW_MAPPER, ingredientNumber, typeNumber);
+    }
+
+    @Override
     public void updateSauce(SauceWithRecipe sauce) {
         jdbc.update(UPDATE_SAUCE,
                 sauce.getName(),

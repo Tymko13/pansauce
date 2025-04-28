@@ -52,6 +52,9 @@ public interface SauceDao extends GenericDao<Sauce, String> {
     List<SauceWithRecipe> getWorstFiveSaucesWithRecipeByIncome();
     List<SauceWithRecipe> getWorstFiveSaucesWithRecipeBySales();
 
+    List<Sauce> getSaucesWithoutIngredientAndWithoutType(String ingredientNumber, String typeNumber);
+
+
     void updateSauce(SauceWithRecipe sauce);
     void deleteSauceIngredients(String sauceKey);
 

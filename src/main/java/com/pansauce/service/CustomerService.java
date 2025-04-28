@@ -9,11 +9,13 @@ import com.pansauce.exception.customer.NonExistingCustomerException;
 import com.pansauce.model.basic.Batch;
 import com.pansauce.model.basic.Phone;
 import com.pansauce.model.customer.Customer;
+import com.pansauce.model.customer.CustomerOrderData;
 import com.pansauce.model.customer.CustomerWithOrders;
 import com.pansauce.model.customer.CustomerWithOrdersAndBatches;
 import com.pansauce.model.dto.BatchDTO;
 import com.pansauce.model.order.Order;
 import com.pansauce.model.order.OrderWithCustomerData;
+import com.pansauce.model.sauce.SauceWithSalesCount;
 import com.pansauce.repository.BatchRepository;
 import com.pansauce.util.RandomKeyGenerator;
 import com.pansauce.validator.model.CustomerValidator;
@@ -98,6 +100,18 @@ public class CustomerService {
 
     public List<Customer> getCustomersWithOrdersBetweenDates(Date from, Date to) {
         return customerRepository.getCustomersWithOrdersBetweenDates(from, to);
+    }
+
+    public SauceWithSalesCount getCustomerFavouriteSauceByCustomerKey(String customerKey) {
+        return customerRepository.getCustomerFavouriteSauceByCustomerKey(customerKey);
+    }
+
+    public List<Customer> getCustomersWhoOrderedAllTypesOfSauce() {
+        return customerRepository.getCustomersWhoOrderedAllTypesOfSauce();
+    }
+
+    public List<CustomerOrderData> getCustomersOrderData() {
+        return customerRepository.getCustomersOrderData();
     }
 
     public List<Customer> getAllCustomers() {

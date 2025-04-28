@@ -2,9 +2,10 @@ package com.pansauce.repository;
 
 import com.pansauce.dao.CustomerDao;
 import com.pansauce.model.customer.Customer;
+import com.pansauce.model.customer.CustomerOrderData;
 import com.pansauce.model.customer.CustomerWithOrders;
-import com.pansauce.model.order.Order;
 import com.pansauce.model.order.OrderWithCustomerData;
+import com.pansauce.model.sauce.SauceWithSalesCount;
 import com.pansauce.util.RandomKeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -50,6 +51,7 @@ public class CustomerRepository implements CustomerDao {
     @Override
     public Customer findByKey(String key) {
         List<Customer> result = jdbc.query(GET_CUSTOMER_BY_KEY, CUSTOMER_WITH_PHONES_EXTRACTOR, key);
+        assert result != null;
         return result.isEmpty() ? null : result.getFirst();
     }
 
@@ -141,6 +143,22 @@ public class CustomerRepository implements CustomerDao {
     @Override
     public List<Customer> getCustomerWhoOrderedBatchWithNumber(String batchKey) {
         return jdbc.query(GET_CUSTOMER_WHO_ORDERED_BATCH_NUMBER, CUSTOMER_WITH_PHONES_EXTRACTOR, batchKey);
+    }
+
+    @Override
+    public SauceWithSalesCount getCustomerFavouriteSauceByCustomerKey(String customerKey) {
+        List<SauceWithSalesCount> result =  jdbc.query(GET_CUSTOMER_FAVOURITE_SAUCE_BY_CUSTOMER_NUMBER, SAUCE_WITH_SALES_COUNT_ROW_MAPPER, customerKey);
+        return result.isEmpty() ? null : result.getFirst();
+    }
+
+    @Override
+    public List<Customer> getCustomersWhoOrderedAllTypesOfSauce() {
+        return jdbc.query(GET_CUSTOMERS_WHO_ORDERED_ALL_TYPES_OF_SAUCE, CUSTOMER_WITH_PHONES_EXTRACTOR);
+    }
+
+    @Override
+    public List<CustomerOrderData> getCustomersOrderData() {
+        return jdbc.query(GET_CUSTOMERS_ORDER_DATA, CUSTOMER_ORDER_DATA_ROW_MAPPER);
     }
 
     @Override

@@ -308,6 +308,20 @@ public class SauceQuery {
             "type_number = ?\n" +
             "WHERE sauce_number = ?\n";
 
+    public static final String GET_SAUCES_WITHOUT_INGREDIENT_AND_WITHOUT_TYPE =
+            "SELECT s.sauce_name\n" +
+            "FROM sauce AS s\n" +
+            "WHERE s.sauce_number NOT IN (\n" +
+            "    SELECT is_.sauce_number\n" +
+            "    FROM ingredient_Sauce AS is_\n" +
+            "    WHERE is_.gti_number = ?\n" +
+            ")\n" +
+            "AND s.type_number NOT IN (\n" +
+            "    SELECT t.type_number\n" +
+            "    FROM type AS t\n" +
+            "    WHERE t.type_number = ?\n" +
+            ");\n";
+
     public static final String DELETE_SAUCE_INGREDIENTS =
             "DELETE \n" +
             "FROM ingredient_sauce\n" +

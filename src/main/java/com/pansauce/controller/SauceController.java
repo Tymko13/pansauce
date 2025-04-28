@@ -102,6 +102,14 @@ public class SauceController {
         return sauceService.getSauceWithNamePrefixSortedBy(name, attribute);
     }
 
+    @GetMapping(value = "/sauce/without", params = {"ing", "type"})
+    public List<Sauce> getSaucesWithoutTypeWithNumberAndWithoutIngredientWithNumber(
+            @RequestParam("ing") String ingredientNumber,
+            @RequestParam("type") String typeNumber
+    ) {
+        return sauceService.getSaucesWithoutTypeNumberAndWithoutIngredientNumber(ingredientNumber, typeNumber);
+    }
+
     @PostMapping("/sauce")
     public void addSauce(
             @RequestBody SauceWithRecipe sauce

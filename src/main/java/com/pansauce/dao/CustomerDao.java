@@ -1,8 +1,11 @@
 package com.pansauce.dao;
 
 import com.pansauce.model.customer.Customer;
+import com.pansauce.model.customer.CustomerOrderData;
 import com.pansauce.model.customer.CustomerWithOrders;
 import com.pansauce.model.order.OrderWithCustomerData;
+import com.pansauce.model.sauce.Sauce;
+import com.pansauce.model.sauce.SauceWithSalesCount;
 
 import java.util.Date;
 import java.util.List;
@@ -31,6 +34,11 @@ public interface CustomerDao extends GenericDao<Customer, String> {
     List<Customer> getCustomersWhoOrderedSauceWithSauceNumberSortedBySurname(String sauceNumber);
     List<Customer> getCustomersWhoOrderedSauceWithSauceNameSortedBySurname(String sauceName);
     List<Customer> getCustomerWhoOrderedBatchWithNumber(String batchKey);
+
+    SauceWithSalesCount getCustomerFavouriteSauceByCustomerKey(String customerKey);
+    List<Customer> getCustomersWhoOrderedAllTypesOfSauce();
+
+    List<CustomerOrderData> getCustomersOrderData();
 
     void updateCustomer(Customer customer);
 

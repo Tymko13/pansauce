@@ -1,10 +1,12 @@
 package com.pansauce.controller;
 
 import com.pansauce.model.customer.Customer;
+import com.pansauce.model.customer.CustomerOrderData;
 import com.pansauce.model.customer.CustomerWithOrders;
 import com.pansauce.model.customer.CustomerWithOrdersAndBatches;
-import com.pansauce.model.order.Order;
 import com.pansauce.model.order.OrderWithCustomerData;
+import com.pansauce.model.sauce.Sauce;
+import com.pansauce.model.sauce.SauceWithSalesCount;
 import com.pansauce.service.CustomerService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -81,6 +83,23 @@ public class CustomerController {
             @RequestParam("value") String value
     ) {
         return customerService.getCustomersWithOrderThatHasThisAttribute(attribute, value);
+    }
+
+    @GetMapping(value = "/customer/{key}/favourite_sauce")
+    public SauceWithSalesCount getCustomerFavouriteSauce(
+            @PathVariable String key
+    ) {
+        return customerService.getCustomerFavouriteSauceByCustomerKey(key);
+    }
+
+    @GetMapping(value = "/customer/all_types")
+    public List<Customer> getCustomersWhoOrderedAllTypesOfSauce() {
+        return customerService.getCustomersWhoOrderedAllTypesOfSauce();
+    }
+
+    @GetMapping(value = "/customer/orders/data")
+    public List<CustomerOrderData> getCustomersOrderData() {
+        return customerService.getCustomersOrderData();
     }
 
     @GetMapping("/customer")

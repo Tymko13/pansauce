@@ -4,6 +4,7 @@ import com.pansauce.model.analysis.TotalAmount;
 import com.pansauce.model.analysis.TotalIncome;
 import com.pansauce.model.basic.*;
 import com.pansauce.model.customer.Customer;
+import com.pansauce.model.customer.CustomerOrderData;
 import com.pansauce.model.customer.CustomerWithOrders;
 import com.pansauce.model.order.Order;
 import com.pansauce.model.order.OrderWithCustomerData;
@@ -244,6 +245,15 @@ public class ModelRowMapper {
         TotalAmount totalAmount = new TotalAmount();
         totalAmount.setTotalAmount(r.getInt("total_amount"));
         return totalAmount;
+    };
+
+    public static final RowMapper<CustomerOrderData> CUSTOMER_ORDER_DATA_ROW_MAPPER = (rs, i) -> {
+        CustomerOrderData customerOrderData = new CustomerOrderData();
+        customerOrderData.setCustomerNumber(rs.getString("customer_number"));
+        customerOrderData.setCustomerSurname(rs.getString("customer_surname"));
+        customerOrderData.setTotalOrdersCount(rs.getInt("total_orders_count"));
+        customerOrderData.setTotalOrdersPrice(rs.getBigDecimal("total_orders_price"));
+        return customerOrderData;
     };
 
 }

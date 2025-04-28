@@ -138,6 +138,10 @@ public class SauceService {
         };
     }
 
+    public List<Sauce> getSaucesWithoutTypeNumberAndWithoutIngredientNumber(String ingredientNumber, String typeNumber) {
+        return sauceRepository.getSaucesWithoutIngredientAndWithoutType(ingredientNumber, typeNumber);
+    }
+
     public void updateSauce(SauceWithRecipe sauce) {
         String sauceNumber = sauce.getNumber();
         if (!sauceRepository.exists(sauceNumber))
