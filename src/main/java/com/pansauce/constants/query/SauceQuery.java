@@ -322,6 +322,28 @@ public class SauceQuery {
             "    WHERE t.type_number = ?\n" +
             ");\n";
 
+    public static final String GET_SAUCES_CONTAINING_ALL_INGREDIENTS_OF_SAUCE_WITH_NUMBER =
+            "SELECT *\n" +
+            "FROM sauce AS s\n" +
+            "INNER JOIN type AS t\n" +
+            "ON s.type_number = t.type_number\n" +
+            "WHERE NOT EXISTS (\n" +
+            "        SELECT *\n" +
+            "        FROM (\n" +
+            "            SELECT is1.gti_number\n" +
+            "            FROM ingredient_sauce AS is1\n" +
+            "            WHERE is1.sauce_number = ?\n" +
+            "        ) AS i\n" +
+            "        WHERE NOT EXISTS (\n" +
+            "            SELECT *\n" +
+            "            FROM sauce AS s2\n" +
+            "            INNER JOIN ingredient_sauce AS is2\n" +
+            "            ON s2.sauce_number = is2.sauce_number\n" +
+            "            WHERE s.sauce_number = s2.sauce_number\n" +
+            "            AND i.gti_number = is2.gti_number \n" +
+            "        )\n" +
+            ");\n";
+
     public static final String DELETE_SAUCE_INGREDIENTS =
             "DELETE \n" +
             "FROM ingredient_sauce\n" +

@@ -256,6 +256,25 @@ public class CustomerQuery {
             ")\n" +
             ");\n";
 
+    public static final String GET_CUSTOMERS_WHO_ORDERED_ONLY_ONE_TYPE_OF_SAUCE =
+            "SELECT c1.customer_number, c1.customer_name, " +
+            "c1.customer_surname, c1.customer_patronymic, " +
+            "c1.customer_address, cn1.contact_number\n" +
+            "FROM customer AS c1\n" +
+            "INNER JOIN contact_number AS cn1\n" +
+            "ON c1.customer_number = cn1.customer_number\n" +
+            "WHERE c1.customer_number IN (\n" +
+            "    SELECT c.customer_number\n" +
+            "    FROM (\n" +
+            "        SELECT DISTINCT c.customer_number, s.type_number\n" +
+            "        FROM ((customer AS c INNER JOIN [order] AS o\n" +
+            "        ON o.customer_number = c.customer_number) INNER JOIN batch AS b\n" +
+            "        ON b.order_number = o.order_number) INNER JOIN sauce AS s\n" +
+            "        ON s.sauce_number = b.sauce_number)\n" +
+            "    GROUP BY c.customer_number\n" +
+            "    HAVING COUNT(*) = 1\n" +
+            ");\n";
+
     public static final String GET_CUSTOMERS_ORDER_DATA =
             "SELECT c.customer_name, c.customer_surname," +
             "COUNT(o.order_number) AS total_orders_count," +

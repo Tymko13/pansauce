@@ -228,6 +228,11 @@ public class SauceRepository implements SauceDao {
     }
 
     @Override
+    public List<Sauce> getSauceThatContainsRecipeOfSauceWithKey(String sauceKey) {
+        return jdbc.query(GET_SAUCES_CONTAINING_ALL_INGREDIENTS_OF_SAUCE_WITH_NUMBER, SAUCE_ROW_MAPPER, sauceKey);
+    }
+
+    @Override
     public void updateSauce(SauceWithRecipe sauce) {
         jdbc.update(UPDATE_SAUCE,
                 sauce.getName(),

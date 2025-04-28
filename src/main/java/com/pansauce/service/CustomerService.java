@@ -114,6 +114,10 @@ public class CustomerService {
         return customerRepository.getCustomersOrderData();
     }
 
+    public List<Customer> getCustomersWhoOrderedOnlyOneTypeOfSauce() {
+        return customerRepository.getCustomersWhoOrderedOnlyOneTypeOfSauce();
+    }
+
     public List<Customer> getAllCustomers() {
         List<Customer> customers = customerRepository.findAll();
         if (customers.isEmpty())

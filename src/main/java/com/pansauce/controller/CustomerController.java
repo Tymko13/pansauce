@@ -97,6 +97,11 @@ public class CustomerController {
         return customerService.getCustomersWhoOrderedAllTypesOfSauce();
     }
 
+    @GetMapping(value = "/customer/one_type")
+    public List<Customer> getCustomersWhoOrderedOnlyOneTypeOfSauce() {
+        return customerService.getCustomersWhoOrderedOnlyOneTypeOfSauce();
+    }
+
     @GetMapping(value = "/customer/orders/data")
     public List<CustomerOrderData> getCustomersOrderData() {
         return customerService.getCustomersOrderData();

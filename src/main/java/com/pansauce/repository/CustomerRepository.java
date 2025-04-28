@@ -157,6 +157,11 @@ public class CustomerRepository implements CustomerDao {
     }
 
     @Override
+    public List<Customer> getCustomersWhoOrderedOnlyOneTypeOfSauce() {
+        return jdbc.query(GET_CUSTOMERS_WHO_ORDERED_ONLY_ONE_TYPE_OF_SAUCE, CUSTOMER_WITH_PHONES_EXTRACTOR);
+    }
+
+    @Override
     public List<CustomerOrderData> getCustomersOrderData() {
         return jdbc.query(GET_CUSTOMERS_ORDER_DATA, CUSTOMER_ORDER_DATA_ROW_MAPPER);
     }

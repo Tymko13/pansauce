@@ -110,6 +110,13 @@ public class SauceController {
         return sauceService.getSaucesWithoutTypeNumberAndWithoutIngredientNumber(ingredientNumber, typeNumber);
     }
 
+    @GetMapping(value = "/sauce/alike_recipe/{key}")
+    public List<Sauce> getSauceThatContainsRecipeOfSauceWithKey(
+            @PathVariable("key") String sauceNumber
+    ) {
+        return sauceService.getSauceThatContainsRecipeOfSauceWithKey(sauceNumber);
+    }
+
     @PostMapping("/sauce")
     public void addSauce(
             @RequestBody SauceWithRecipe sauce
