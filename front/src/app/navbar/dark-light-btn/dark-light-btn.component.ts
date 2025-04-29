@@ -44,7 +44,6 @@ export class DarkLightBtnComponent {
     document.documentElement.style.setProperty('--primary-color', '#24272B');
     document.documentElement.style.setProperty('--secondary-color', '#4A525A');
     document.documentElement.style.setProperty('--text-color', '#FFFFFF');
-    document.documentElement.style.setProperty('--text-color', '#FFFFFF');
     document.documentElement.style.setProperty('--white-color', '#6a5454')
 
   }
