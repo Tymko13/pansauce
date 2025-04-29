@@ -52,7 +52,7 @@ export class UpdateSauceDialogComponent {
     public dialogRef: MatDialogRef<UpdateSauceDialogComponent>
   ) {
     this.sauceService.getSauceByKey(this.data.sauce).subscribe(data => {this.sauce.set(data);});
-    this.typeService.findAllTypes().subscribe(data => {this.types = data;})
+    this.typeService.getAllTypes().subscribe(data => {this.types = data;})
   }
 
   form = computed(() => this.fb.group({

@@ -39,7 +39,7 @@ export class AddSauceDialogComponent {
   types: Type[] = [];
   isNewType = false;
   constructor() {
-    this.typeService.findAllTypes().subscribe(data => {this.types = data;});
+    this.typeService.getAllTypes().subscribe(data => {this.types = data;});
   }
 
   form = this.fb.group({

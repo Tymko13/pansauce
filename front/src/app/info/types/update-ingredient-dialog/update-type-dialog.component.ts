@@ -14,13 +14,13 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
-import {IngredientService} from '../../../_services/ingredient.service';
-import {Ingredient} from '../../../_models/ingredient';
+import {TypeService} from '../../../_services/type.service';
+import {Type} from '../../../_models/type';
 
 @Component({
   standalone: true,
-  selector: 'app-update-ingredient-dialog',
-  templateUrl: './update-ingredient-dialog.component.html',
+  selector: 'app-update-type-dialog',
+  templateUrl: './update-type-dialog.component.html',
   imports: [
     CommonModule,
     FormsModule,
@@ -37,21 +37,21 @@ import {Ingredient} from '../../../_models/ingredient';
   ],
   styles: "mat-form-field {width: 100%;}"
 })
-export class UpdateIngredientDialogComponent {
+export class UpdateTypeDialogComponent {
   private fb = inject(FormBuilder);
-  private ingredientService = inject(IngredientService);
+  private typeService = inject(TypeService);
 
-  ingr: WritableSignal<Partial<Ingredient>> = signal({});
+  type: WritableSignal<Partial<Type>> = signal({});
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { ingredient: string },
-    public dialogRef: MatDialogRef<UpdateIngredientDialogComponent>
+    @Inject(MAT_DIALOG_DATA) public data: { type: string },
+    public dialogRef: MatDialogRef<UpdateTypeDialogComponent>
   ) {
-    this.ingredientService.getIngredientByKey(this.data.ingredient).subscribe(data => {this.ingr.set(data);});
+    this.typeService.getTypeByKey(this.data.type).subscribe(data => {this.type.set(data);});
   }
 
   form = computed(() => this.fb.group({
-    name: [this.ingr().name, Validators.required],
+    name: [this.type().typeName, Validators.required],
   }));
 
   submit() {

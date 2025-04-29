@@ -8,10 +8,12 @@ import {OrderComponent} from './info/order/order.component';
 import {CustomerComponent} from './info/customer/customer.component';
 import {AnalyticsComponent} from './info/analytics/analytics.component';
 import {IngredientComponent} from './info/ingredients/ingredient.component';
+import {TypeComponent} from './info/types/type.component';
 
 export const routes: Routes = [
   {path: "login", component: LoginComponent},
   {path: "sauces", component: SauceComponent, canActivate: [AuthGuard]},
+  {path: "types", component: TypeComponent, canActivate: [AuthGuard]},
   {path: "ingredients", component: IngredientComponent, canActivate: [AuthGuard]},
   {path: "batches", component: BatchComponent, canActivate: [AuthGuard]},
   {path: "orders", component: OrderComponent, canActivate: [AuthGuard]},

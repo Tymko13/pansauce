@@ -10,13 +10,13 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialog} from '@angular/material/dialog';
-import {UpdateIngredientDialogComponent} from './update-ingredient-dialog/update-ingredient-dialog.component';
-import {IngredientService} from '../../_services/ingredient.service';
-import {Ingredient} from '../../_models/ingredient';
+import {UpdateTypeDialogComponent} from './update-ingredient-dialog/update-type-dialog.component';
+import {TypeService} from '../../_services/type.service';
+import {Type} from '../../_models/type';
 
 
 @Component({
-  selector: 'app-ingredient',
+  selector: 'app-type',
   standalone: true,
   imports: [
     CommonModule,
@@ -31,18 +31,18 @@ import {Ingredient} from '../../_models/ingredient';
     MatOption,
     MatIconModule
   ],
-  templateUrl: './ingredient.component.html',
-  styleUrls: ['./ingredient.component.css'],
+  templateUrl: './type.component.html',
+  styleUrls: ['./type.component.css'],
 })
-export class IngredientComponent {
-  private ingredientService = inject(IngredientService);
+export class TypeComponent {
+  private typeService = inject(TypeService);
   private dialog = inject(MatDialog);
 
-  searchOptions = ['GTI Number', 'Ingredient Name'];
+  searchOptions = ['Type Number', 'Type Name'];
   sortOptions = ["number", "name"];
   showOptions = ["All"]
   displayedColumns = [
-    'gti_number',
+    'number',
     'name',
     'action'
   ];
@@ -53,7 +53,7 @@ export class IngredientComponent {
   selectedSearch = signal<string>(this.searchOptions[0]);
 
   dbUpdated = signal(0);
-  ingrs = computed(() => {
+  types = computed(() => {
     this.dbUpdated();
     const term = this.searchTerm();
     const sort = this.selectedSort();
@@ -62,15 +62,15 @@ export class IngredientComponent {
     switch (show) {
       case 'All': {
         if (term) switch (this.selectedSearch()) {
-          case 'GTI Number':
-            return this.ingredientService.getIngredientsWithNumberStartingWithSortedBy(term, sort);
-          case 'Ingredient Name':
-            return this.ingredientService.getIngredientsWithNameStartingWithSortedBy(term, sort);
+          case 'Type Number':
+            return this.typeService.getTypesWithNumberPrefixSortedBy(term, sort);
+          case 'Type Name':
+            return this.typeService.getTypesWithNamePrefixSortedBy(term, sort);
         }
         break;
       }
     }
-    return this.ingredientService.getAllIngredientsSortedBy(sort);
+    return this.typeService.getAllTypesSortedBy(sort);
   });
 
   updateDB() {
@@ -78,16 +78,16 @@ export class IngredientComponent {
   }
 
   update(number: string) {
-    const update = this.dialog.open(UpdateIngredientDialogComponent, {
-      data: {ingredient: number}
+    const update = this.dialog.open(UpdateTypeDialogComponent, {
+      data: {type: number}
     });
     update.afterClosed().subscribe(res => {
       if (res) {
-        let updatedIngredient: Partial<Ingredient> = {
-          gti: number,
-          name: res.name
+        let updatedType: Partial<Type> = {
+          typeNumber: number,
+          typeName: res.name
         }
-        this.ingredientService.updateIngredient(updatedIngredient).subscribe(() => {
+        this.typeService.updateType(updatedType).subscribe(() => {
           this.updateDB();
         });
       }
