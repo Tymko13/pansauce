@@ -54,16 +54,16 @@ public class TypeService {
 
     public List<Type> getTypesWithNumberPrefixSortedBy(String prefix, String attribute) {
         return switch (attribute) {
-            case "number" -> typeRepository.getTypesWithNumberStartingWithSortedByNumber(prefix);
-            case "name" -> typeRepository.getTypesWithNumberStartingWithSortedByName(prefix);
+            case "number" -> typeRepository.getTypesWithNumberStartingWithSortedByNumber(prefix + '%');
+            case "name" -> typeRepository.getTypesWithNumberStartingWithSortedByName(prefix + '%');
             default -> new ArrayList<>();
         };
     }
 
     public List<Type> getTypesWithNamePrefixSortedBy(String prefix, String attribute) {
         return switch(attribute) {
-            case "number" -> typeRepository.getTypesWithNameStartingWithSortedByNumber(prefix);
-            case "name" -> typeRepository.getTypesWithNameStartingWithSortedByName(prefix);
+            case "number" -> typeRepository.getTypesWithNameStartingWithSortedByNumber(prefix + '%');
+            case "name" -> typeRepository.getTypesWithNameStartingWithSortedByName(prefix + '%');
             default -> new ArrayList<>();
         };
     }
