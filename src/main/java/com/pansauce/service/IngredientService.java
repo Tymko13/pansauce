@@ -72,4 +72,8 @@ public class IngredientService {
         ingredientRepository.delete(key);
     }
 
+    public void updateIngredient(Ingredient ingredient) {
+        ingredientRepository.updateIngredient(ingredient);
+    }
+
 }
