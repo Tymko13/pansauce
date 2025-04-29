@@ -6,6 +6,7 @@ import { Order } from '../_models/order';
 import { CustomerWithOrders } from '../_models/customer-with-orders';
 import { environment } from '../environment';
 import {CustomerWithOrdersAndBatches} from '../_models/customer-with-orders-and-batches';
+import {CustomerOrderData} from '../_models/customer-order-data';
 
 @Injectable({
   providedIn: 'root'
@@ -77,5 +78,9 @@ export class CustomerService {
 
   deleteCustomer(key: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${key}`);
+  }
+
+  getCustomersOrderData(): Observable<CustomerOrderData[]> {
+    return this.http.get<CustomerOrderData[]>(`${environment.apiUrl}/customer/orders/data`);
   }
 }

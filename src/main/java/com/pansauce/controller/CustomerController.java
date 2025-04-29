@@ -102,7 +102,7 @@ public class CustomerController {
         return customerService.getCustomersWhoOrderedOnlyOneTypeOfSauce();
     }
 
-    @GetMapping(value = "/customer/orders/data")
+    @GetMapping(value = "customer/orders/data")
     public List<CustomerOrderData> getCustomersOrderData() {
         return customerService.getCustomersOrderData();
     }

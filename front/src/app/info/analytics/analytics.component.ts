@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SauceWithIncome } from '../../_models/sauce-with-income';
@@ -8,6 +8,8 @@ import { TotalAmount } from '../../_models/total-amount';
 import { TotalIncome } from '../../_models/total-income';
 import { BatchService } from '../../_services/batch.service';
 import { SauceService } from '../../_services/sauce.service';
+import {CustomerService} from '../../_services/customer.service';
+import {CustomerOrderData} from '../../_models/customer-order-data';
 
 @Component({
   selector: 'app-analytics',
@@ -25,6 +27,11 @@ export class AnalyticsComponent {
   saucesByIncome = signal<SauceWithIncome[]>([]);
   saucesBySales = signal<SauceWithSalesCount[]>([]);
   saucesRecipes = signal<SauceWithRecipe[]>([]);
+  customerOrders = signal<CustomerOrderData[]>([]);
+
+  isLoading = signal(true);
+  error = signal<string | null>(null);
+
 
   selectedType = '';
   selectedSauceKey = '';
@@ -38,8 +45,12 @@ export class AnalyticsComponent {
 
   constructor(
     private batchService: BatchService,
-    private sauceService: SauceService
-  ) {}
+    private sauceService: SauceService,
+    private customerService: CustomerService
+   // private customerOrderData: CustomerOrderData
+  ) {
+   this.loadCustomerData();
+  }
 
   private getDateRange(): { from: Date; to: Date } | null {
     if (this.fromDate && this.toDate) {
@@ -125,6 +136,22 @@ export class AnalyticsComponent {
     }
   }
 
+  private loadCustomerData() {
+    this.customerService.getCustomersOrderData().subscribe({
+      next: (data) => {
+        this.customerOrders.set(data);
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        this.error.set('Error while loading data');
+        this.isLoading.set(false);
+        console.error(err);
+      }
+    });
+  }
+
+  totalCustomers = computed(() => this.customerOrders().length);
+
   clearPopularityResults() {
     this.saucesByIncome = signal<SauceWithIncome[]>([]);
     this.saucesBySales = signal<SauceWithSalesCount[]>([]);
@@ -138,14 +165,10 @@ export class AnalyticsComponent {
     this.soldAmount = signal<TotalAmount | null>(null);
   }
 
-  // Очищення результатів загальної виручки
   clearIncomeResults() {
-    // Логіка очищення
   }
 
-  // Очищення результатів кількості/виручки за типом або соусом
   clearAmountIncomeResults() {
-    // Логіка очищення
   }
 
 }
