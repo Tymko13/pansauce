@@ -1,6 +1,7 @@
 package com.pansauce.repository;
 
 import com.pansauce.dao.IngredientDao;
+import com.pansauce.exception.ingredient.NonExistingIngredientException;
 import com.pansauce.model.basic.Ingredient;
 import com.pansauce.util.RandomKeyGenerator;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -82,6 +83,13 @@ public class IngredientRepository implements IngredientDao {
     @Override
     public List<Ingredient> getIngredientWithNumberStartingWithSortedByName(String prefix) {
         return jdbc.query(GET_INGREDIENTS_WITH_NUMBER_STARTING_WITH_SORTED_BY_NAME, INGREDIENT_ROW_MAPPER, prefix);
+    }
+
+    @Override
+    public void updateIngredient(Ingredient ingredient) {
+        if (!exists(ingredient.getGti()))
+            throw new NonExistingIngredientException();
+        jdbc.update(UPDATE_INGREDIENT_WITH_NUMBER, ingredient.getName(), ingredient.getGti());
     }
 
 }

@@ -65,4 +65,12 @@ public class IngredientController {
     ) {
         ingredientService.deleteIngredient(key);
     }
+
+    @PatchMapping("/ingredient")
+    public void updateIngredient(
+            @RequestBody Ingredient ingredient
+    ) {
+        ingredientService.updateIngredient(ingredient);
+    }
+
 }

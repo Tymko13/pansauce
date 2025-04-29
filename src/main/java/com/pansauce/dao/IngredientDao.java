@@ -15,4 +15,6 @@ public interface IngredientDao extends GenericDao<Ingredient, String> {
     List<Ingredient> getIngredientWithNumberStartingWithSortedByNumber(String prefix);
     List<Ingredient> getIngredientWithNumberStartingWithSortedByName(String prefix);
 
+    void updateIngredient(Ingredient ingredient);
+
 }

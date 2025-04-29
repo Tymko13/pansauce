@@ -42,4 +42,10 @@ public class IngredientQuery {
             "WHERE ingredient_name LIKE ?\n" +
             "ORDER BY ingredient_name\n";
 
+    public static final String UPDATE_INGREDIENT_WITH_NUMBER =
+            "UPDATE ingredient\n" +
+            "SET \n" +
+            "ingredient_name = ?\n" +
+            "WHERE gti_number = ?\n";
+
 }
