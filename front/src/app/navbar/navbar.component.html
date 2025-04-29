@@ -1,11 +1,12 @@
 <header>
   <span id="logo">
-    <img *ngIf="DarkLightBtnComponent.lightMode" src="/assets/logo/black.png" alt="Pan Sauce logo">
-    <img *ngIf="!DarkLightBtnComponent.lightMode" src="/assets/logo/white.png" alt="Pan Sauce logo">
+    <img routerLink="/" *ngIf="DarkLightBtnComponent.lightMode" src="/assets/logo/black.png" alt="Pan Sauce logo">
+    <img routerLink="/" *ngIf="!DarkLightBtnComponent.lightMode" src="/assets/logo/white.png" alt="Pan Sauce logo">
   </span>
   <span id="navigation">
-    <button class="text-btn" routerLink="/">Home</button>
     <button class="text-btn" *ngIf="authService.isLoggedIn()" routerLink="/sauces">Sauces</button>
+    <button class="text-btn" *ngIf="authService.isLoggedIn()" routerLink="/types">Types</button>
+    <button class="text-btn" *ngIf="authService.isLoggedIn()" routerLink="/ingredients">Ingredients</button>
     <button class="text-btn" *ngIf="authService.isLoggedIn()" routerLink="/batches">Batches</button>
     <button class="text-btn" *ngIf="authService.isLoggedIn()" routerLink="/orders">Orders</button>
     <button class="text-btn" *ngIf="authService.isLoggedIn()" routerLink="/customers">Customers</button>

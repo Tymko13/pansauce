@@ -1,0 +1,66 @@
+<div id="container">
+  <mat-sidenav-container class="batch-container">
+    <mat-sidenav mode="side" opened class="sidebar">
+      <mat-nav-list>
+        <h3>Sort by</h3>
+        <mat-list-item
+          *ngFor="let sort of sortOptions"
+          (click)="selectedSort.set(sort)"
+          [class.selected]="(selectedShow() === 'All') && selectedSort() === sort"
+          [disabled]="selectedShow() !== 'All'">
+          {{ sort.toUpperCase().replace("_", " ") }}
+        </mat-list-item>
+        <h3>Show</h3>
+        <mat-list-item
+          *ngFor="let show of showOptions"
+          (click)="selectedShow.set(show)"
+          [class.selected]="selectedShow() === show">
+          {{ show }}
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="content">
+      <span id="search-field">
+        <mat-form-field appearance="outline">
+          <mat-label>Search By</mat-label>
+          <mat-select [value]="selectedSearch()" (selectionChange)="selectedSearch.set($event.value)" [disabled]="selectedShow() !== 'All'">
+            <mat-option *ngFor="let option of searchOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search</mat-label>
+          <input matInput [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)"
+                 placeholder="Ingredient GTI or name..." [disabled]="selectedShow() !== 'All'">
+        </mat-form-field>
+      </span>
+
+
+      <table mat-table [dataSource]="ingrs()" class="full-width-table">
+
+        <ng-container matColumnDef="gti_number">
+          <th mat-header-cell *matHeaderCellDef>Ingredient GTI</th>
+          <td mat-cell *matCellDef="let ingr">{{ ingr.gti }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let ingr">{{ ingr.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let ingr">
+            <button mat-icon-button (click)="update(ingr.gti)"><mat-icon>edit</mat-icon></button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

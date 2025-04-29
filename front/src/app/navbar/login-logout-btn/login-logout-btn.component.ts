@@ -14,18 +14,18 @@ import {AuthService} from '../../_auth/auth.service';
   styles: `
     mat-icon {
       color: var(--text-color);
-      font-size: 2.5rem;
-      width: 2.5rem;
-      height: 2.5rem;
-      line-height: 2.5rem;
+      font-size: 2.25rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      line-height: 2.25rem;
       transition-duration: 0.25s;
     }
     mat-icon:hover {
       color: var(--accent-color);
     }
     button {
-      height: 2.5rem;
-      width: 2.5rem;
+      height: 2.25rem;
+      width: 2.25rem;
       padding: 0;
       display: inline-flex;
       align-items: center;
