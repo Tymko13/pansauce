@@ -138,6 +138,7 @@ export class SauceComponent {
           typeNumber: res.typeNumber,
           typeName: res.typeName
         }
+        console.log(updatedSauce);
         this.sauceService.updateSauce(updatedSauce).subscribe(() => {
           this.updateDB();
         });

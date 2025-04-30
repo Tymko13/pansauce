@@ -117,6 +117,7 @@ export class UpdateSauceDialogComponent {
       });
       recipe.afterClosed().subscribe(res => {
         if(res) {
+          if(this.form().get("typeName") !== null) this.form().get("typeNumber")?.setValue(null);
           this.form().get("recipe")?.setValue(res);
           this.dialogRef.close(this.form().value);
         }
