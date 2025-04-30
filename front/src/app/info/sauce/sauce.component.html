@@ -75,7 +75,7 @@
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let sauce">
             <button mat-icon-button (click)="update(sauce.number)"><mat-icon>edit</mat-icon></button>
-            <button mat-icon-button (click)="delete(sauce.number)"><mat-icon>delete</mat-icon></button>
+            <button mat-icon-button [disabled]="!canDelete(sauce.number)" (click)="delete(sauce.number)"><mat-icon>delete</mat-icon></button>
           </td>
         </ng-container>
 

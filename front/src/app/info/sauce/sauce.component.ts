@@ -1,4 +1,4 @@
-import {Component, inject, signal, computed} from '@angular/core';
+import {Component, inject, signal, computed, WritableSignal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
@@ -18,6 +18,7 @@ import {SeeRecipeDialogComponent} from './see-recipe-dialog/see-recipe-dialog.co
 import {UpdateSauceDialogComponent} from './update-sauce-dialog/update-sauce-dialog.component';
 import {SauceWithRecipe} from '../../_models/sauce-with-recipe';
 import {AddSauceDialogComponent} from './add-sauce-dialog/add-sauce-dialog.component';
+import {BatchService} from '../../_services/batch.service';
 
 @Component({
   selector: 'app-sauce',
@@ -40,10 +41,22 @@ import {AddSauceDialogComponent} from './add-sauce-dialog/add-sauce-dialog.compo
 })
 export class SauceComponent {
   private sauceService = inject(SauceService);
+  private batchService = inject(BatchService);
   private sauceIngredientService = inject(SauceIngredientService);
   private typeService = inject(TypeService);
 
   private dialog = inject(MatDialog);
+  saucesInBatches: WritableSignal<string[]> = signal([]);
+
+  constructor() {
+    this.batchService.getAllBatchesSortedBy().subscribe(data => {
+      this.saucesInBatches.set(data.flatMap(it => it.sauceNumber));
+    });
+  }
+
+  canDelete(number: string) {
+    return !this.saucesInBatches().includes(number);
+  }
 
   searchOptions = ['Sauce Number', 'Sauce Name', 'Type Number', 'Type Name'];
   sortOptions = ["number", "name", "type", "price"];

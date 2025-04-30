@@ -12,7 +12,6 @@ import {MatIconModule} from '@angular/material/icon';
 import {CustomerService} from '../../_services/customer.service';
 import {OrderService} from '../../_services/order.service';
 import {MatDialog} from '@angular/material/dialog';
-import {ConfirmDialogComponent} from '../../confirm-dialog/confirm-dialog.component';
 import {UpdateOrderDialogComponent} from './update-order-dialog/update-order-dialog.component';
 import {Order} from '../../_models/order';
 import {AddOrderDialogComponent} from './add-order-dialog/add-order-dialog.component';

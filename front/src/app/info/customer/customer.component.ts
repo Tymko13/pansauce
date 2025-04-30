@@ -16,7 +16,6 @@ import {MatOption, MatSelect} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
 import {CustomerService} from '../../_services/customer.service';
 import {MatDialog} from '@angular/material/dialog';
-import {ConfirmDialogComponent} from '../../confirm-dialog/confirm-dialog.component';
 import {UpdateCustomerDialogComponent} from './update-customer-dialog/update-customer-dialog.component';
 import {Customer} from '../../_models/customer';
 import {AddCustomerDialogComponent} from './add-customer-dialog/add-customer-dialog.component';
