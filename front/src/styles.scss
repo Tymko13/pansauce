@@ -31,3 +31,8 @@ body {
     background-color: var(--secondary-color);
     font-family: "Nunito", sans-serif;
 }
+
+::selection {
+  background-color: rgba(0,0,0,0.1);
+  color: var(--accent-color);
+}
