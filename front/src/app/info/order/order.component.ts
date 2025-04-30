@@ -79,17 +79,6 @@ export class OrderComponent {
 
   updateDB() { this.dbUpdated.update(e => ++e); }
 
-  delete(number: string) {
-    const confirmation = this.dialog.open(ConfirmDialogComponent, {
-      data: {message: `Are you sure you want to delete this Order?`}
-    });
-    confirmation.afterClosed().subscribe(res => {
-      if (res) {
-        this.orderService.deleteOrderByKey(number).subscribe(()=>{this.updateDB();});
-      }
-    });
-  }
-
   update(number: string) {
     const update = this.dialog.open(UpdateOrderDialogComponent, {
       data: {order: number}
@@ -123,7 +112,6 @@ export class OrderComponent {
           customerNumber: res.customerNumber,
           batchKeys: res.batchKeys
         }
-        console.log(JSON.stringify(newOrder));
         this.orderService.addOrder(newOrder).subscribe(()=>{this.updateDB();});
       }
     });

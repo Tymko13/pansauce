@@ -98,17 +98,6 @@ export class CustomerComponent {
 
   updateDB() { this.dbUpdated.update(e => ++e); }
 
-  delete(number: string) {
-    const confirmation = this.dialog.open(ConfirmDialogComponent, {
-      data: {message: `Are you sure you want to delete this Customer?`}
-    });
-    confirmation.afterClosed().subscribe(res => {
-      if (res) {
-        this.customerService.deleteCustomer(number).subscribe(()=>{this.updateDB();});
-      }
-    });
-  }
-
   update(number: string) {
     const update = this.dialog.open(UpdateCustomerDialogComponent, {
       data: {customer: number}
