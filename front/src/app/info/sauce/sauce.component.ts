@@ -110,6 +110,7 @@ export class SauceComponent {
 
   update(number: string) {
     const update = this.dialog.open(UpdateSauceDialogComponent, {
+      maxHeight: '50vh',
       data: {sauce: number}
     });
     update.afterClosed().subscribe(res => {
@@ -119,9 +120,10 @@ export class SauceComponent {
           cost: res.cost,
           shelfLife: res.shelfLife,
           name: res.name,
-          recipe: res.recipe,
+          recipe: [...res.recipe.ingredients],
           weight: res.weight,
-          typeNumber: res.typeNumber
+          typeNumber: res.typeNumber,
+          typeName: res.typeName
         }
         this.sauceService.updateSauce(updatedSauce).subscribe(() => {
           this.updateDB();
