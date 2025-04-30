@@ -46,7 +46,7 @@ import {UpdateRecipeDialogComponent} from '../update-recipe-dialog/update-recipe
     MatDialogTitle,
     MatSelectModule
   ],
-  styles: "mat-form-field {width: 45%;} .left {margin-right: 5%;} #type {width: 25%; margin: 0 15%;}"
+  styles: "mat-form-field {width: 45%;} .left {margin-right: 5%;} #type {width: 45%; margin: 0 5%;}"
 })
 export class UpdateSauceDialogComponent {
   private fb = inject(FormBuilder);
