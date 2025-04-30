@@ -1,89 +1,116 @@
 <div class="analytics-container-large">
 
-<div class="analytics-container">
-  <h1>Analytics Dashboard</h1>
+  <div class="analytics-container">
+    <h1>Analytics Dashboard</h1>
 
-  <section class="section">
-    <h2>Sauce Popularity</h2>
-    <select [(ngModel)]="popularityType">
-      <option value="top">The most popular</option>
-      <option value="last">The least popular</option>
-    </select>
-    <button (click)="loadPopularSauces()">Get sauces by income</button>
-    <button (click)="loadPopularSaucesBySales()">Get sauces by sales count</button>
+    <section class="section">
+      <h2>Sauce Popularity</h2>
+      <select [(ngModel)]="popularityType">
+        <option value="top">The most popular</option>
+        <option value="last">The least popular</option>
+      </select>
+      <button (click)="loadPopularSauces()">Get sauces by income</button>
+      <button (click)="loadPopularSaucesBySales()">Get sauces by sales count</button>
 
-    <button class="clear" (click)="clearPopularityResults()">Clear</button>
-
-
-    <ul>
-      <li *ngFor="let sauce of saucesByIncome()">{{ sauce.sauceName }} — {{ sauce.sauceIncome || 0  }} грн</li>
-    </ul>
-    <ul>
-      <li *ngFor="let sauce of saucesBySales()">{{ sauce.sauceName }} — {{ sauce.salesCount || 0 }} продажів</li>
-    </ul>
-  </section>
-
-  <section class="section">
-    <h2>Recipes of the most popular sauces</h2>
-    <button (click)="loadPopularRecipes(true)">Get recipes by income</button>
-    <button (click)="loadPopularRecipes(false)">Get recipes by sales count</button>
-
-    <button class="clear" (click)="clearRecipesResults()">Clear</button>
-
-    <ul>
-      <li *ngFor="let sauce of saucesRecipes()">
-        <strong>{{ sauce.name }}</strong>
-        <ul>
-          <li *ngFor="let ingredient of sauce.recipe">
-            {{ ingredient.name }} — {{ ingredient.weight }} г
-          </li>
-        </ul>
-      </li>
-    </ul>
-
-  </section>
-
-  <section class="section">
-    <h2>Sales statistics by sauce type</h2>
-    <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">
-    <label>From: <input type="date" [(ngModel)]="fromDate"></label>
-    <label>To: <input type="date" [(ngModel)]="toDate"></label>
-    <button (click)="loadSoldAmountByType()">Get number</button>
-
-<!--    <button (click)="clearSalesStatsResults()">Clear</button>-->
-
-    <p>Sold batches: {{ soldAmount()?.totalAmount || 0 }}</p>
-  </section>
-
-  <section class="section">
-    <h2>Overall income in period</h2>
-    <label>From: <input type="date" [(ngModel)]="fromDate"></label>
-    <label>To: <input type="date" [(ngModel)]="toDate"></label>
-    <button (click)="loadTotalIncome()">Get income</button>
-<!--    <button (click)="clearIncomeResults()">Clear</button>-->
+      <button class="clear" (click)="clearPopularityResults()">Clear</button>
 
 
-    <p>Income: {{ totalIncome()?.income || 0 }} $</p>
-  </section>
+      <ul>
+        <li *ngFor="let sauce of saucesByIncome()">{{ sauce.sauceName }} — {{ sauce.sauceIncome || 0 }} грн</li>
+      </ul>
+      <ul>
+        <li *ngFor="let sauce of saucesBySales()">{{ sauce.sauceName }} — {{ sauce.salesCount || 0 }} продажів</li>
+      </ul>
+    </section>
 
-  <section class="section">
-    <h2>Number/Income by sauce or type</h2>
-    <input type="text" [(ngModel)]="selectedSauceKey" placeholder="Sauce code">
-    <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">
-    <label>From: <input type="date" [(ngModel)]="fromDate"></label>
-    <label>To: <input type="date" [(ngModel)]="toDate"></label>
+    <section class="section">
+      <h2>Recipes of the most popular sauces</h2>
+      <button (click)="loadPopularRecipes(true)">Get recipes by income</button>
+      <button (click)="loadPopularRecipes(false)">Get recipes by sales count</button>
 
-    <button (click)="loadAmountByKey(false)">number by sauce</button>
-    <button (click)="loadIncomeByKey(false)">income by sauce</button>
-    <button (click)="loadAmountByKey(true)">number by type</button>
-    <button (click)="loadIncomeByKey(true)">income by type</button>
+      <button class="clear" (click)="clearRecipesResults()">Clear</button>
 
-<!--    <button (click)="clearAmountIncomeResults()">Очистити результат</button>-->
+      <ul>
+        <li *ngFor="let sauce of saucesRecipes()">
+          <strong>{{ sauce.name }}</strong>
+          <ul>
+            <li *ngFor="let ingredient of sauce.recipe">
+              {{ ingredient.name }} — {{ ingredient.weight }} г
+            </li>
+          </ul>
+        </li>
+      </ul>
 
-    <p>Number: {{ queryAmount()?.totalAmount || 0 }}</p>
-    <p>Income: {{ queryIncome()?.income || 0}} $</p>
-  </section>
-</div>
+    </section>
+
+    <section class="section">
+      <h2>Sales statistics by sauce type</h2>
+      <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">
+      <label>From: <input type="date" [(ngModel)]="fromDate"></label>
+      <label>To: <input type="date" [(ngModel)]="toDate"></label>
+      <button (click)="loadSoldAmountByType()">Get number</button>
+
+      <!--    <button (click)="clearSalesStatsResults()">Clear</button>-->
+
+      <p>Sold batches: {{ soldAmount()?.totalAmount || 0 }}</p>
+    </section>
+
+    <section class="section">
+      <h2>Overall income in period</h2>
+      <label>From: <input type="date" [(ngModel)]="fromDate"></label>
+      <label>To: <input type="date" [(ngModel)]="toDate"></label>
+      <button (click)="loadTotalIncome()">Get income</button>
+      <!--    <button (click)="clearIncomeResults()">Clear</button>-->
+
+
+      <p>Income: {{ totalIncome()?.income || 0 }} $</p>
+    </section>
+
+    <section class="section">
+      <h2>Number/Income by sauce or type</h2>
+      <input type="text" [(ngModel)]="selectedSauceKey" placeholder="Sauce code">
+      <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">
+      <label>From: <input type="date" [(ngModel)]="fromDate"></label>
+      <label>To: <input type="date" [(ngModel)]="toDate"></label>
+
+      <button (click)="loadAmountByKey(false)">number by sauce</button>
+      <button (click)="loadIncomeByKey(false)">income by sauce</button>
+      <button (click)="loadAmountByKey(true)">number by type</button>
+      <button (click)="loadIncomeByKey(true)">income by type</button>
+
+      <!--    <button (click)="clearAmountIncomeResults()">Очистити результат</button>-->
+
+      <p>Number: {{ queryAmount()?.totalAmount || 0 }}</p>
+      <p>Income: {{ queryIncome()?.income || 0 }} $</p>
+    </section>
+    <div *ngIf="isLoading()">Завантаження...</div>
+
+    <div *ngIf="error()" class="error">{{ error() }}</div>
+
+    <div *ngIf="!isLoading() && !error()">
+      <p><strong>Загальна кількість клієнтів:</strong> {{ totalCustomers() }}</p>
+
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Client IDа</th>
+          <th>Client surname</th>
+          <th>Number of Orders</th>
+          <th>Overall sum</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let order of customerOrders()">
+          <td>{{ order.customerNumber }}</td>
+          <td>{{ order.customerSurname }}</td>
+          <td>{{ order.totalOrdersCount }}</td>
+          <td>{{ order.totalOrdersPrice | number:'1.2-2' }} ₴</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
 </div>
 
 
