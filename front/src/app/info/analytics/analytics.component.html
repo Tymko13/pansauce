@@ -83,32 +83,35 @@
       <p>Number: {{ queryAmount()?.totalAmount || 0 }}</p>
       <p>Income: {{ queryIncome()?.income || 0 }} $</p>
     </section>
-    <div *ngIf="isLoading()">Завантаження...</div>
 
-    <div *ngIf="error()" class="error">{{ error() }}</div>
+    <section class="section">
+      <div *ngIf="isLoading()">Завантаження...</div>
 
-    <div *ngIf="!isLoading() && !error()">
-      <p><strong>Загальна кількість клієнтів:</strong> {{ totalCustomers() }}</p>
+      <div *ngIf="error()" class="error">{{ error() }}</div>
 
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Client IDа</th>
-          <th>Client surname</th>
-          <th>Number of Orders</th>
-          <th>Overall sum</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let order of customerOrders()">
-          <td>{{ order.customerNumber }}</td>
-          <td>{{ order.customerSurname }}</td>
-          <td>{{ order.totalOrdersCount }}</td>
-          <td>{{ order.totalOrdersPrice | number:'1.2-2' }} ₴</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+      <div *ngIf="!isLoading() && !error()">
+        <p><strong>Загальна кількість клієнтів:</strong> {{ totalCustomers() }}</p>
+
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Client IDа</th>
+            <th>Client surname</th>
+            <th>Number of Orders</th>
+            <th>Overall sum</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let order of customerOrders()">
+            <td>{{ order.customerNumber }}</td>
+            <td>{{ order.customerSurname }}</td>
+            <td>{{ order.totalOrdersCount }}</td>
+            <td>{{ order.totalOrdersPrice | number:'1.2-2' }} ₴</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
   </div>
 </div>
