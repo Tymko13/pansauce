@@ -159,6 +159,7 @@ public class SauceService {
             type.setTypeName(sauce.getTypeName());
             RandomKeyGenerator keyGenerator = new RandomKeyGenerator(TYPE_KEY_LENGTH);
             String typeKey = keyGenerator.nextString();
+            type.setTypeNumber(typeKey);
             typeRepository.insert(type, typeKey);
             sauce.setTypeNumber(typeKey);
         }
