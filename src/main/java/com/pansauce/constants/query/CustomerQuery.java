@@ -283,7 +283,7 @@ public class CustomerQuery {
             "INNER JOIN order AS o ON c.customer_number = o.customer_number\n" +
             "INNER JOIN batch AS b ON o.order_number = b.order_number\n" +
             "GROUP BY c.customer_name, c.customer_surname\n" +
-            "ORDER BY total_spent DESC;\n";
+            "ORDER BY total_orders_price DESC;\n";
 
     public static final String UPDATE_CUSTOMER =
             "UPDATE customer\n" +
