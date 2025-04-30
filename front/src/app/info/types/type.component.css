@@ -54,3 +54,7 @@ mat-sidenav {
   width: 100%;
   z-index: 1000;
 }
+
+.tight {
+  width: 8rem;
+}

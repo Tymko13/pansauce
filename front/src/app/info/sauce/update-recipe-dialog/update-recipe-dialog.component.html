@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Edit Sauce Recipe Info</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content class="no-scrollbar">
+    <div formArrayName="ingredients">
+      <div *ngFor="let ingredient of ingredientsArray().controls; let i = index" [formGroupName]="i">
+
+        <mat-form-field appearance="outline" style="width: 55%; margin-right: 5%;">
+          <mat-label>Ingredient</mat-label>
+
+          <ng-container *ngIf="!isNewIngr(i); else newIngr">
+            <mat-select formControlName="gti">
+              <mat-option (click)="createNewIngredient(i)">
+                -------New Ingredient-------
+              </mat-option>
+              <mat-option *ngFor="let ingr of ingredients" [disabled]="alreadySelected(ingr.gti)" [value]="ingr.gti">
+                {{ingr.name}}
+              </mat-option>
+            </mat-select>
+          </ng-container>
+
+          <ng-template #newIngr>
+            <input [id]="getId(i)" placeholder="Enter new ingredient name..." matInput type="text" formControlName="name">
+          </ng-template>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width: 30%;">
+          <mat-label>Weight, g</mat-label>
+          <input matInput formControlName="weight" type="number">
+        </mat-form-field>
+
+        <button type="button" mat-icon-button color="warn" (click)="removeIngredient(i)" [disabled]="ingredientsArray().length < 2">
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center">
+    <div style="width: 100%; display: flex; flex-direction: row; justify-content: space-between">
+      <button mat-button (click)="addIngredient()">Add Ingredient</button>
+      <div>
+        <button mat-button type="button" (click)="cancel()">Cancel</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Submit</button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+</form>

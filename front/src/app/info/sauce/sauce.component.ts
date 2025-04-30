@@ -18,6 +18,7 @@ import {SeeRecipeDialogComponent} from './see-recipe-dialog/see-recipe-dialog.co
 import {UpdateSauceDialogComponent} from './update-sauce-dialog/update-sauce-dialog.component';
 import {SauceWithRecipe} from '../../_models/sauce-with-recipe';
 import {AddSauceDialogComponent} from './add-sauce-dialog/add-sauce-dialog.component';
+import {AddRecipeDialogComponent} from './add-recipe-dialog/add-recipe-dialog.component';
 
 
 @Component({
@@ -132,16 +133,17 @@ export class SauceComponent {
   }
 
   add() {
-    const input = this.dialog.open(AddSauceDialogComponent);
+    const input = this.dialog.open(AddSauceDialogComponent, {maxHeight: '50vh'});
     input.afterClosed().subscribe(res => {
       if (res) {
         let newSauce: Partial<SauceWithRecipe> = {
           cost: res.cost,
           shelfLife: res.shelfLife,
           name: res.name,
-          recipe: res.recipe,
+          recipe: [...res.recipe.ingredients],
           weight: res.weight,
-          typeNumber: res.typeNumber
+          typeNumber: res.typeNumber,
+          typeName: res.typeName
         }
         this.sauceService.addSauce(newSauce).subscribe(() => {
           this.updateDB();

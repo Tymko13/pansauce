@@ -4,7 +4,7 @@ import {Component} from '@angular/core';
 @Component({
   selector: 'app-footer',
   template: `
-    <footer id="footer"><p (click)="play()">&copy; 2025 Pan Sauce. All rights reserved.</p></footer>
+    <footer id="footer"><p (click)="play()">&copy; 2025 Pan Sauce. No rights reserved.</p></footer>
     <audio id="music" src="/assets/music/Fluffy.flac" loop></audio>
   `,
   standalone: true,

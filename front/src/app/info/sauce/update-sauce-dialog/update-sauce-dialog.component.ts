@@ -1,13 +1,21 @@
 import {Component, computed, Inject, inject, signal, WritableSignal} from '@angular/core';
 import {
-  MAT_DIALOG_DATA,
+  MAT_DIALOG_DATA, MatDialog,
   MatDialogActions,
   MatDialogContent,
   MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
 import {CommonModule} from '@angular/common';
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
@@ -18,6 +26,7 @@ import {SauceService} from '../../../_services/sauce.service';
 import {TypeService} from '../../../_services/type.service';
 import {Sauce} from '../../../_models/sauce';
 import {Type} from '../../../_models/type';
+import {UpdateRecipeDialogComponent} from '../update-recipe-dialog/update-recipe-dialog.component';
 
 @Component({
   standalone: true,
@@ -41,10 +50,12 @@ import {Type} from '../../../_models/type';
 })
 export class UpdateSauceDialogComponent {
   private fb = inject(FormBuilder);
+  private dialog = inject(MatDialog);
   private sauceService = inject(SauceService);
   private typeService = inject(TypeService);
 
   sauce: WritableSignal<Partial<Sauce>> = signal({});
+  sauces: Sauce[] = [];
   types: Type[] = [];
 
   constructor(
@@ -53,16 +64,33 @@ export class UpdateSauceDialogComponent {
   ) {
     this.sauceService.getSauceByKey(this.data.sauce).subscribe(data => {this.sauce.set(data);});
     this.typeService.getAllTypes().subscribe(data => {this.types = data;})
+    this.sauceService.findAllSauce("number").subscribe(data => {this.sauces = data;});
+  }
+
+  duplicateValidator(sauces: Sauce[], init: Partial<Sauce>): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const name = group.get('name')?.value;
+      const weight = group.get('weight')?.value;
+      let hasDuplicates = false;
+      for (let sauce of sauces) {
+        if (sauce.name == name
+          && sauce.weight == weight
+          && name != init.name
+          && weight != init.weight) hasDuplicates = true;
+      }
+      return hasDuplicates ? {duplicateNames: true} : null;
+    }
   }
 
   form = computed(() => this.fb.group({
     name: [this.sauce().name, Validators.required],
     shelfLife: [this.sauce().shelfLife, [Validators.required, Validators.min(1)]],
     weight: [this.sauce().weight, [Validators.required, Validators.min(1)]],
-    cost: [this.sauce().cost, [Validators.required, Validators.min(0)]],
+    cost: [this.sauce().cost, [Validators.required, Validators.min(0.01)]],
     typeNumber: [this.sauce().typeNumber, Validators.required],
-    typeName: [null]
-  }));
+    typeName: [null],
+    recipe: [null]
+  }, {validators: this.duplicateValidator(this.sauces, this.sauce())}));
 
   isNewType = false;
   toggleType() {
@@ -72,9 +100,11 @@ export class UpdateSauceDialogComponent {
       this.form().get("typeNumber")?.clearValidators();
       this.form().get("typeName")?.updateValueAndValidity();
       this.form().get("typeNumber")?.updateValueAndValidity();
+      setTimeout(() => document.getElementById("newType")?.focus());
     } else {
       this.form().get("typeNumber")?.addValidators([Validators.required]);
       this.form().get("typeName")?.clearValidators();
+      this.form().get("typeName")?.setValue(null);
       this.form().get("typeNumber")?.updateValueAndValidity();
       this.form().get("typeName")?.updateValueAndValidity();
     }
@@ -82,7 +112,15 @@ export class UpdateSauceDialogComponent {
 
   submit() {
     if (this.form().valid) {
-      this.dialogRef.close(this.form().value);
+      const recipe = this.dialog.open(UpdateRecipeDialogComponent, {
+        data: {sauce: this.data.sauce}
+      });
+      recipe.afterClosed().subscribe(res => {
+        if(res) {
+          this.form().get("recipe")?.setValue(res);
+          this.dialogRef.close(this.form().value);
+        }
+      });
     }
   }
 

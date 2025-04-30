@@ -1,4 +1,4 @@
-import {Component, inject, signal, WritableSignal} from '@angular/core';
+import {Component, Inject, inject, signal, WritableSignal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {
   AbstractControl,
@@ -14,16 +14,24 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
-import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {Ingredient} from '../../../_models/ingredient';
 import {IngredientService} from '../../../_services/ingredient.service';
 import {MatIcon} from '@angular/material/icon';
+import {SauceIngredient} from '../../../_models/sauce-ingredient';
+import {SauceIngredientService} from '../../../_services/sauce-ingredient.service';
 
 @Component({
   standalone: true,
-  selector: 'app-add-recipe-dialog',
-  templateUrl: './add-recipe-dialog.component.html',
+  selector: 'app-update-recipe-dialog',
+  templateUrl: './update-recipe-dialog.component.html',
   imports: [
     CommonModule,
     FormsModule,
@@ -41,16 +49,23 @@ import {MatIcon} from '@angular/material/icon';
   ],
   styles: ".no-scrollbar { scrollbar-width: none; max-height: 30vh; }"
 })
-export class AddRecipeDialogComponent {
+export class UpdateRecipeDialogComponent {
   private fb = inject(FormBuilder);
-  private dialogRef = inject(MatDialogRef<AddRecipeDialogComponent>);
   private ingredientService = inject(IngredientService);
+  private sauceIngredientService = inject(SauceIngredientService);
 
   ingredients: Ingredient[] = [];
+  original: SauceIngredient[] = [];
 
-  constructor() {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { sauce: string },
+              public dialogRef: MatDialogRef<UpdateRecipeDialogComponent>) {
     this.ingredientService.getAllIngredients().subscribe(data => {this.ingredients = data;});
-    this.addIngredient();
+    this.sauceIngredientService.getSauceIngredientsByKey(this.data.sauce).subscribe(data => {
+      this.original = data;
+      for(let ingr of this.original) {
+        this.addIngredient(ingr.gti, ingr.weight);
+      }
+    });
   }
 
   form = this.fb.group({
@@ -61,16 +76,16 @@ export class AddRecipeDialogComponent {
     return this.form.get('ingredients') as FormArray;
   }
 
-  newIngredient(): FormGroup {
+  newIngredient(gti: string | null = null, weight: number | null = null): FormGroup {
     return this.fb.group({
-      gti: [null, Validators.required],
+      gti: [gti, Validators.required],
       name: [null],
-      weight: [null, [Validators.required, Validators.min(0)]]
+      weight: [weight, [Validators.required, Validators.min(0)]]
     });
   }
 
-  addIngredient() {
-    this.ingredientsArray().push(this.newIngredient());
+  addIngredient(gti: string | null = null, weight: number | null = null) {
+    this.ingredientsArray().push(this.newIngredient(gti, weight));
   }
 
   removeIngredient(index: number) {

@@ -80,7 +80,7 @@ export class SauceService {
     return this.http.get<Sauce[]>(this.apiUrl, { params });
   }
 
-  addSauce(sauce: Partial<Sauce>): Observable<void> {
+  addSauce(sauce: Partial<SauceWithRecipe>): Observable<void> {
     return this.http.post<void>(this.apiUrl, sauce);
   }
 
