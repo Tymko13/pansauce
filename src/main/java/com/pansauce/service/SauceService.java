@@ -183,10 +183,6 @@ public class SauceService {
     }
 
     public void addSauceWithRecipe(SauceWithRecipe sauce) {
-        SauceValidator validator = new SauceValidator();
-        List<String> errorMessages = validator.validate(sauce);
-        if (errorMessages.isEmpty())
-            throw new InvalidSauceException(errorMessages);
         String typeNumber = sauce.getTypeNumber();
         if (!typeRepository.exists(typeNumber)) {
             Type type = new Type();
