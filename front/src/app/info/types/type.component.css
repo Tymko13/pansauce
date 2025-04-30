@@ -58,3 +58,7 @@ mat-sidenav {
 .tight {
   width: 8rem;
 }
+
+.highlight:hover {
+  background-color: rgba(30,0,0,0.03);
+}
