@@ -233,18 +233,18 @@ public class CustomerQuery {
             "ON o.order_number = b.order_number\n" +
             "WHERE o.customer_number = ?\n" +
             "GROUP BY s.sauce_number, s.sauce_name\n" +
-            "ORDER BY COUNT(s2.sauce_number) DESC\n" +
+            "ORDER BY COUNT(s.sauce_number) DESC\n" +
             "LIMIT 1;\n";
 
     public static final String GET_CUSTOMERS_WHO_ORDERED_ALL_TYPES_OF_SAUCE =
             "SELECT *\n" +
             "FROM customer AS c\n" +
             "INNER JOIN contact_number AS ct\n" +
-            "ON c.contact_number = ct.contact_number\n" +
-            "WHERE NOT EXIST (\n" +
+            "ON c.customer_number = ct.customer_number\n" +
+            "WHERE NOT EXISTS (\n" +
             "SELECT *\n" +
-            "FROM sauce_type AS st\n" +
-            "WHERE NOT EXIST (\n" +
+            "FROM type AS st\n" +
+            "WHERE NOT EXISTS (\n" +
             "\tSELECT *\n" +
             "\tFROM (sauce AS s\n" +
             "INNER JOIN batch AS b\n" +
@@ -264,14 +264,14 @@ public class CustomerQuery {
             "INNER JOIN contact_number AS cn1\n" +
             "ON c1.customer_number = cn1.customer_number\n" +
             "WHERE c1.customer_number IN (\n" +
-            "    SELECT c.customer_number\n" +
+            "    SELECT customer_number\n" +
             "    FROM (\n" +
             "        SELECT DISTINCT c.customer_number, s.type_number\n" +
             "        FROM ((customer AS c INNER JOIN [order] AS o\n" +
             "        ON o.customer_number = c.customer_number) INNER JOIN batch AS b\n" +
             "        ON b.order_number = o.order_number) INNER JOIN sauce AS s\n" +
             "        ON s.sauce_number = b.sauce_number)\n" +
-            "    GROUP BY c.customer_number\n" +
+            "    GROUP BY customer_number\n" +
             "    HAVING COUNT(*) = 1\n" +
             ");\n";
 
