@@ -276,14 +276,14 @@ public class CustomerQuery {
             ");\n";
 
     public static final String GET_CUSTOMERS_ORDER_DATA =
-            "SELECT c.customer_name, c.customer_surname," +
+            "SELECT c.customer_number, c.customer_surname," +
             "COUNT(o.order_number) AS total_orders_count," +
             "SUM(o.total_order_cost) AS total_orders_price\n" +
-            "FROM Customer AS c\n" +
-            "INNER JOIN order AS o ON c.customer_number = o.customer_number\n" +
+            "FROM (customer AS c\n" +
+            "INNER JOIN order AS o ON c.customer_number = o.customer_number)\n" +
             "INNER JOIN batch AS b ON o.order_number = b.order_number\n" +
-            "GROUP BY c.customer_name, c.customer_surname\n" +
-            "ORDER BY total_spent DESC;\n";
+            "GROUP BY c.customer_number, c.customer_surname\n" +
+            "ORDER BY total_orders_price DESC;\n";
 
     public static final String UPDATE_CUSTOMER =
             "UPDATE customer\n" +
