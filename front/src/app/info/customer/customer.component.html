@@ -14,12 +14,11 @@
     </mat-sidenav>
 
     <mat-sidenav-content class="content">
-      <span id="search-field">
+      <span id="search-field" *ngIf="selectedShow()==='all'">
         <mat-form-field appearance="outline">
           <mat-label>Search By</mat-label>
           <mat-select [value]="selectedSearch()"
-                      (selectionChange)="selectedSearch.set($event.value)"
-                      [disabled]="selectedShow()!=='all'" >
+                      (selectionChange)="selectedSearch.set($event.value)">
             <mat-option *ngFor="let option of searchOptions" [value]="option">
               {{ option.replace('_', ' ') | titlecase }}
             </mat-option>
@@ -28,12 +27,11 @@
         <mat-form-field appearance="outline" class="search-field">
           <mat-label>Search</mat-label>
           <input matInput [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)"
-                 [disabled]="selectedShow()!=='all'"
                  placeholder="Customer #, phone number, customer's name, etc.">
         </mat-form-field>
       </span>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" *ngIf="selectedShow()!=='all'">
         <mat-label>Order registration range</mat-label>
         <mat-date-range-input [rangePicker]="picker" [disabled]="selectedShow()!=='order_period'">
           <input matStartDate placeholder="Start date" (dateChange)="startDate.set($event.value)" />
