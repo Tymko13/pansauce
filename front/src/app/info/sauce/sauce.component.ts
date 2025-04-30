@@ -18,8 +18,6 @@ import {SeeRecipeDialogComponent} from './see-recipe-dialog/see-recipe-dialog.co
 import {UpdateSauceDialogComponent} from './update-sauce-dialog/update-sauce-dialog.component';
 import {SauceWithRecipe} from '../../_models/sauce-with-recipe';
 import {AddSauceDialogComponent} from './add-sauce-dialog/add-sauce-dialog.component';
-import {AddRecipeDialogComponent} from './add-recipe-dialog/add-recipe-dialog.component';
-
 
 @Component({
   selector: 'app-sauce',
