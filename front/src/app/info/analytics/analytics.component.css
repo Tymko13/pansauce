@@ -132,5 +132,49 @@ p {
   background-color: #972012;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+td {
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.error {
+  color: red;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.is-loading {
+  font-size: 18px;
+  text-align: center;
+  color: #ff9900;
+}
+
+tr:hover {
+  background-color: var(--secondary-color);
+}
+
+td:last-child {
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
 
 
