@@ -7,7 +7,15 @@ import {
   MatDialogTitle
 } from '@angular/material/dialog';
 import {CommonModule} from '@angular/common';
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
@@ -50,9 +58,19 @@ export class UpdateOrderDialogComponent {
     this.orderService.getOrderByKey(this.data.order).subscribe(data => {this.order.set(data);});
   }
 
+  // dateValidator(date: Date): ValidatorFn {
+  //   return (control: AbstractControl): ValidationErrors | null => {
+  //     const endDate: Date = control.value;
+  //     if (endDate &&  date && date < endDate) {
+  //       return { dateRangeInvalid: true };
+  //     }
+  //     return null;
+  //   };
+  // }
+
   form = computed(() => this.fb.group({
-    expectedDate: [this.order().expectedDate, Validators.required],
-    realDate: [this.order().realDate]
+    expectedDate: [this.order().expectedDate, [Validators.required]],
+    realDate: [this.order().realDate, []]
   }));
 
   submit() {

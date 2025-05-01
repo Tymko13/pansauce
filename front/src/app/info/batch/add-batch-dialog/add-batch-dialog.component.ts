@@ -10,7 +10,7 @@ import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from '
 import {MatSelectModule} from '@angular/material/select';
 import {SauceService} from '../../../_services/sauce.service';
 import {Sauce} from '../../../_models/sauce';
-import {DateValidator} from '../../../_validators/date.validator';
+import {DatesValidator} from '../../../_validators/date.validator';
 
 
 @Component({
@@ -48,7 +48,7 @@ export class AddBatchDialogComponent {
     expirationDate: [null, Validators.required],
     quantity: [null, [Validators.required, Validators.min(1)]],
     sauceNumber: [null, Validators.required]
-  }, {validators: DateValidator('productionDate', 'expirationDate')});
+  }, {validators: DatesValidator('productionDate', 'expirationDate')});
 
   submit() {
     if (this.form.valid) {

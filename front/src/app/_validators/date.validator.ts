@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function DateValidator(startKey: string, endKey: string): ValidatorFn {
+export function DatesValidator(startKey: string, endKey: string): ValidatorFn {
   return (group: AbstractControl): ValidationErrors | null => {
     const start = group.get(startKey)?.value;
     const end = group.get(endKey)?.value;

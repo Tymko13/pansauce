@@ -21,6 +21,7 @@
 
       </mat-nav-list>
       <button id="add-button" (click)="add()"  mat-raised-button><mat-icon>add</mat-icon>BATCH</button>
+      <button id="print-button" (click)="print()"  mat-raised-button><mat-icon>print</mat-icon>PRINT</button>
     </mat-sidenav>
 
     <mat-sidenav-content class="content">
@@ -40,8 +41,7 @@
         </mat-form-field>
       </span>
 
-
-      <table mat-table [dataSource]="batches()" class="full-width-table">
+      <table id="table" mat-table [dataSource]="batches()" class="full-width-table">
 
         <!-- Columns -->
         <ng-container matColumnDef="number">
@@ -102,6 +102,7 @@
         <tr class="highlight" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       </table>
+      <iframe style="display: none" [src]="pdfUrl" *ngIf="pdfUrl"></iframe>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
