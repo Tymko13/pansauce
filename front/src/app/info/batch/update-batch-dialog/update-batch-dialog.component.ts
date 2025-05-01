@@ -15,8 +15,6 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {BatchService} from '../../../_services/batch.service';
-import {OrderService} from '../../../_services/order.service';
-import {OrderWithCustomerData} from '../../../_models/order-with-customer-data';
 import {Batch} from '../../../_models/batch';
 
 @Component({
@@ -34,17 +32,14 @@ import {Batch} from '../../../_models/batch';
     MatNativeDateModule,
     MatDialogContent,
     MatDialogActions,
-    MatDialogTitle,
-    MatSelectModule
+    MatDialogTitle
   ],
   styles: "mat-form-field {width: 45%;} mat-form-field:nth-of-type(2n+1) {margin-right: 5%;}"
 })
 export class UpdateBatchDialogComponent {
   private fb = inject(FormBuilder);
   private batchService = inject(BatchService);
-  private orderService = inject(OrderService);
 
-  orders: OrderWithCustomerData[] = [];
   batch: WritableSignal<Partial<Batch>> = signal({});
 
   constructor(
@@ -52,16 +47,11 @@ export class UpdateBatchDialogComponent {
     public dialogRef: MatDialogRef<UpdateBatchDialogComponent>
   ) {
     this.batchService.getBatchByKey(this.data.batch).subscribe(data => {this.batch.set(data);});
-    this.orderService.getAllOrders().subscribe(data => {this.orders = data;});
   }
 
   form = computed(() => this.fb.group({
     sauceCost: [this.batch().sauceCost, Validators.required],
     quantity: [this.batch().quantity, [Validators.required, Validators.min(1)]],
-    orderNumber: [{
-      value: this.batch().orderNumber,
-      disabled: this.batch().status !== "IN STOCK"
-    }]
   }));
 
   submit() {

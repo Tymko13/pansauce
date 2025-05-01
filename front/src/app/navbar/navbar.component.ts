@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {Router, RouterLink, RouterLinkActive} from '@angular/router';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 import {NgForOf, NgIf, TitleCasePipe} from '@angular/common';
 import {DarkLightBtnComponent} from './dark-light-btn/dark-light-btn.component';
 import {LoginLogoutBtnComponent} from './login-logout-btn/login-logout-btn.component';
