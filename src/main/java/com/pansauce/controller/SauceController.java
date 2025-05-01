@@ -138,4 +138,9 @@ public class SauceController {
         sauceService.updateSauce(sauce);
     }
 
+    @GetMapping("/sauce/types")
+    public List<String> getAllSauceTypes() {
+        return sauceService.getAllSauceTypes();
+    }
+
 }

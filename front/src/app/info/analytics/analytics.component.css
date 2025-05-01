@@ -8,7 +8,7 @@
 }
 
 .analytics-container {
-  background-color: var(--white-color);
+  background-color: #faf8f8;
   padding: 2rem 3rem;
   margin: 3rem auto;
   border-radius: 1rem;
@@ -25,7 +25,7 @@
 }
 
 h1, h2 {
-  color: var(--text-color);
+  color: #000000;
 }
 
 input[type="text"], input[type="date"], select {
@@ -43,16 +43,16 @@ button {
 ul {
   list-style-type: none;
   padding: 0;
-  color: var(--text-color);
+  color: #000000;
 
 }
 
 li {
-  background-color: var(--white-color);
+  background-color: #faf8f8;
   margin: 5px 0;
   padding: 10px;
   border-radius: 3px;
-  color: var(--text-color);
+  color: #000000;
 
 }
 
@@ -60,10 +60,10 @@ li {
   max-width: 1200px;
   margin: 2rem auto;
   padding: 2rem;
-  background-color: var(--white-color);
+  background-color: #faf8f8;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  color: var(--text-color);
+  color: #000000;
 
 }
 
@@ -85,7 +85,7 @@ li {
 
 .section h2 {
   margin-bottom: 1rem;
-  color: var(--text-color);
+  color: #000000;
 }
 
 .section ul {
@@ -145,13 +145,13 @@ th, td {
 }
 
 th {
-  background-color: var(--primary-color);
-  color: var(--text-color);
+  background-color: #f8ebe6;
+  color: #000000;
 }
 
 td {
   font-size: 14px;
-  color: var(--text-color);
+  color: #000000;
 }
 
 .error {

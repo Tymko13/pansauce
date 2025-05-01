@@ -32,6 +32,7 @@ export class AnalyticsComponent {
   isLoading = signal(true);
   error = signal<string | null>(null);
 
+  readonly sauceTypes = signal<string[]>([]);
 
   selectedType = '';
   selectedSauceKey = '';
@@ -43,6 +44,11 @@ export class AnalyticsComponent {
   queryAmount = signal<TotalAmount | null>(null);
   queryIncome = signal<TotalIncome | null>(null);
 
+  queryAmountT = signal<TotalAmount | null>(null);
+  queryIncomeT = signal<TotalIncome | null>(null);
+
+  message = signal<string | null>(null);
+
   constructor(
     private batchService: BatchService,
     private sauceService: SauceService,
@@ -50,6 +56,13 @@ export class AnalyticsComponent {
    // private customerOrderData: CustomerOrderData
   ) {
    this.loadCustomerData();
+  }
+
+  ngOnInit(): void {
+    this.sauceService.getAllSauceTypes().subscribe({
+      next: (types) => this.sauceTypes.set(types),
+      error: (err) => console.error('Помилка завантаження типів:', err)
+    });
   }
 
   private getDateRange(): { from: Date; to: Date } | null {
@@ -114,11 +127,18 @@ export class AnalyticsComponent {
         : this.batchService.getAmountBySauceKey(range.from, range.to, key);
 
       loader.subscribe({
-        next: data => this.queryAmount.set(data),
+        next: data => {
+          if (byType) {
+            this.queryAmountT.set(data);
+          } else {
+            this.queryAmount.set(data);
+          }
+        },
         error: err => console.error('Failed to load amount', err)
       });
     }
   }
+
 
   loadIncomeByKey(byType: boolean = true): void {
     const range = this.getDateRange();
@@ -130,11 +150,25 @@ export class AnalyticsComponent {
         : this.batchService.getIncomeBySauceKey(range.from, range.to, key);
 
       loader.subscribe({
-        next: data => this.queryIncome.set(data),
-        error: err => console.error('Failed to load income', err)
+        next: data => {
+          const isEmpty = data === null;
+          if (byType) {
+            this.queryIncomeT.set(data);
+          } else {
+            this.queryIncome.set(data);
+          }
+
+          this.message.set(isEmpty ? 'Нічого не продали' : null);
+        },
+        error: err => {
+          console.error('Failed to load income', err);
+          this.message.set('Помилка завантаження доходу');
+        }
       });
     }
   }
+
+
 
   private loadCustomerData() {
     this.customerService.getCustomersOrderData().subscribe({
@@ -154,6 +188,11 @@ export class AnalyticsComponent {
 
   clearPopularityResults() {
     this.saucesByIncome = signal<SauceWithIncome[]>([]);
+    //this.saucesBySales = signal<SauceWithSalesCount[]>([]);
+  }
+
+  clearPopularityResults1() {
+   // this.saucesByIncome = signal<SauceWithIncome[]>([]);
     this.saucesBySales = signal<SauceWithSalesCount[]>([]);
   }
 
