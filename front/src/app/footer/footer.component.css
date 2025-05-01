@@ -1,6 +1,7 @@
 footer {
   background-color: var(--primary-color);
-  color: var(--text-color);
+  color: var(--secondary-color);
+  font-weight: bold;
   width: 100%;
   padding: 0.5rem;
   text-align: left;
