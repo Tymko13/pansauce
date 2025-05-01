@@ -10,8 +10,8 @@
 
           <ng-container *ngIf="!isNewIngr(i); else newIngr">
             <mat-select formControlName="gti">
-              <mat-option (click)="createNewIngredient(i)">
-                -------New Ingredient-------
+              <mat-option (click)="createNewIngredient(i)" style="text-align: center">
+                <mat-icon>add</mat-icon> New Ingredient
               </mat-option>
               <mat-option *ngFor="let ingr of ingredients" [disabled]="alreadySelected(ingr.gti)" [value]="ingr.gti">
                 {{ingr.name}}
