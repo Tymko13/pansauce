@@ -1,13 +1,13 @@
 p {
   font-weight: bold;
   font-size: 2rem;
-  color: var(--text-color);
+  color: var(--secondary-color);
 }
 
 .text-btn {
   position: relative;
   background-color: transparent;
-  color: var(--text-color);
+  color: var(--secondary-color);
   border: none;
   font-weight: bold;
   font-size: 2rem;
@@ -76,4 +76,22 @@ header {
 #settings {
   flex: 1;
   justify-content: flex-end;
+}
+
+.active {
+  color: var(--text-color);
+}
+
+.active::after {
+  background-color: var(--text-color)
+}
+
+.active:hover {
+  color: var(--text-color);
+  cursor: default;
+}
+
+.active:hover::after {
+  transform: scaleX(0);
+  transform-origin: right;
 }
