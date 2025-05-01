@@ -52,8 +52,7 @@ export class UpdateOrderDialogComponent {
 
   form = computed(() => this.fb.group({
     expectedDate: [this.order().expectedDate, Validators.required],
-    realDate: [this.order().realDate],
-    deliveryCost: [this.order().deliveryCost, Validators.min(0.01)]
+    realDate: [this.order().realDate]
   }));
 
   submit() {

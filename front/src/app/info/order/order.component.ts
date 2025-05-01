@@ -87,15 +87,9 @@ export class OrderComponent {
         let updatedOrder: Partial<Order> = {
           number: number,
           expectedDate: res.expectedDate,
-          realDate: res.realDate,
-          deliveryCost: res.deliveryCost
+          realDate: res.realDate
         }
-        this.orderService.getOrderByKey(number).subscribe(curr => {
-          if (curr.expectedDate == updatedOrder.expectedDate
-            && curr.realDate == updatedOrder.realDate
-            && curr.deliveryCost === updatedOrder.deliveryCost) return;
-          this.orderService.updateOrder(updatedOrder).subscribe(() => {this.updateDB();});
-        });
+        this.orderService.updateOrder(updatedOrder).subscribe(() => {this.updateDB();});
       }
     });
   }

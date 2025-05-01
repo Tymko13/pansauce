@@ -116,16 +116,10 @@ export class BatchComponent {
         let updatedBatch: Partial<Batch> = {
           number: number,
           sauceCost: res.sauceCost,
-          quantity: res.quantity,
-          orderNumber: res.orderNumber
+          quantity: res.quantity
         }
-        this.batchService.getBatchByKey(number).subscribe(curr => {
-          if (curr.sauceCost == updatedBatch.sauceCost
-            && curr.quantity == updatedBatch.quantity
-            && curr.orderNumber === updatedBatch.orderNumber) return;
-          this.batchService.updateBatch(updatedBatch).subscribe(() => {
-            this.updateDB();
-          });
+        this.batchService.updateBatch(updatedBatch).subscribe(() => {
+          this.updateDB();
         });
       }
     });
