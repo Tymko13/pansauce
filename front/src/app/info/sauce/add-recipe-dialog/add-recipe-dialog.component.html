@@ -26,7 +26,7 @@
 
         <mat-form-field appearance="outline" style="width: 30%;">
           <mat-label>Weight, g</mat-label>
-          <input matInput formControlName="weight" type="number">
+          <input matInput formControlName="weight" type="number" step="1" min="1">
         </mat-form-field>
 
         <button type="button" mat-icon-button color="warn" (click)="removeIngredient(i)" [disabled]="ingredientsArray().length < 2">

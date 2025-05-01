@@ -44,7 +44,7 @@ export class AddBatchDialogComponent {
   }
 
   form = this.fb.group({
-    productionDate: [null, [Validators.required]],
+    productionDate: [null, Validators.required],
     expirationDate: [null, Validators.required],
     quantity: [null, [Validators.required, Validators.min(1)]],
     sauceNumber: [null, Validators.required]

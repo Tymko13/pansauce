@@ -65,7 +65,7 @@ export class AddRecipeDialogComponent {
     return this.fb.group({
       gti: [null, Validators.required],
       name: [null],
-      weight: [null, [Validators.required, Validators.min(0)]]
+      weight: [null, [Validators.required, Validators.min(1)]]
     });
   }
 

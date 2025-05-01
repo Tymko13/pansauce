@@ -73,9 +73,9 @@ export class AddSauceDialogComponent {
     name: [null, [Validators.required]],
     typeNumber: [null, [Validators.required]],
     typeName: [null],
-    weight: [null, Validators.required, Validators.min(1)],
+    weight: [null, [Validators.required, Validators.min(1)]],
     cost: [null, [Validators.required, Validators.min(0.01)]],
-    shelfLife: [null, Validators.required, Validators.min(1)],
+    shelfLife: [null, [Validators.required, Validators.min(1)]],
     recipe: [null]
   }, {validators: this.duplicateValidator(this.sauces)});
 

@@ -80,7 +80,7 @@ export class UpdateRecipeDialogComponent {
     return this.fb.group({
       gti: [gti, Validators.required],
       name: [null],
-      weight: [weight, [Validators.required, Validators.min(0)]]
+      weight: [weight, [Validators.required, Validators.min(1)]]
     });
   }
 

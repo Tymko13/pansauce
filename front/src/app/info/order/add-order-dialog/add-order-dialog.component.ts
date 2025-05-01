@@ -63,7 +63,7 @@ export class AddOrderDialogComponent {
   form = this.fb.group({
     registrationDate: [null, [Validators.required]],
     expectedDate: [null, Validators.required],
-    deliveryCost: [null],
+    deliveryCost: [null, Validators.min(0.01)],
     customerNumber: [null, Validators.required],
     batchKeys: [null, Validators.required]
   }, {validators: DateValidator('registrationDate', 'expectedDate')});
