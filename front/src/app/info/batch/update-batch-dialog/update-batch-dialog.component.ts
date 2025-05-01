@@ -13,7 +13,6 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
-import {MatSelectModule} from '@angular/material/select';
 import {BatchService} from '../../../_services/batch.service';
 import {Batch} from '../../../_models/batch';
 
