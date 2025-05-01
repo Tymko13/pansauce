@@ -27,6 +27,7 @@ import {TypeService} from '../../../_services/type.service';
 import {Sauce} from '../../../_models/sauce';
 import {Type} from '../../../_models/type';
 import {UpdateRecipeDialogComponent} from '../update-recipe-dialog/update-recipe-dialog.component';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   standalone: true,
@@ -44,7 +45,8 @@ import {UpdateRecipeDialogComponent} from '../update-recipe-dialog/update-recipe
     MatDialogContent,
     MatDialogActions,
     MatDialogTitle,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule
   ],
   styles: "mat-form-field {width: 45%;} .left {margin-right: 5%;} #type {width: 45%; margin: 0 5%;}"
 })
