@@ -155,5 +155,4 @@ public class OrderQuery {
             "delivery_cost = ?\n" +
             "WHERE order_number = ?\n";
 
-
 }

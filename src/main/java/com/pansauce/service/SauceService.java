@@ -209,9 +209,11 @@ public class SauceService {
     }
 
     public void deleteSauce(String key) {
-        if (sauceRepository.exists(key))
-            sauceRepository.delete(key);
-        else throw new NonExistingSauceException();
+        if (!sauceRepository.exists(key))
+            throw new NonExistingSauceException();
+        sauceRepository.delete(key);
+        sauceRepository.cleanUpSauceIngredients();
+        sauceRepository.cleanUpSauceTypes();
     }
 
 }
