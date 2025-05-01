@@ -56,5 +56,5 @@ mat-sidenav {
 }
 
 .highlight:hover {
-  background-color: rgba(30,0,0,0.03);
+  background-color: color-mix(in srgb, var(--secondary-color) 5%, transparent);
 }
