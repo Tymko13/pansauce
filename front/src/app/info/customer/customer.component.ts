@@ -52,7 +52,7 @@ export class CustomerComponent {
   private dialog = inject(MatDialog);
 
   searchOptions = ['customer_number', 'phone_number', 'full_name', 'type_number', 'type_name', 'sauce_number', 'sauce_name', 'batch_number'];
-  showOptions = ["all", "order_period"];
+  showOptions = ["all", "order_period", "all_types", "one_type"];
   displayedColumns = [
     'number',
     'surname',
@@ -75,22 +75,29 @@ export class CustomerComponent {
     this.dbUpdated();
     const term = this.searchTerm();
     const search = this.selectedSearch();
-    if(this.selectedShow()==='order_period'
-      && this.startDate() != null
-      && this.endDate() != null) return this.customerService.getCustomersWithOrdersBetweenDates(this.startDate()!, this.endDate()!);
-    if (term) switch (search) {
-      case 'customer_number':
-        return this.customerService.getCustomersByNumber(term);
-      case 'phone_number':
-        return this.customerService.getCustomersByPhone(term);
-      case 'full_name':
-        return this.customerService.getCustomersByPIB(...term.split(' '));
-      case 'type_number':
-      case 'type_name':
-      case 'sauce_number':
-      case 'sauce_name':
-      case 'batch_number':
-        return this.customerService.getCustomersWithOrderThatHasThisAttribute(search, term);
+
+    switch(this.selectedShow()) {
+      case 'order_period':
+        if(this.startDate() != null && this.endDate() != null)
+          return this.customerService.getCustomersWithOrdersBetweenDates(this.startDate()!, this.endDate()!);
+        else break;
+      case 'all_types': return this.customerService.getCustomersWhoOrderedAllTypes();
+      case 'one_type': return this.customerService.getCustomersWhoOrderedOnlyOneType();
+      case 'all':
+        if (term) switch (search) {
+          case 'customer_number':
+            return this.customerService.getCustomersByNumber(term);
+          case 'phone_number':
+            return this.customerService.getCustomersByPhone(term);
+          case 'full_name':
+            return this.customerService.getCustomersByPIB(...term.split(' '));
+          case 'type_number':
+          case 'type_name':
+          case 'sauce_number':
+          case 'sauce_name':
+          case 'batch_number':
+            return this.customerService.getCustomersWithOrderThatHasThisAttribute(search, term);
+        }
     }
     return this.customerService.getAllCustomers();
   });

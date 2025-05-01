@@ -64,6 +64,14 @@ export class CustomerService {
     return this.http.get<Customer[]>(`${this.apiUrl}/search`, { params });
   }
 
+  getCustomersWhoOrderedAllTypes(): Observable<Customer[]> {
+    return this.http.get<Customer[]>(`${this.apiUrl}/all_types`);
+  }
+
+  getCustomersWhoOrderedOnlyOneType(): Observable<Customer[]> {
+    return this.http.get<Customer[]>(`${this.apiUrl}/one_type`);
+  }
+
   getCustomerByKey(key: string): Observable<Customer> {
     return this.http.get<Customer>(`${this.apiUrl}/${key}`);
   }
