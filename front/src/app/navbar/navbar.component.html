@@ -4,14 +4,15 @@
     <img routerLink="/" *ngIf="!DarkLightBtnComponent.lightMode" src="/assets/logo/white.png" alt="Pan Sauce logo">
   </span>
   <span id="navigation">
-    <button class="text-btn" *ngIf="authService.isLoggedIn()" routerLink="/sauces">Sauces</button>
-    <button class="text-btn" *ngIf="authService.isLoggedIn()" routerLink="/types">Types</button>
-    <button class="text-btn" *ngIf="authService.isLoggedIn()" routerLink="/ingredients">Ingredients</button>
-    <button class="text-btn" *ngIf="authService.isLoggedIn()" routerLink="/batches">Batches</button>
-    <button class="text-btn" *ngIf="authService.isLoggedIn()" routerLink="/orders">Orders</button>
-    <button class="text-btn" *ngIf="authService.isLoggedIn()" routerLink="/customers">Customers</button>
-    <button class="text-btn" *ngIf="authService.isLoggedIn()" routerLink="/analytics">Analytics</button>
-    <p *ngIf="!authService.isLoggedIn()">PAN SAUCE. Bringing back that taste of your youth~</p>
+    <ng-container *ngIf="authService.isLoggedIn(); else Blank">
+      <button *ngFor="let page of pages"
+              class="text-btn"
+              [routerLink] = page
+              routerLinkActive="active">
+        {{ page | titlecase }}
+      </button>
+    </ng-container>
+    <ng-template #Blank><p>PAN SAUCE. Bringing back that taste of your youth~</p>></ng-template>
   </span>
   <span id="settings">
     <app-dark-light-btn/>
