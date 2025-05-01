@@ -126,7 +126,6 @@ public class OrderRepository implements OrderDao {
         jdbc.update(UPDATE_ORDER,
                 order.getExpectedDate(),
                 order.getRealDate(),
-                order.getDeliveryCost(),
                 order.getNumber());
     }
 

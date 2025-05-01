@@ -151,8 +151,7 @@ public class OrderQuery {
             "UPDATE order\n" +
             "SET \n" +
             "expected_date = ?,\n" +
-            "real_date = ?,\n" +
-            "delivery_cost = ?\n" +
+            "real_date = ?\n" +
             "WHERE order_number = ?\n";
 
 }
