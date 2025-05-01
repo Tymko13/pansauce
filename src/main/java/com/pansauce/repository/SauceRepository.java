@@ -248,4 +248,14 @@ public class SauceRepository implements SauceDao {
         jdbc.update(DELETE_SAUCE_INGREDIENTS, sauceKey);
     }
 
+    @Override
+    public void cleanUpSauceIngredients() {
+        jdbc.update(CLEAN_UP_SAUCE_INGREDIENTS);
+    }
+
+    @Override
+    public void cleanUpSauceTypes() {
+        jdbc.update(CLEAN_UP_SAUCE_TYPES);
+    }
+
 }

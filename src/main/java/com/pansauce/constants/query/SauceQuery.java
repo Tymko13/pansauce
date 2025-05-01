@@ -349,4 +349,20 @@ public class SauceQuery {
             "FROM ingredient_sauce\n" +
             "WHERE sauce_number = ?\n";
 
+    public static final String CLEAN_UP_SAUCE_INGREDIENTS =
+    """
+    DELETE FROM ingredient
+    WHERE gti_number NOT IN (
+        SELECT DISTINCT gti_number FROM ingredient_sauce
+    )
+    """;
+
+    public static final String CLEAN_UP_SAUCE_TYPES =
+        """
+        DELETE FROM type
+        WHERE type_number NOT IN (
+            SELECT DISTINCT type_number FROM sauce
+        )
+    """;
+
 }

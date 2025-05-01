@@ -5,6 +5,7 @@ import com.pansauce.model.dto.OrderDTO;
 import com.pansauce.model.order.Order;
 import com.pansauce.model.order.OrderWithCustomerData;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface OrderDao extends GenericDao<OrderWithCustomerData, String> {

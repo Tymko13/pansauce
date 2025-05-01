@@ -57,5 +57,7 @@ public interface SauceDao extends GenericDao<Sauce, String> {
 
     void updateSauce(SauceWithRecipe sauce);
     void deleteSauceIngredients(String sauceKey);
+    void cleanUpSauceIngredients();
+    void cleanUpSauceTypes();
 
 }
