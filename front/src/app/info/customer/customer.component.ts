@@ -51,7 +51,7 @@ export class CustomerComponent {
   private customerService = inject(CustomerService);
   private dialog = inject(MatDialog);
 
-  searchOptions = ['customer_number', 'phone_number', 'full_name', 'type_number', 'type_name', 'sauce_number', 'sauce_name', 'batch_number'];
+  searchOptions = ['phone_number', 'full_name', 'customer_number', 'type_number', 'type_name', 'sauce_number', 'sauce_name', 'batch_number'];
   showOptions = ["all", "order_period", "all_types", "one_type"];
   displayedColumns = [
     'number',

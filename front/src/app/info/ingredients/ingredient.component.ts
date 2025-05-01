@@ -38,8 +38,8 @@ export class IngredientComponent {
   private ingredientService = inject(IngredientService);
   private dialog = inject(MatDialog);
 
-  searchOptions = ['GTI Number', 'Ingredient Name'];
-  sortOptions = ["number", "name"];
+  searchOptions = ['Ingredient Name', 'GTI Number'];
+  sortOptions = ["name", "number"];
   displayedColumns = [
     'gti_number',
     'name',

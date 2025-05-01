@@ -38,8 +38,8 @@ export class TypeComponent {
   private typeService = inject(TypeService);
   private dialog = inject(MatDialog);
 
-  searchOptions = ['Type Number', 'Type Name'];
-  sortOptions = ["number", "name"];
+  searchOptions = ['Type Name', 'Type Number'];
+  sortOptions = ["name", "number"];
   displayedColumns = [
     'number',
     'name',

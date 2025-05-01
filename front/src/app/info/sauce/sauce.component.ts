@@ -58,8 +58,8 @@ export class SauceComponent {
     return !this.saucesInBatches().includes(number);
   }
 
-  searchOptions = ['Sauce Number', 'Sauce Name', 'Type Number', 'Type Name'];
-  sortOptions = ["number", "name", "type", "price"];
+  searchOptions = ['Sauce Name', 'Sauce Number', 'Type Name', 'Type Number'];
+  sortOptions = ["name", "number", "type", "price"];
   displayedColumns = [
     'number',
     'name',

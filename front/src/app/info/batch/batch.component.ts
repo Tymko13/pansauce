@@ -44,7 +44,7 @@ export class BatchComponent {
   private orderService = inject(OrderService);
   private dialog = inject(MatDialog);
 
-  searchOptions = ['Batch Number', 'Order Number', 'Sauce Number', 'Sauce Name'];
+  searchOptions = ['Order Number', 'Batch Number', 'Sauce Number', 'Sauce Name'];
   sortOptions = ["number", "prod_date", "size", "price", "status"];
   showOptions = ["All", "SOLD", "IN STOCK"]
   displayedColumns = [
