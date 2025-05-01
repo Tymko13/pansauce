@@ -19,11 +19,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 }
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const router = inject(Router);
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       if(error.status == 401 || error.status == 403) {
         localStorage.removeItem('auth-token');
-        const router = inject(Router);
         router.navigate(["/login"]);
       }
       return throwError(() => error);
