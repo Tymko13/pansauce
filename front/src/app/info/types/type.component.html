@@ -6,16 +6,8 @@
         <mat-list-item
           *ngFor="let sort of sortOptions"
           (click)="selectedSort.set(sort)"
-          [class.selected]="(selectedShow() === 'All') && selectedSort() === sort"
-          [disabled]="selectedShow() !== 'All'">
+          [class.selected]="selectedSort() === sort">
           {{ sort.toUpperCase().replace("_", " ") }}
-        </mat-list-item>
-        <h3>Show</h3>
-        <mat-list-item
-          *ngFor="let show of showOptions"
-          (click)="selectedShow.set(show)"
-          [class.selected]="selectedShow() === show">
-          {{ show }}
         </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>
@@ -24,7 +16,7 @@
       <span id="search-field">
         <mat-form-field appearance="outline">
           <mat-label>Search By</mat-label>
-          <mat-select [value]="selectedSearch()" (selectionChange)="selectedSearch.set($event.value)" [disabled]="selectedShow() !== 'All'">
+          <mat-select [value]="selectedSearch()" (selectionChange)="selectedSearch.set($event.value)">
             <mat-option *ngFor="let option of searchOptions" [value]="option">
               {{ option }}
             </mat-option>
@@ -33,7 +25,7 @@
         <mat-form-field appearance="outline" class="search-field">
           <mat-label>Search</mat-label>
           <input matInput [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)"
-                 placeholder="Type # or name..." [disabled]="selectedShow() !== 'All'">
+                 placeholder="Type # or name...">
         </mat-form-field>
       </span>
 

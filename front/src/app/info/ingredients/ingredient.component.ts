@@ -40,7 +40,6 @@ export class IngredientComponent {
 
   searchOptions = ['GTI Number', 'Ingredient Name'];
   sortOptions = ["number", "name"];
-  showOptions = ["All"]
   displayedColumns = [
     'gti_number',
     'name',
@@ -49,7 +48,6 @@ export class IngredientComponent {
 
   searchTerm = signal('');
   selectedSort = signal<string>(this.sortOptions[0]);
-  selectedShow = signal<string>(this.showOptions[0]);
   selectedSearch = signal<string>(this.searchOptions[0]);
 
   dbUpdated = signal(0);
@@ -57,18 +55,12 @@ export class IngredientComponent {
     this.dbUpdated();
     const term = this.searchTerm();
     const sort = this.selectedSort();
-    const show = this.selectedShow();
 
-    switch (show) {
-      case 'All': {
-        if (term) switch (this.selectedSearch()) {
-          case 'GTI Number':
-            return this.ingredientService.getIngredientsWithNumberStartingWithSortedBy(term, sort);
-          case 'Ingredient Name':
-            return this.ingredientService.getIngredientsWithNameStartingWithSortedBy(term, sort);
-        }
-        break;
-      }
+    if (term) switch (this.selectedSearch()) {
+      case 'GTI Number':
+        return this.ingredientService.getIngredientsWithNumberStartingWithSortedBy(term, sort);
+      case 'Ingredient Name':
+        return this.ingredientService.getIngredientsWithNameStartingWithSortedBy(term, sort);
     }
     return this.ingredientService.getAllIngredientsSortedBy(sort);
   });

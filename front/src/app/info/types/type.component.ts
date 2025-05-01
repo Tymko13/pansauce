@@ -40,7 +40,6 @@ export class TypeComponent {
 
   searchOptions = ['Type Number', 'Type Name'];
   sortOptions = ["number", "name"];
-  showOptions = ["All"]
   displayedColumns = [
     'number',
     'name',
@@ -49,7 +48,6 @@ export class TypeComponent {
 
   searchTerm = signal('');
   selectedSort = signal<string>(this.sortOptions[0]);
-  selectedShow = signal<string>(this.showOptions[0]);
   selectedSearch = signal<string>(this.searchOptions[0]);
 
   dbUpdated = signal(0);
@@ -57,18 +55,12 @@ export class TypeComponent {
     this.dbUpdated();
     const term = this.searchTerm();
     const sort = this.selectedSort();
-    const show = this.selectedShow();
 
-    switch (show) {
-      case 'All': {
-        if (term) switch (this.selectedSearch()) {
-          case 'Type Number':
-            return this.typeService.getTypesWithNumberPrefixSortedBy(term, sort);
-          case 'Type Name':
-            return this.typeService.getTypesWithNamePrefixSortedBy(term, sort);
-        }
-        break;
-      }
+    if (term) switch (this.selectedSearch()) {
+      case 'Type Number':
+        return this.typeService.getTypesWithNumberPrefixSortedBy(term, sort);
+      case 'Type Name':
+        return this.typeService.getTypesWithNamePrefixSortedBy(term, sort);
     }
     return this.typeService.getAllTypesSortedBy(sort);
   });
