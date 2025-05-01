@@ -2,14 +2,6 @@
   <mat-sidenav-container class="batch-container">
     <mat-sidenav mode="side" opened class="sidebar">
       <mat-nav-list>
-        <h3>Sort by</h3>
-        <mat-list-item
-          *ngFor="let sort of sortOptions"
-          (click)="selectedSort.set(sort)"
-          [class.selected]="(selectedShow() === 'All') && selectedSort() === sort"
-          [disabled]="selectedShow() !== 'All'">
-          {{ sort.toUpperCase().replace("_", " ") }}
-        </mat-list-item>
         <h3>Show</h3>
         <mat-list-item
           *ngFor="let show of showOptions"
@@ -17,6 +9,16 @@
           [class.selected]="selectedShow() === show">
           {{ show }}
         </mat-list-item>
+        <ng-container *ngIf="selectedShow() === 'All'">
+          <h3>Sort by</h3>
+          <mat-list-item
+            *ngFor="let sort of sortOptions"
+            (click)="selectedSort.set(sort)"
+            [class.selected]="(selectedShow() === 'All') && selectedSort() === sort">
+            {{ sort.toUpperCase().replace("_", " ") }}
+          </mat-list-item>
+        </ng-container>
+
       </mat-nav-list>
       <button id="add-button" (click)="add()"  mat-raised-button><mat-icon>add</mat-icon>BATCH</button>
     </mat-sidenav>

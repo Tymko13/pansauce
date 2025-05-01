@@ -11,7 +11,7 @@ mat-nav-list h3 {
 }
 
 .selected {
-  background-color: color-mix(in srgb, var(--primary-color) 50%, transparent);
+  background-color: color-mix(in srgb, var(--secondary-color) 50%, transparent);
 }
 
 .content {
