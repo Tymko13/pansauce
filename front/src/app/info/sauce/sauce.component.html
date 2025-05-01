@@ -2,20 +2,32 @@
   <mat-sidenav-container class="batch-container">
     <mat-sidenav mode="side" opened class="sidebar">
       <mat-nav-list>
-        <h3>Sort by</h3>
+        <h3>Show</h3>
         <mat-list-item
-          *ngFor="let sort of sortOptions"
-          (click)="selectedSort.set(sort)"
-          [class.selected]="selectedSort() === sort">
-          {{ sort.toUpperCase().replace("_", " ") }}
+          *ngFor="let show of showOptions"
+          (click)="selectedShow.set(show)"
+          [class.selected]="selectedShow() === show">
+          {{ show }}
         </mat-list-item>
+        <ng-container *ngIf="selectedShow() === 'All'">
+          <h3>Sort by</h3>
+          <mat-list-item
+            *ngFor="let sort of sortOptions"
+            (click)="selectedSort.set(sort)"
+            [class.selected]="selectedSort() === sort">
+            {{ sort.toUpperCase().replace("_", " ") }}
+          </mat-list-item>
+        </ng-container>
       </mat-nav-list>
-      <button id="add-button" (click)="add()"  mat-raised-button><mat-icon>add</mat-icon>SAUCE</button>
+      <button id="add-button" (click)="add()" mat-raised-button>
+        <mat-icon>add</mat-icon>
+        SAUCE
+      </button>
     </mat-sidenav>
 
     <mat-sidenav-content class="content">
-      <span id="search-field">
-        <mat-form-field appearance="outline">
+      <span id="search-field" [ngSwitch]="selectedShow()">
+        <mat-form-field appearance="outline" *ngSwitchCase="'All'">
           <mat-label>Search By</mat-label>
           <mat-select [value]="selectedSearch()" (selectionChange)="selectedSearch.set($event.value)">
             <mat-option *ngFor="let option of searchOptions" [value]="option">
@@ -23,10 +35,37 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="search-field">
+        <mat-form-field appearance="outline" class="search-field" *ngSwitchCase="'All'">
           <mat-label>Search</mat-label>
           <input matInput [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)"
                  placeholder="Sauce #, sauce name, type #, or type name">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngSwitchCase="'SAME RECIPE AS'">
+          <mat-label>Sauce</mat-label>
+          <mat-select placeholder="With ingredients of..." [value]="selectedSauce()" (selectionChange)="selectedSauce.set($event.value)">
+            <mat-option *ngFor="let sauce of allSauces()" [value]="sauce">
+              {{ sauce.name }} - {{ sauce.weight }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngSwitchCase="'WITHOUT'">
+          <mat-label>Type</mat-label>
+          <mat-select placeholder="Not a..." [value]="selectedType()" (selectionChange)="selectedType.set($event.value)">
+            <mat-option *ngFor="let type of allTypes()" [value]="type">
+              {{ type.typeName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngSwitchCase="'WITHOUT'">
+          <mat-label>Ingredient</mat-label>
+          <mat-select placeholder="And without..." [value]="selectedIngredient()" (selectionChange)="selectedIngredient.set($event.value)">
+            <mat-option *ngFor="let ingr of allIngredients()" [value]="ingr">
+              {{ ingr.name }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </span>
 
@@ -61,21 +100,27 @@
 
         <ng-container matColumnDef="type">
           <th mat-header-cell *matHeaderCellDef>Type</th>
-          <td mat-cell *matCellDef="let sauce">{{ sauce.typeName}}<br>{{sauce.typeNumber}}</td>
+          <td mat-cell *matCellDef="let sauce">{{ sauce.typeName }}<br>{{ sauce.typeNumber }}</td>
         </ng-container>
 
         <ng-container matColumnDef="recipe">
           <th mat-header-cell *matHeaderCellDef>Recipe</th>
           <td mat-cell *matCellDef="let sauce">
-            <button mat-icon-button (click)="seeRecipe(sauce.number)"><mat-icon>visibility</mat-icon></button>
+            <button mat-icon-button (click)="seeRecipe(sauce.number)">
+              <mat-icon>visibility</mat-icon>
+            </button>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let sauce">
-            <button mat-icon-button (click)="update(sauce.number)"><mat-icon>edit</mat-icon></button>
-            <button mat-icon-button [disabled]="!canDelete(sauce.number)" (click)="delete(sauce.number)"><mat-icon>delete</mat-icon></button>
+            <button mat-icon-button (click)="update(sauce.number)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button [disabled]="!canDelete(sauce.number)" (click)="delete(sauce.number)">
+              <mat-icon>delete</mat-icon>
+            </button>
           </td>
         </ng-container>
 

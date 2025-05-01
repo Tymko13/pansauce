@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {map, Observable} from 'rxjs';
 import { Customer } from '../_models/customer';
 import { Order } from '../_models/order';
 import { CustomerWithOrders } from '../_models/customer-with-orders';
 import { environment } from '../environment';
 import {CustomerWithOrdersAndBatches} from '../_models/customer-with-orders-and-batches';
 import {CustomerOrderData} from '../_models/customer-order-data';
+import {SauceWithSalesCount} from '../_models/sauce-with-sales-count';
+import {Sauce} from '../_models/sauce';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +39,24 @@ export class CustomerService {
   getCustomersAndTheirOrders(): Observable<CustomerWithOrders[]> {
     return this.http.get<CustomerWithOrders[]>(`${this.apiUrl}/order`);
   }
+
+  // getCustomerFavouriteSauce(key: string): Observable<Sauce[]> {
+  //   return this.http.get<SauceWithSalesCount>(`${this.apiUrl}/customer/${key}/favourite_sauce`)
+  //     .pipe(
+  //       map(sauceWithSales => {
+  //         const sauce: Sauce = {
+  //           number: sauceWithSales.
+  //           name: string;
+  //           shelfLife: number;
+  //           weight: number;
+  //           cost: number;
+  //           typeNumber: string;
+  //           typeName: string;
+  //         };
+  //         return [sauce];
+  //       })
+  //     );
+  // }
 
   getCustomersWithOrdersBetweenDates(from: Date, to: Date): Observable<Customer[]> {
     const params = new HttpParams()

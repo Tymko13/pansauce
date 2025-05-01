@@ -46,7 +46,7 @@ export class BatchComponent {
 
   searchOptions = ['Order Number', 'Batch Number', 'Sauce Number', 'Sauce Name'];
   sortOptions = ["number", "prod_date", "size", "price", "status"];
-  showOptions = ["All", "SOLD", "IN STOCK"]
+  showOptions = ["All", "SOLD", "IN STOCK"];
   displayedColumns = [
     'number',
     'orderNumber',
@@ -74,7 +74,10 @@ export class BatchComponent {
     const show = this.selectedShow();
 
     switch (show) {
-      case 'All': {
+      case 'SOLD':
+      case 'IN STOCK':
+        return this.batchService.getAllBatchesWithStatus(show);
+      case 'All':
         if (term) switch (this.selectedSearch()) {
           case 'Batch Number':
             return this.batchService.getBatchesByNumber(term);
@@ -85,11 +88,6 @@ export class BatchComponent {
           case 'Sauce Name':
             return this.sauceService.getSauceBatchesByName(term, sort);
         }
-        break;
-      }
-      case 'SOLD':
-      case 'IN STOCK':
-        return this.batchService.getAllBatchesWithStatus(show);
     }
     return this.batchService.getAllBatchesSortedBy(sort);
   });

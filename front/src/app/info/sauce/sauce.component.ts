@@ -19,6 +19,10 @@ import {UpdateSauceDialogComponent} from './update-sauce-dialog/update-sauce-dia
 import {SauceWithRecipe} from '../../_models/sauce-with-recipe';
 import {AddSauceDialogComponent} from './add-sauce-dialog/add-sauce-dialog.component';
 import {BatchService} from '../../_services/batch.service';
+import {Sauce} from '../../_models/sauce';
+import {Ingredient} from '../../_models/ingredient';
+import {Type} from '../../_models/type';
+import {IngredientService} from '../../_services/ingredient.service';
 
 @Component({
   selector: 'app-sauce',
@@ -43,14 +47,31 @@ export class SauceComponent {
   private sauceService = inject(SauceService);
   private batchService = inject(BatchService);
   private sauceIngredientService = inject(SauceIngredientService);
+  private ingredientService = inject(IngredientService);
   private typeService = inject(TypeService);
 
   private dialog = inject(MatDialog);
-  saucesInBatches: WritableSignal<string[]> = signal([]);
+  saucesInBatches = signal<string[]>([]);
+  allSauces = signal<Sauce[]>([]);
+  allTypes = signal<Type[]>([]);
+  allIngredients = signal<Ingredient[]>([]);
 
   constructor() {
     this.batchService.getAllBatchesSortedBy().subscribe(data => {
       this.saucesInBatches.set(data.flatMap(it => it.sauceNumber));
+    });
+    this.updateAllInfo();
+  }
+
+  updateAllInfo() {
+    this.sauceService.findAllSauce("name").subscribe(data => {
+      this.allSauces.set(data);
+    });
+    this.typeService.getAllTypes().subscribe(data => {
+      this.allTypes.set(data);
+    });
+    this.ingredientService.getAllIngredients().subscribe(data => {
+      this.allIngredients.set(data);
     });
   }
 
@@ -60,6 +81,7 @@ export class SauceComponent {
 
   searchOptions = ['Sauce Name', 'Sauce Number', 'Type Name', 'Type Number'];
   sortOptions = ["name", "number", "type", "price"];
+  showOptions = ["All", "SAME RECIPE AS", "WITHOUT"];
   displayedColumns = [
     'number',
     'name',
@@ -73,28 +95,45 @@ export class SauceComponent {
 
   searchTerm = signal('');
   selectedSort = signal<string>(this.sortOptions[0]);
+  selectedShow = signal<string>(this.showOptions[0]);
   selectedSearch = signal<string>(this.searchOptions[0]);
+  selectedSauce = signal<Sauce | null>(null);
+  selectedType = signal<Type | null>(null);
+  selectedIngredient = signal<Ingredient | null>(null);
 
   dbUpdated = signal(0);
   sauces = computed(() => {
     this.dbUpdated();
     const term = this.searchTerm();
     const sort = this.selectedSort();
-    if (term) switch (this.selectedSearch()) {
-      case 'Sauce Number':
-        return this.sauceService.getByNumberPrefixSorted(term, sort);
-      case 'Sauce Name':
-        return this.sauceService.getByNamePrefixSorted(term, sort);
-      case 'Type Number':
-        return this.typeService.getSaucesWithTypeNumberSortedBy(term, sort);
-      case 'Type Name':
-        return this.typeService.getSaucesWithTypeNameSortedBy(term, sort);
+
+    switch (this.selectedShow()) {
+      case 'SAME RECIPE AS':
+        if (this.selectedSauce() !== null)
+          return this.sauceService.getSaucesWithAlikeRecipe(this.selectedSauce()!.number);
+        else break;
+      case 'WITHOUT':
+        if (this.selectedType() !== null && this.selectedIngredient() !== null)
+          return this.sauceService.getSaucesWithoutTypeAndIngredient(this.selectedType()!.typeNumber, this.selectedIngredient()!.gti);
+        else break;
+      case 'All':
+        if (term) switch (this.selectedSearch()) {
+          case 'Sauce Number':
+            return this.sauceService.getByNumberPrefixSorted(term, sort);
+          case 'Sauce Name':
+            return this.sauceService.getByNamePrefixSorted(term, sort);
+          case 'Type Number':
+            return this.typeService.getSaucesWithTypeNumberSortedBy(term, sort);
+          case 'Type Name':
+            return this.typeService.getSaucesWithTypeNameSortedBy(term, sort);
+        }
     }
     return this.sauceService.findAllSauce(sort);
   });
 
   updateDB() {
     this.dbUpdated.update(e => ++e);
+    this.updateAllInfo();
   }
 
   delete(number: string) {
@@ -164,4 +203,6 @@ export class SauceComponent {
       }
     });
   }
+
+  protected readonly name = name;
 }

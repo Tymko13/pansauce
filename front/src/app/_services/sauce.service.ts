@@ -66,6 +66,18 @@ export class SauceService {
     return this.http.get<SauceWithRecipe[]>(`${this.apiUrl}/recipe/sales`, { params });
   }
 
+  getSaucesWithoutTypeAndIngredient(typeNumber: string, ingredientNumber: string): Observable<Sauce[]> {
+    const params = new HttpParams()
+      .set('type', typeNumber)
+      .set('ing', ingredientNumber);
+
+    return this.http.get<Sauce[]>(`${this.apiUrl}/without`, { params });
+  }
+
+  getSaucesWithAlikeRecipe(key: string): Observable<Sauce[]> {
+    return this.http.get<Sauce[]>(`${this.apiUrl}/alike_recipe/${key}`);
+  }
+
   getSauceByKey(key: string): Observable<Sauce> {
     return this.http.get<Sauce>(`${this.apiUrl}/${key}`);
   }
