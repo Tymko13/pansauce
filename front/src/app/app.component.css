@@ -6,9 +6,8 @@
   min-height: 90vh;
 }
 
-app-navbar {
+.sticky {
   z-index: 1000;
   position: sticky;
   top: 0;
-  width: 100%;
 }
