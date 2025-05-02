@@ -177,7 +177,8 @@ public class ModelRowMapper {
                 order.setTotalCost(rs.getBigDecimal("total_order_cost"));
                 order.setExpectedDate(rs.getDate("expected_date"));
                 order.setRealDate(rs.getDate("real_date"));
-                customer.getOrders().add(order);
+                if (!customer.getOrders().contains(order))
+                    customer.getOrders().add(order);
             }
         }
         return new ArrayList<>(ordersMap.values());

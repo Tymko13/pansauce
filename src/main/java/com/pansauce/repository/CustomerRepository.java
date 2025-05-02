@@ -152,6 +152,11 @@ public class CustomerRepository implements CustomerDao {
     }
 
     @Override
+    public List<OrderWithCustomerData> getOrdersBeforeDateWithCustomerKey(String customerKey, Date date) {
+        return jdbc.query(GET_ORDERS_DATE_BEFORE_WITH_CUSTOMER_KEY, ORDER_WITH_CUSTOMER_DATA_EXTRACTOR, customerKey, date);
+    }
+
+    @Override
     public List<Customer> getCustomersWhoOrderedAllTypesOfSauce() {
         return jdbc.query(GET_CUSTOMERS_WHO_ORDERED_ALL_TYPES_OF_SAUCE, CUSTOMER_WITH_PHONES_EXTRACTOR);
     }
