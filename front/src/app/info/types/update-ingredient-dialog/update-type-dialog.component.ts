@@ -16,6 +16,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {TypeService} from '../../../_services/type.service';
 import {Type} from '../../../_models/type';
+import {isUniqueTypeValidator} from '../../../_validators/date.validator';
 
 @Component({
   standalone: true,
@@ -41,17 +42,19 @@ export class UpdateTypeDialogComponent {
   private fb = inject(FormBuilder);
   private typeService = inject(TypeService);
 
-  type: WritableSignal<Partial<Type>> = signal({});
+  type = signal<Partial<Type>>({});
+  allTypes = signal<Type[]>([]);
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { type: string },
     public dialogRef: MatDialogRef<UpdateTypeDialogComponent>
   ) {
     this.typeService.getTypeByKey(this.data.type).subscribe(data => {this.type.set(data);});
+    this.typeService.getAllTypes().subscribe(data => {this.allTypes.set(data);});
   }
 
   form = computed(() => this.fb.group({
-    name: [this.type().typeName, Validators.required],
+    name: [this.type().typeName, [Validators.required, isUniqueTypeValidator(this.allTypes(), this.type())]],
   }));
 
   submit() {
