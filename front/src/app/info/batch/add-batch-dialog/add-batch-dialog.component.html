@@ -3,20 +3,6 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <mat-dialog-content>
     <mat-form-field appearance="outline">
-      <mat-label>Production Date</mat-label>
-      <input matInput [matDatepicker]="prodPicker" formControlName="productionDate" />
-      <mat-datepicker-toggle matSuffix [for]="prodPicker"></mat-datepicker-toggle>
-      <mat-datepicker #prodPicker></mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Expiration Date</mat-label>
-      <input matInput [matDatepicker]="expPicker" formControlName="expirationDate" />
-      <mat-datepicker-toggle matSuffix [for]="expPicker"></mat-datepicker-toggle>
-      <mat-datepicker #expPicker></mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
       <mat-label>Sauce</mat-label>
       <mat-select formControlName="sauceNumber">
         <mat-option *ngFor="let sauce of sauces" [value]="sauce.number">
@@ -28,6 +14,13 @@
     <mat-form-field appearance="outline">
       <mat-label>Number of Sauces</mat-label>
       <input matInput type="number" step="1" min="1" formControlName="quantity" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Production Date</mat-label>
+      <input matInput [matDatepicker]="prodPicker" formControlName="productionDate" />
+      <mat-datepicker-toggle matSuffix [for]="prodPicker"></mat-datepicker-toggle>
+      <mat-datepicker #prodPicker></mat-datepicker>
     </mat-form-field>
   </mat-dialog-content>
 
