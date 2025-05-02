@@ -65,7 +65,7 @@ header {
 }
 
 #logo {
-  padding: 0 0.5rem;
+  padding: 0 1.5rem;
   flex: 1;
   justify-content: center;
   align-items: end;
@@ -78,7 +78,6 @@ header {
 #navigation {
   flex: 5;
   justify-content: flex-start;
-  margin-left: 1.5rem;
 }
 
 #navigation button {
