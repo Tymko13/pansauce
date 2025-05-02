@@ -152,26 +152,26 @@ export class BatchComponent {
     this.batches().subscribe(batches => {
       const rows = batches.map(batch => [
         batch.number,
-        batch.quantity.toString(),
+        batch.orderNumber ?? '-',
+        batch.status,
         new Date(batch.productionDate).toLocaleDateString(),
         new Date(batch.expirationDate).toLocaleDateString(),
-        batch.sauceCost.toFixed(2),
-        batch.cost.toFixed(2),
-        batch.status,
+        batch.quantity.toString(),
         batch.sauceNumber + '\n' + batch.sauceName,
-        batch.orderNumber ?? '—'
+        '$' + batch.sauceCost.toFixed(2),
+        '$' + batch.cost.toFixed(2)
       ]);
 
       const headers = [
         'Batch #',
-        'Q-ty',
-        'Production Date',
-        'Expiration Date',
-        'Sauce Cost',
-        'Total Cost',
+        'Order #',
         'Status',
+        'Prod Date',
+        'Exp Date',
+        'Size',
         'Sauce',
-        'Order #'
+        'Sauce Cost',
+        'Total Cost'
       ];
 
       doc.text(new Date().toLocaleDateString(), doc.internal.pageSize.width - 40, 15);
