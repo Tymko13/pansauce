@@ -34,7 +34,7 @@ import {AuthService} from '../../_auth/auth.service';
     }
   `,
   template: `
-    <button mat-icon-button  (click)="act()">
+    <button mat-icon-button (click)="act()">
       <mat-icon *ngIf="!authService.isLoggedIn()">login</mat-icon>
       <mat-icon *ngIf="authService.isLoggedIn()">logout</mat-icon>
     </button>
@@ -42,20 +42,9 @@ import {AuthService} from '../../_auth/auth.service';
   standalone: true
 })
 export class LoginLogoutBtnComponent {
-  private iconRegistry = inject(MatIconRegistry);
-  private sanitizer = inject(DomSanitizer);
-
   protected authService = inject(AuthService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
-
-  constructor() {
-    this.iconRegistry.addSvgIcon('login',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/login.svg'));
-    this.iconRegistry.addSvgIcon('logout',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/logout.svg'));
-  }
-
 
   act() {
     if(!this.authService.isLoggedIn()) {
