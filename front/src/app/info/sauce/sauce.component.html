@@ -49,27 +49,10 @@
 
         <mat-form-field appearance="outline" *ngSwitchCase="'SAME RECIPE AS'">
           <mat-label>Sauce</mat-label>
-          <mat-select placeholder="With ingredients of..." [value]="selectedSauce()" (selectionChange)="selectedSauce.set($event.value)">
+          <mat-select [canSelectNullableOptions]="true" placeholder="With ingredients of..." [value]="selectedSauce()" (selectionChange)="selectedSauce.set($event.value)">
+            <mat-option [value]="null">-</mat-option>
             <mat-option *ngFor="let sauce of allRecipes()" [value]="sauce">
               {{ sauce.name }} - {{ sauce.weight }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" *ngSwitchCase="'WITHOUT'">
-          <mat-label>Type</mat-label>
-          <mat-select placeholder="Not a..." [value]="selectedType()" (selectionChange)="selectedType.set($event.value)">
-            <mat-option *ngFor="let type of allTypes()" [value]="type">
-              {{ type.typeName }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" *ngSwitchCase="'WITHOUT'">
-          <mat-label>Ingredient</mat-label>
-          <mat-select placeholder="And without..." [value]="selectedIngredient()" (selectionChange)="selectedIngredient.set($event.value)">
-            <mat-option *ngFor="let ingr of allIngredients()" [value]="ingr">
-              {{ ingr.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>

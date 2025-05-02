@@ -90,7 +90,7 @@ export class SauceComponent {
 
   searchOptions = ['Sauce Name', 'Sauce Number', 'Type Name', 'Type Number'];
   sortOptions = ["name", "number", "type", "price"];
-  showOptions = ["All", "SAME RECIPE AS", "WITHOUT"];
+  showOptions = ["All", "SAME RECIPE AS"];
   displayedColumns = [
     'number',
     'name',
@@ -120,10 +120,6 @@ export class SauceComponent {
       case 'SAME RECIPE AS':
         if (this.selectedSauce() !== null)
           return this.sauceService.getSaucesWithAlikeRecipe(this.selectedSauce()!.number);
-        else break;
-      case 'WITHOUT':
-        if (this.selectedType() !== null && this.selectedIngredient() !== null)
-          return this.sauceService.getSaucesWithoutTypeAndIngredient(this.selectedType()!.typeNumber, this.selectedIngredient()!.gti);
         else break;
       case 'All':
         if (term) switch (this.selectedSearch()) {
