@@ -68,6 +68,7 @@ export class BatchComponent {
   constructor() {
     if(this.authService.isSalesManager())
       this.displayedColumns = this.displayedColumns.slice(0, this.displayedColumns.length - 1);
+    console.log(this.batches());
   }
 
   searchTerm = signal('');
