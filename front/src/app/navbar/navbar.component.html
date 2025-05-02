@@ -10,12 +10,14 @@
   </span>
   <span id="navigation">
     <ng-container *ngIf="authService.isLoggedIn(); else Blank">
-      <button *ngFor="let page of pages"
-              class="text-btn"
-              [routerLink] = page
-              routerLinkActive="active">
+      <ng-container *ngFor="let page of pages; let i = index">
+         <button *ngIf="[2, 3, 4, 5].includes(i) || authService.isTopManager()"
+           class="text-btn"
+           [routerLink] = page
+           routerLinkActive="active">
         {{ page | titlecase }}
       </button>
+      </ng-container>
     </ng-container>
     <ng-template #Blank><p id="placeholder">PAN SAUCE. Bringing back that taste of your youth~</p></ng-template>
   </span>

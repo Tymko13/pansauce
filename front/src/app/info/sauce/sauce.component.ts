@@ -1,4 +1,4 @@
-import {Component, inject, signal, computed, WritableSignal} from '@angular/core';
+import {Component, inject, signal, computed} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
@@ -25,6 +25,7 @@ import {IngredientService} from '../../_services/ingredient.service';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import {AuthService} from '../../_auth/auth.service';
 
 @Component({
   selector: 'app-sauce',
@@ -50,32 +51,34 @@ export class SauceComponent {
   private batchService = inject(BatchService);
   private ingredientService = inject(IngredientService);
   private typeService = inject(TypeService);
-
   private dialog = inject(MatDialog);
   private sanitizer = inject(DomSanitizer);
+  authService = inject(AuthService);
   saucesInBatches = signal<string[]>([]);
-  allSauces = signal<Sauce[]>([]);
   allTypes = signal<Type[]>([]);
   allIngredients = signal<Ingredient[]>([]);
   allRecipes = signal<SauceWithRecipe[]>([]);
 
   constructor() {
-    this.batchService.getAllBatchesSortedBy().subscribe(data => {
-      this.saucesInBatches.set(data.flatMap(it => it.sauceNumber));
-    });
+    if(this.authService.isTopManager()){
+      this.batchService.getAllBatchesSortedBy().subscribe(data => {
+        this.saucesInBatches.set(data.flatMap(it => it.sauceNumber));
+      });
+    } else {
+      this.displayedColumns = this.displayedColumns.slice(0, this.displayedColumns.length - 1)
+    }
     this.updateAllInfo();
   }
 
   updateAllInfo() {
-    this.sauceService.findAllSauce("name").subscribe(data => {
-      this.allSauces.set(data);
-    });
-    this.typeService.getAllTypes().subscribe(data => {
-      this.allTypes.set(data);
-    });
-    this.ingredientService.getAllIngredients().subscribe(data => {
-      this.allIngredients.set(data);
-    });
+    if(this.authService.isTopManager()) {
+      this.typeService.getAllTypes().subscribe(data => {
+        this.allTypes.set(data);
+      });
+      this.ingredientService.getAllIngredients().subscribe(data => {
+        this.allIngredients.set(data);
+      });
+    }
     this.sauceService.getAllSauceWithRecipe("name").subscribe(data => {
       this.allRecipes.set(data);
     });

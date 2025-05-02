@@ -24,6 +24,7 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import {CustomerWithOrders} from '../../_models/customer-with-orders';
+import {AuthService} from '../../_auth/auth.service';
 
 
 @Component({
@@ -55,13 +56,17 @@ export class CustomerComponent {
   private customerService = inject(CustomerService);
   private dialog = inject(MatDialog);
   private sanitizer = inject(DomSanitizer);
-
+  authService = inject(AuthService);
   customersWithOrders: CustomerWithOrders[] = [];
 
   constructor() {
-    this.customerService.getCustomersAndTheirOrders().subscribe(data => {
-      this.customersWithOrders = data;
-    });
+    if (this.authService.isTopManager()) {
+      this.customerService.getCustomersAndTheirOrders().subscribe(data => {
+        this.customersWithOrders = data;
+      });
+    } else {
+      this.searchOptions = this.searchOptions.slice(0, this.searchOptions.length - 5);
+    }
   }
 
   searchOptions = ['phone_number', 'full_name', 'customer_number', 'type_number', 'type_name', 'sauce_number', 'sauce_name', 'batch_number'];
@@ -119,9 +124,11 @@ export class CustomerComponent {
 
   updateDB() {
     this.dbUpdated.update(e => ++e);
-    this.customerService.getCustomersAndTheirOrders().subscribe(data => {
-      this.customersWithOrders = data;
-    });
+    if(this.authService.isTopManager()) {
+      this.customerService.getCustomersAndTheirOrders().subscribe(data => {
+        this.customersWithOrders = data;
+      });
+    }
   }
 
   update(number: string) {

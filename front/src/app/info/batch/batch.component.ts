@@ -20,6 +20,7 @@ import {AddBatchDialogComponent} from './add-batch-dialog/add-batch-dialog.compo
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import {AuthService} from '../../_auth/auth.service';
 
 @Component({
   selector: 'app-batch',
@@ -46,6 +47,7 @@ export class BatchComponent {
   private orderService = inject(OrderService);
   private dialog = inject(MatDialog);
   private sanitizer = inject(DomSanitizer);
+  authService = inject(AuthService);
 
   searchOptions = ['Batch Number', 'Sauce Name', 'Sauce Number','Order Number'];
   sortOptions = ["number", "prod_date", "size", "price", "status"];
@@ -62,6 +64,11 @@ export class BatchComponent {
     'cost',
     'action'
   ];
+
+  constructor() {
+    if(this.authService.isSalesManager())
+      this.displayedColumns = this.displayedColumns.slice(0, this.displayedColumns.length - 1);
+  }
 
   searchTerm = signal('');
   selectedSort = signal<string>(this.sortOptions[0]);

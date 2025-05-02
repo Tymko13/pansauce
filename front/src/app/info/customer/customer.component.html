@@ -2,16 +2,18 @@
   <mat-sidenav-container class="batch-container">
     <mat-sidenav mode="side" opened class="sidebar">
       <mat-nav-list>
-        <h3>Show</h3>
-        <mat-list-item
-          *ngFor="let show of showOptions"
-          (click)="selectedShow.set(show)"
-          [class.selected]="selectedShow() === show">
-          {{ show.toUpperCase().replace("_", " ") }}
-        </mat-list-item>
+        <ng-container *ngIf="authService.isTopManager()">
+          <h3>Show</h3>
+          <mat-list-item
+            *ngFor="let show of showOptions"
+            (click)="selectedShow.set(show)"
+            [class.selected]="selectedShow() === show">
+            {{ show.toUpperCase().replace("_", " ") }}
+          </mat-list-item>
+        </ng-container>
       </mat-nav-list>
       <button id="add-button" (click)="add()"  mat-raised-button><mat-icon>add</mat-icon>CUSTOMER</button>
-      <button id="print-button" (click)="print()"  mat-raised-button><mat-icon>print</mat-icon>PRINT</button>
+      <button *ngIf="authService.isTopManager()" id="print-button" (click)="print()"  mat-raised-button><mat-icon>print</mat-icon>PRINT</button>
     </mat-sidenav>
 
     <mat-sidenav-content class="content">

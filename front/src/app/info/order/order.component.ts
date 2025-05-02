@@ -16,6 +16,7 @@ import {UpdateOrderDialogComponent} from './update-order-dialog/update-order-dia
 import {Order} from '../../_models/order';
 import {AddOrderDialogComponent} from './add-order-dialog/add-order-dialog.component';
 import {OrderWithBatchKeys} from '../../_models/order-with-batch-keys';
+import {AuthService} from '../../_auth/auth.service';
 
 
 @Component({
@@ -41,6 +42,13 @@ export class OrderComponent {
   private customerService = inject(CustomerService);
   private orderService = inject(OrderService);
   private dialog = inject(MatDialog);
+  authService = inject(AuthService);
+
+  constructor() {
+    if(this.authService.isSalesManager()) {
+      this.displayedColumns = this.displayedColumns.slice(0, this.displayedColumns.length - 1);
+    }
+  }
 
   searchOptions = ['Order Number', 'Customer Number', 'Customer Phone'];
   sortOptions = ["reg_date", "real_date", "price"];
