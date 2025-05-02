@@ -131,7 +131,7 @@ public class CustomerQuery {
     public static final String GET_CUSTOMERS_WITH_THEIR_ORDERS =
             "SELECT *\n" +
             "FROM (customer AS c INNER JOIN order AS o\n" +
-            "ON c.customer_number = o.customer_number) LEFT JOIN contact_number AS cn\n" +
+            "ON c.customer_number = o.customer_number) INNER JOIN contact_number AS cn\n" +
             "ON c.customer_number = cn.customer_number;\n";
 
     public static final String GET_CUSTOMERS_WHO_HAVE_ORDERS_BETWEEN_DATES =
@@ -235,6 +235,38 @@ public class CustomerQuery {
             "GROUP BY s.sauce_number, s.sauce_name\n" +
             "ORDER BY COUNT(s.sauce_number) DESC\n" +
             "LIMIT 1;\n";
+
+    public static final String GET_ORDERS_DATE_BEFORE_WITH_CUSTOMER_KEY =
+              """
+              SELECT\s
+              o.order_number,\s
+              o.registration_date,\s
+              o.expected_date,
+              o.real_date,\s
+              o.delivery_cost,\s
+              o.total_order_cost,
+              c.customer_number,\s
+              c.customer_name,\s
+              c.customer_surname,
+              c.customer_patronymic,\s
+              cn.contact_number
+            FROM\s
+              (order AS o
+              INNER JOIN customer AS c ON o.customer_number = c.customer_number)
+              INNER JOIN contact_number AS cn ON c.customer_number = cn.customer_number
+            WHERE NOT EXISTS (
+                SELECT *
+                FROM batch AS b
+                WHERE b.order_number = o.order_number
+                  AND NOT EXISTS (
+                      SELECT *
+                      FROM customer AS c2
+                      WHERE c2.customer_number = o.customer_number
+                        AND c2.customer_surname = ?
+                        AND o.registration_date >= ?
+                  )
+            );
+            """;
 
     public static final String GET_CUSTOMERS_WHO_ORDERED_ALL_TYPES_OF_SAUCE =
             "SELECT *\n" +

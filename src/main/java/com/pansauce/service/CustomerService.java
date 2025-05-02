@@ -118,6 +118,10 @@ public class CustomerService {
         return customerRepository.getCustomersWhoOrderedOnlyOneTypeOfSauce();
     }
 
+    public List<OrderWithCustomerData> getCustomerOrdersBeforeDateWithCustomerKey(String customerKey, Date date) {
+        return customerRepository.getOrdersBeforeDateWithCustomerKey(customerKey, date);
+    }
+
     public List<Customer> getAllCustomers() {
         List<Customer> customers = customerRepository.findAll();
         if (customers.isEmpty())

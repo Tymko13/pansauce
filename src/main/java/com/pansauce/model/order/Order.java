@@ -2,6 +2,7 @@ package com.pansauce.model.order;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 public class Order {
     private String number;
@@ -68,4 +69,14 @@ public class Order {
         this.customerNumber = customerNumber;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Order order)) return false;
+        return Objects.equals(number, order.number);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(number);
+    }
 }
