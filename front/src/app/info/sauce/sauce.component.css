@@ -51,8 +51,7 @@ mat-sidenav {
 #add-button, #print-button {
   color: var(--text-color);
   background-color: var(--primary-color);
-  width: 90%;
-  margin-left: 5%;
+  width: 100%;
   z-index: 1000;
 }
 
