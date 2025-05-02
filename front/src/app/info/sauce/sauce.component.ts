@@ -19,7 +19,6 @@ import {SauceWithRecipe} from '../../_models/sauce-with-recipe';
 import {AddSauceDialogComponent} from './add-sauce-dialog/add-sauce-dialog.component';
 import {BatchService} from '../../_services/batch.service';
 import {Sauce} from '../../_models/sauce';
-import {Ingredient} from '../../_models/ingredient';
 import {Type} from '../../_models/type';
 import {IngredientService} from '../../_services/ingredient.service';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
@@ -49,14 +48,11 @@ import {AuthService} from '../../_auth/auth.service';
 export class SauceComponent {
   private sauceService = inject(SauceService);
   private batchService = inject(BatchService);
-  private ingredientService = inject(IngredientService);
   private typeService = inject(TypeService);
   private dialog = inject(MatDialog);
   private sanitizer = inject(DomSanitizer);
   authService = inject(AuthService);
   saucesInBatches = signal<string[]>([]);
-  allTypes = signal<Type[]>([]);
-  allIngredients = signal<Ingredient[]>([]);
   allRecipes = signal<SauceWithRecipe[]>([]);
 
   constructor() {
@@ -71,14 +67,6 @@ export class SauceComponent {
   }
 
   updateAllInfo() {
-    if(this.authService.isTopManager()) {
-      this.typeService.getAllTypes().subscribe(data => {
-        this.allTypes.set(data);
-      });
-      this.ingredientService.getAllIngredients().subscribe(data => {
-        this.allIngredients.set(data);
-      });
-    }
     this.sauceService.getAllSauceWithRecipe("name").subscribe(data => {
       this.allRecipes.set(data);
     });
@@ -107,8 +95,6 @@ export class SauceComponent {
   selectedShow = signal<string>(this.showOptions[0]);
   selectedSearch = signal<string>(this.searchOptions[0]);
   selectedSauce = signal<Sauce | null>(null);
-  selectedType = signal<Type | null>(null);
-  selectedIngredient = signal<Ingredient | null>(null);
 
   dbUpdated = signal(0);
   sauces = computed(() => {

@@ -70,7 +70,9 @@ export class CustomerComponent {
   }
 
   searchOptions = ['phone_number', 'full_name', 'customer_number', 'type_number', 'type_name', 'sauce_number', 'sauce_name', 'batch_number'];
+
   showOptions = ["all", "order_period", "all_types", "one_type"];
+
   displayedColumns = [
     'number',
     'surname',
