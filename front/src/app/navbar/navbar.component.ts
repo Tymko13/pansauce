@@ -5,6 +5,7 @@ import {DarkLightBtnComponent} from './dark-light-btn/dark-light-btn.component';
 import {LoginLogoutBtnComponent} from './login-logout-btn/login-logout-btn.component';
 import {MatButtonModule} from '@angular/material/button';
 import {AuthService} from '../_auth/auth.service';
+import {ThemeService} from '../_services/theme.service';
 
 @Component({
   selector: 'app-navbar',
@@ -26,6 +27,7 @@ import {AuthService} from '../_auth/auth.service';
 export class NavbarComponent {
   protected readonly DarkLightBtnComponent = DarkLightBtnComponent;
   authService = inject(AuthService);
+  themeService = inject(ThemeService);
 
   pages = [
     "ingredients",

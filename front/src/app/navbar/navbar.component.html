@@ -1,7 +1,7 @@
 <header>
   <span id="logo">
-    <img routerLink="/" *ngIf="DarkLightBtnComponent.lightMode" src="/assets/logo/black.png" alt="Pan Sauce logo">
-    <img routerLink="/" *ngIf="!DarkLightBtnComponent.lightMode" src="/assets/logo/white.png" alt="Pan Sauce logo">
+    <img routerLink="/" *ngIf="themeService.lightMode()" src="/assets/logo/black.png" alt="Pan Sauce logo">
+    <img routerLink="/" *ngIf="!themeService.lightMode()" src="/assets/logo/white.png" alt="Pan Sauce logo">
   </span>
   <span id="navigation">
     <ng-container *ngIf="authService.isLoggedIn(); else Blank">
@@ -12,7 +12,7 @@
         {{ page | titlecase }}
       </button>
     </ng-container>
-    <ng-template #Blank><p>PAN SAUCE. Bringing back that taste of your youth~</p>></ng-template>
+    <ng-template #Blank><p>PAN SAUCE. Bringing back that taste of your youth~</p></ng-template>
   </span>
   <span id="settings">
     <app-dark-light-btn/>
