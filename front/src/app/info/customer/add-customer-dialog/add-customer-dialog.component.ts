@@ -46,7 +46,7 @@ import {AddOrderDialogComponent} from '../../order/add-order-dialog/add-order-di
   ],
   styles: `
     .name {width: 30%; margin-right: 3%;}
-    .phones, .address { width: 100%;}
+    .phones, .address { width: 96%;}
   `
 })
 export class AddCustomerDialogComponent {

@@ -47,7 +47,7 @@ import {Customer} from '../../../_models/customer';
   ],
   styles: `
     .name {width: 30%; margin-right: 3%;}
-    .phones, .address { width: 100%;}
+    .phones, .address { width: 96%;}
   `
 })
 export class UpdateCustomerDialogComponent {
