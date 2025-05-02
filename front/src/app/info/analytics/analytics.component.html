@@ -4,13 +4,15 @@
     <h1>Analytics Dashboard</h1>
 
     <section class="section">
-      <h2>Sauce Popularity</h2>
+      <h2>Sauce Popularity by Income</h2>
       <select [(ngModel)]="popularityType">
         <option value="top">The most popular</option>
         <option value="last">The least popular</option>
       </select>
-      <button (click)="loadPopularSauces()">Get sauces by income</button>
+      <button (click)="loadPopularSauces()">Get sauces</button>
+<!--
       <button (click)="loadPopularSaucesBySales()">Get sauces by sales count</button>
+-->
 
       <button class="clear" (click)="clearPopularityResults()">Clear</button>
 
@@ -18,6 +20,28 @@
       <ul>
         <li *ngFor="let sauce of saucesByIncome()">{{ sauce.sauceName }} — {{ sauce.sauceIncome || 0 }} грн</li>
       </ul>
+<!--      <ul>-->
+<!--        <li *ngFor="let sauce of saucesBySales()">{{ sauce.sauceName }} — {{ sauce.salesCount || 0 }} продажів</li>-->
+<!--      </ul>-->
+    </section>
+
+    <section class="section">
+      <h2>Sauce Popularity by Sales</h2>
+      <select [(ngModel)]="popularityType">
+        <option value="top">The most popular</option>
+        <option value="last">The least popular</option>
+      </select>
+<!--
+      <button (click)="loadPopularSauces()">Get sauces by income</button>
+-->
+      <button (click)="loadPopularSaucesBySales()">Get sauces</button>
+
+      <button class="clear" (click)="clearPopularityResults1()">Clear</button>
+
+
+<!--      <ul>-->
+<!--        <li *ngFor="let sauce of saucesByIncome()">{{ sauce.sauceName }} — {{ sauce.sauceIncome || 0 }} грн</li>-->
+<!--      </ul>-->
       <ul>
         <li *ngFor="let sauce of saucesBySales()">{{ sauce.sauceName }} — {{ sauce.salesCount || 0 }} продажів</li>
       </ul>
@@ -45,7 +69,13 @@
 
     <section class="section">
       <h2>Sales statistics by sauce type</h2>
-      <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">
+<!--      <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">-->
+
+      <select [(ngModel)]="selectedType">
+        <option value="" disabled selected>Choose sauce type</option>
+        <option *ngFor="let type of sauceTypes()" [value]="type">{{ type }}</option>
+      </select>
+
       <label>From: <input type="date" [(ngModel)]="fromDate"></label>
       <label>To: <input type="date" [(ngModel)]="toDate"></label>
       <button (click)="loadSoldAmountByType()">Get number</button>
@@ -67,30 +97,67 @@
     </section>
 
     <section class="section">
-      <h2>Number/Income by sauce or type</h2>
+      <h2>Number/Income by sauce code</h2>
       <input type="text" [(ngModel)]="selectedSauceKey" placeholder="Sauce code">
+<!--
       <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">
+-->
+<!--      <select [(ngModel)]="selectedType">-->
+<!--        <option value="" disabled selected>Оберіть тип соусу</option>-->
+<!--        <option *ngFor="let type of sauceTypes()" [value]="type">{{ type }}</option>-->
+<!--      </select>-->
+
       <label>From: <input type="date" [(ngModel)]="fromDate"></label>
       <label>To: <input type="date" [(ngModel)]="toDate"></label>
 
-      <button (click)="loadAmountByKey(false)">number by sauce</button>
-      <button (click)="loadIncomeByKey(false)">income by sauce</button>
-      <button (click)="loadAmountByKey(true)">number by type</button>
-      <button (click)="loadIncomeByKey(true)">income by type</button>
+      <button (click)="loadAmountByKey(false)">number</button>
+      <button (click)="loadIncomeByKey(false)">income</button>
+<!--      <button (click)="loadAmountByKey(true)">number by type</button>-->
+<!--      <button (click)="loadIncomeByKey(true)">income by type</button>-->
 
       <!--    <button (click)="clearAmountIncomeResults()">Очистити результат</button>-->
 
       <p>Number: {{ queryAmount()?.totalAmount || 0 }}</p>
       <p>Income: {{ queryIncome()?.income || 0 }} $</p>
+
+      <div *ngIf="message() as msg" class="alert alert-info">
+        {{ msg }}
+      </div>
+
     </section>
 
     <section class="section">
-      <div *ngIf="isLoading()">Завантаження...</div>
+      <h2>Number/Income by sauce type</h2>
+<!--      <input type="text" [(ngModel)]="selectedSauceKey" placeholder="Sauce code">-->
+      <!--
+            <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">
+      -->
+      <select [(ngModel)]="selectedType">
+        <option value="" disabled selected>Оберіть тип соусу</option>
+        <option *ngFor="let type of sauceTypes()" [value]="type">{{ type }}</option>
+      </select>
+
+      <label>From: <input type="date" [(ngModel)]="fromDate"></label>
+      <label>To: <input type="date" [(ngModel)]="toDate"></label>
+
+<!--      <button (click)="loadAmountByKey(false)">number by sauce</button>-->
+<!--      <button (click)="loadIncomeByKey(false)">income by sauce</button>-->
+      <button (click)="loadAmountByKey(true)">number</button>
+      <button (click)="loadIncomeByKey(true)">income</button>
+
+      <!--    <button (click)="clearAmountIncomeResults()">Очистити результат</button>-->
+
+      <p>Number: {{ queryAmountT()?.totalAmount || 0 }}</p>
+      <p>Income: {{ queryIncomeT()?.income || 0 }} $</p>
+    </section>
+
+    <section class="section">
+      <div *ngIf="isLoading()">Loading...</div>
 
       <div *ngIf="error()" class="error">{{ error() }}</div>
 
       <div *ngIf="!isLoading() && !error()">
-        <p><strong>Загальна кількість клієнтів:</strong> {{ totalCustomers() }}</p>
+        <p><strong>Overall client number:</strong> {{ totalCustomers() }}</p>
 
         <table class="table">
           <thead>

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.pansauce.constants.keyLength.KeyLength.*;
 
@@ -215,5 +216,13 @@ public class SauceService {
         sauceRepository.cleanUpSauceIngredients();
         sauceRepository.cleanUpSauceTypes();
     }
+
+    public List<String> getAllSauceTypes() {
+        return typeRepository.findAll().stream()
+                .map(Type::getTypeName)
+                .collect(Collectors.toList());
+       // return List.of("Spicy", "Sweet", "Garlic");
+    }
+
 
 }

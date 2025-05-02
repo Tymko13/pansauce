@@ -103,5 +103,9 @@ export class SauceService {
   deleteSauce(key: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${key}`);
   }
+
+  getAllSauceTypes(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/types`);
+  }
 }
 
