@@ -6,8 +6,13 @@
   min-height: 90vh;
 }
 
-.sticky {
-  z-index: 2000;
-  position: sticky;
+#placeholder {
+  width: 100%;
+  min-height: 10vh;
+}
+app-navbar {
+  z-index: 1000;
+  width: 100%;
   top: 0;
+  position: fixed;
 }
