@@ -1,5 +1,6 @@
 <header>
   <span id="logo">
+    <p *ngIf="authService.isLoggedIn()" id="hello">Hello, {{(authService.getUserRole()! | titlecase).replace("_", " ")}}!</p>
     <img routerLink="/" *ngIf="themeService.lightMode()" src="/assets/logo/black.png" alt="Pan Sauce logo">
     <img routerLink="/" *ngIf="!themeService.lightMode()" src="/assets/logo/white.png" alt="Pan Sauce logo">
   </span>
@@ -12,7 +13,7 @@
         {{ page | titlecase }}
       </button>
     </ng-container>
-    <ng-template #Blank><p>PAN SAUCE. Bringing back that taste of your youth~</p></ng-template>
+    <ng-template #Blank><p id="placeholder">PAN SAUCE. Bringing back that taste of your youth~</p></ng-template>
   </span>
   <span id="settings">
     <app-dark-light-btn/>
