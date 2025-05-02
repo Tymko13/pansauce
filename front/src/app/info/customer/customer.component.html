@@ -34,7 +34,7 @@
         </mat-form-field>
       </span>
 
-      <mat-form-field appearance="outline" *ngIf="selectedShow()!=='all'">
+      <mat-form-field appearance="outline" *ngIf="selectedShow()==='order_period'">
         <mat-label>Order registration range</mat-label>
         <mat-date-range-input [rangePicker]="picker" [disabled]="selectedShow()!=='order_period'">
           <input matStartDate placeholder="Start date" (dateChange)="startDate.set($event.value)" />
