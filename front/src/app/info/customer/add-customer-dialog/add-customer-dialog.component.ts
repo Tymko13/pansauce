@@ -15,9 +15,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatChipGrid, MatChipInput, MatChipRemove, MatChipRow} from '@angular/material/chips';
-import {MatIcon, MatIconRegistry} from '@angular/material/icon';
+import {MatIcon} from '@angular/material/icon';
 import {PhoneService} from '../../../_services/phone.service';
-import {DomSanitizer} from '@angular/platform-browser';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AddOrderDialogComponent} from '../../order/add-order-dialog/add-order-dialog.component';
 
@@ -53,16 +52,9 @@ export class AddCustomerDialogComponent {
   private fb = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<AddCustomerDialogComponent>);
   private phoneService = inject(PhoneService);
-  private iconRegistry = inject(MatIconRegistry);
-  private sanitizer = inject(DomSanitizer);
   private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
   phones = signal<string[]>([]);
-
-  constructor() {
-    this.iconRegistry.addSvgIcon('cancel',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/cancel.svg'));
-  }
 
   form = computed(() => this.fb.group({
     name: [null, Validators.required],
