@@ -58,3 +58,7 @@ mat-sidenav {
 .highlight:hover {
   background-color: color-mix(in srgb, var(--secondary-color) 5%, transparent);
 }
+
+.subtle {
+  color: var(--secondary-color);
+}

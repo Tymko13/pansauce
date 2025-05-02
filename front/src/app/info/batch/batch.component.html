@@ -81,7 +81,10 @@
 
         <ng-container matColumnDef="sauce">
           <th mat-header-cell *matHeaderCellDef>Sauce</th>
-          <td mat-cell *matCellDef="let batch">{{ batch.sauceName }} <br> {{ batch.sauceNumber }}</td>
+          <td mat-cell *matCellDef="let batch">
+            <p>{{ batch.sauceName }}</p>
+            <p class="subtle">{{ batch.sauceNumber }}</p>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="orderNumber">
