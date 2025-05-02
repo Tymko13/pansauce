@@ -48,6 +48,20 @@ export class AuthService {
     }
   }
 
+  getUserName(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const decoded: JwtPayload = jwtDecode(token);
+      console.log(decoded);
+      return decoded.sub;
+    } catch (e) {
+      console.error('Invalid token', e);
+      return null;
+    }
+  }
+
   isTopManager(): boolean {
     return this.getUserRole() === "TOP_MANAGER";
   }
@@ -58,7 +72,6 @@ export class AuthService {
 }
 
 interface JwtPayload {
-  username: string;
-  password: string;
+  sub: string;
   role: string;
 }

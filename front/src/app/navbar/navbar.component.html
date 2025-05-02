@@ -1,6 +1,10 @@
 <header>
   <span id="logo">
-    <p *ngIf="authService.isLoggedIn()" id="hello">Hello, {{(authService.getUserRole()! | titlecase).replace("_", " ")}}!</p>
+    <p *ngIf="authService.isLoggedIn()" id="hello">
+      Hello,
+      <br>
+      {{(authService.getUserRole()! | titlecase).replace("_", " ")}} {{authService.getUserName()! | titlecase}}!
+    </p>
     <img routerLink="/" *ngIf="themeService.lightMode()" src="/assets/logo/black.png" alt="Pan Sauce logo">
     <img routerLink="/" *ngIf="!themeService.lightMode()" src="/assets/logo/white.png" alt="Pan Sauce logo">
   </span>
