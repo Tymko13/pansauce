@@ -157,7 +157,7 @@ export class BatchComponent {
         new Date(batch.productionDate).toLocaleDateString(),
         new Date(batch.expirationDate).toLocaleDateString(),
         batch.quantity.toString(),
-        batch.sauceNumber + '\n' + batch.sauceName,
+        batch.sauceName + '\n' + batch.sauceNumber,
         '$' + batch.sauceCost.toFixed(2),
         '$' + batch.cost.toFixed(2)
       ]);
