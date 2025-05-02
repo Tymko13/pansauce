@@ -48,11 +48,17 @@ mat-sidenav {
   justify-content: left;
 }
 
-#add-button {
+#add-button, #print-button {
   color: var(--text-color);
   background-color: var(--primary-color);
-  width: 100%;
+  width: 90%;
+  margin-left: 5%;
   z-index: 1000;
+}
+
+#print-button {
+  margin-top: 1rem;
+  background-color: var(--secondary-color);
 }
 
 .highlight:hover {

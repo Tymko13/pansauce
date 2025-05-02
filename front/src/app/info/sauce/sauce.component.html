@@ -23,6 +23,7 @@
         <mat-icon>add</mat-icon>
         SAUCE
       </button>
+      <button id="print-button" (click)="print()"  mat-raised-button><mat-icon>print</mat-icon>PRINT</button>
     </mat-sidenav>
 
     <mat-sidenav-content class="content">
@@ -132,6 +133,7 @@
         <tr class="highlight" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       </table>
+      <iframe style="display: none" [src]="pdfUrl" *ngIf="pdfUrl"></iframe>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

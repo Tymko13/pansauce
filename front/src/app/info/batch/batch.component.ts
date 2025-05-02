@@ -142,7 +142,6 @@ export class BatchComponent {
   }
 
   pdfUrl: SafeResourceUrl | null = null;
-
   print() {
     const doc = new jsPDF({
       orientation: "landscape",
@@ -177,15 +176,15 @@ export class BatchComponent {
       doc.text(new Date().toLocaleDateString(), doc.internal.pageSize.width - 40, 15);
       doc.setFontSize(24);
       doc.text("PAN SAUCE", 10, 15);
-      doc.text("Batches report", 10 ,25);
+      doc.text("Batches report", 10, 25);
 
       autoTable(doc, {
         head: [headers],
         body: rows,
-        styles: { valign: "middle"},
+        styles: {valign: "middle"},
         theme: "striped",
         startY: 35,
-        didDrawPage: function (data)  {
+        didDrawPage: function (data) {
           const pageNumber = doc.getCurrentPageInfo().pageNumber;
           doc.setFontSize(12);
           doc.text(
@@ -198,13 +197,11 @@ export class BatchComponent {
       const blob = doc.output('blob');
       const url = URL.createObjectURL(blob);
       this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-      setTimeout(()=>this.printIframe(), 10);
+      setTimeout(() => {
+        const iframe = document.querySelector('iframe');
+        iframe?.contentWindow?.focus();
+        iframe?.contentWindow?.print();
+      }, 10);
     });
-  }
-
-  printIframe() {
-    const iframe = document.querySelector('iframe');
-    iframe?.contentWindow?.focus();
-    iframe?.contentWindow?.print();
   }
 }
