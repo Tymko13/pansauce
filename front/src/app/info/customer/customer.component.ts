@@ -20,6 +20,10 @@ import {UpdateCustomerDialogComponent} from './update-customer-dialog/update-cus
 import {Customer} from '../../_models/customer';
 import {AddCustomerDialogComponent} from './add-customer-dialog/add-customer-dialog.component';
 import {CustomerWithOrdersAndBatches} from '../../_models/customer-with-orders-and-batches';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import {CustomerWithOrders} from '../../_models/customer-with-orders';
 
 
 @Component({
@@ -50,6 +54,15 @@ import {CustomerWithOrdersAndBatches} from '../../_models/customer-with-orders-a
 export class CustomerComponent {
   private customerService = inject(CustomerService);
   private dialog = inject(MatDialog);
+  private sanitizer = inject(DomSanitizer);
+
+  customersWithOrders: CustomerWithOrders[] = [];
+
+  constructor() {
+    this.customerService.getCustomersAndTheirOrders().subscribe(data => {
+      this.customersWithOrders = data;
+    });
+  }
 
   searchOptions = ['phone_number', 'full_name', 'customer_number', 'type_number', 'type_name', 'sauce_number', 'sauce_name', 'batch_number'];
   showOptions = ["all", "order_period", "all_types", "one_type"];
@@ -76,13 +89,15 @@ export class CustomerComponent {
     const term = this.searchTerm();
     const search = this.selectedSearch();
 
-    switch(this.selectedShow()) {
+    switch (this.selectedShow()) {
       case 'order_period':
-        if(this.startDate() != null && this.endDate() != null)
+        if (this.startDate() != null && this.endDate() != null)
           return this.customerService.getCustomersWithOrdersBetweenDates(this.startDate()!, this.endDate()!);
         else break;
-      case 'all_types': return this.customerService.getCustomersWhoOrderedAllTypes();
-      case 'one_type': return this.customerService.getCustomersWhoOrderedOnlyOneType();
+      case 'all_types':
+        return this.customerService.getCustomersWhoOrderedAllTypes();
+      case 'one_type':
+        return this.customerService.getCustomersWhoOrderedOnlyOneType();
       case 'all':
         if (term) switch (search) {
           case 'customer_number':
@@ -102,7 +117,12 @@ export class CustomerComponent {
     return this.customerService.getAllCustomers();
   });
 
-  updateDB() { this.dbUpdated.update(e => ++e); }
+  updateDB() {
+    this.dbUpdated.update(e => ++e);
+    this.customerService.getCustomersAndTheirOrders().subscribe(data => {
+      this.customersWithOrders = data;
+    });
+  }
 
   update(number: string) {
     const update = this.dialog.open(UpdateCustomerDialogComponent, {
@@ -128,7 +148,7 @@ export class CustomerComponent {
   add() {
     const input = this.dialog.open(AddCustomerDialogComponent);
     input.afterClosed().subscribe(res => {
-      if(res){
+      if (res) {
         let newCustomer: Partial<CustomerWithOrdersAndBatches> = {
           name: res.name,
           surname: res.surname,
@@ -138,8 +158,109 @@ export class CustomerComponent {
           orders: [res.order],
           batchKeys: res.order.batchKeys
         }
-        this.customerService.addCustomer(newCustomer).subscribe(()=>{this.updateDB();});
+        this.customerService.addCustomer(newCustomer).subscribe(() => {
+          this.updateDB();
+        });
       }
+    });
+  }
+
+  pdfUrl: SafeResourceUrl | null = null;
+
+  print() {
+    const doc = new jsPDF({
+      orientation: "landscape",
+      format: "a4"
+    });
+
+    this.customers().subscribe(data => {
+      const customers = data.map(customer => customer.number);
+      const customersWithOrders = this.customersWithOrders
+        .filter(customer => customers.includes(customer.number))
+        .flatMap(customer => customer.orders
+          .map(order => ({...customer, order, orders: undefined, phones: customer.phones})));
+
+      let prev: string = "";
+      let nextCustomer = true;
+      let numOfOrders = 0;
+      const rows = customersWithOrders.map(customer => {
+        if(prev == customer.number) nextCustomer = false;
+        else {
+          prev = customer.number;
+          nextCustomer = true;
+          numOfOrders = 0;
+          for(let c of customersWithOrders) {
+            if(c.number == customer.number) ++numOfOrders;
+          }
+        }
+        let orders = [
+          customer.order.number,
+          customer.order.registrationDate.toString(),
+          customer.order.expectedDate.toString(),
+          customer.order.realDate?.toString() || '-',
+          '$' + customer.order.deliveryCost?.toFixed(2) || '-',
+          '$' + customer.order.totalCost.toFixed(2)
+        ];
+        if(nextCustomer) {
+          return [...[
+            {content: customer.number, rowSpan: numOfOrders},
+            {content: customer.surname, rowSpan: numOfOrders},
+            {content: customer.name, rowSpan: numOfOrders},
+            {content: customer.patronymic || '-', rowSpan: numOfOrders},
+            {content: customer.address, rowSpan: numOfOrders},
+            {
+              content: customer.phones.reduce((acc, val) => {
+                return (acc + '\n' + val);
+              }), rowSpan: numOfOrders
+            }
+          ], ...orders];
+        } else return orders;
+      });
+
+      const headers = [
+          'Customer #',
+          'Surname',
+          'Name',
+          'Patronymic',
+          'Address',
+          'Phones',
+          'Order #',
+          'Reg Date',
+          'Exp Date',
+          'Real Date',
+          'Del Cost',
+          'Total Cost'
+      ];
+
+      doc.text(new Date().toLocaleDateString(), doc.internal.pageSize.width - 40, 15);
+      doc.setFontSize(24);
+      doc.text("PAN SAUCE", 10, 15);
+      doc.text("Customers report", 10, 25);
+
+      autoTable(doc, {
+        head: [headers],
+        body: rows,
+        styles: {valign: "top", fontSize: 8},
+        theme: "striped",
+        startY: 35,
+        didDrawPage: function (data) {
+          const pageNumber = doc.getCurrentPageInfo().pageNumber;
+          doc.setFontSize(12);
+          doc.text(
+            `Page ${pageNumber}`,
+            doc.internal.pageSize.width - 20,
+            doc.internal.pageSize.height - 5
+          );
+        },
+      });
+      const blob = doc.output('blob');
+      const url = URL.createObjectURL(blob);
+      this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      setTimeout(() => {
+        const iframe = document.querySelector('iframe');
+        iframe?.contentWindow?.focus();
+        iframe?.contentWindow?.print();
+      }, 100);
     });
   }
 }
