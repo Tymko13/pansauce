@@ -1,4 +1,4 @@
-import {Component, computed, Inject, inject, signal, WritableSignal} from '@angular/core';
+import {Component, computed, Inject, inject, signal} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -7,7 +7,12 @@ import {
   MatDialogTitle
 } from '@angular/material/dialog';
 import {CommonModule} from '@angular/common';
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
@@ -16,6 +21,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {IngredientService} from '../../../_services/ingredient.service';
 import {Ingredient} from '../../../_models/ingredient';
+import {isUniqueIngrValidator} from '../../../_validators/date.validator';
 
 @Component({
   standalone: true,
@@ -41,17 +47,19 @@ export class UpdateIngredientDialogComponent {
   private fb = inject(FormBuilder);
   private ingredientService = inject(IngredientService);
 
-  ingr: WritableSignal<Partial<Ingredient>> = signal({});
+  ingr = signal<Partial<Ingredient>>({});
+  allIngrs = signal<Ingredient[]>([]);
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { ingredient: string },
     public dialogRef: MatDialogRef<UpdateIngredientDialogComponent>
   ) {
     this.ingredientService.getIngredientByKey(this.data.ingredient).subscribe(data => {this.ingr.set(data);});
+    this.ingredientService.getAllIngredients().subscribe(data => {this.allIngrs.set(data);});
   }
 
   form = computed(() => this.fb.group({
-    name: [this.ingr().name, Validators.required],
+    name: [this.ingr().name, [Validators.required, isUniqueIngrValidator(this.allIngrs(), this.ingr())]],
   }));
 
   submit() {

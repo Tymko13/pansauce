@@ -1,12 +1,11 @@
 import {Component, Inject, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
   FormsModule,
-  ReactiveFormsModule, ValidationErrors, ValidatorFn,
+  ReactiveFormsModule,
   Validators
 } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -27,6 +26,7 @@ import {IngredientService} from '../../../_services/ingredient.service';
 import {MatIcon} from '@angular/material/icon';
 import {SauceIngredient} from '../../../_models/sauce-ingredient';
 import {SauceIngredientService} from '../../../_services/sauce-ingredient.service';
+import {isUniqueIngrValidator} from '../../../_validators/date.validator';
 
 @Component({
   standalone: true,
@@ -106,20 +106,10 @@ export class UpdateRecipeDialogComponent {
     return (this.ingredientsArray().value as Array<any>).map(ingr => ingr.gti).includes(gti);
   }
 
-  isUniqueValidator(ingredients: Ingredient[]): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      let isUnique = true;
-      for(let ingr of ingredients) {
-        if(ingr.name == control.value) isUnique = false;
-      }
-      return !isUnique ? { notUnique: true } : null;
-    };
-  }
-
   createNewIngredient(index: number) {
     this.ingredientsArray().at(index).get('gti')?.clearValidators();
     this.ingredientsArray().at(index).get('gti')?.setValue(null);
-    this.ingredientsArray().at(index).get('name')?.addValidators([Validators.required, this.isUniqueValidator(this.ingredients)]);
+    this.ingredientsArray().at(index).get('name')?.addValidators([Validators.required, isUniqueIngrValidator(this.ingredients, this.ingredients[index])]);
     this.ingredientsArray().at(index).get('gti')?.updateValueAndValidity();
     this.ingredientsArray().at(index).get('name')?.updateValueAndValidity();
     setTimeout(()=>document.getElementById(`newIngredient${index}`)?.focus());
