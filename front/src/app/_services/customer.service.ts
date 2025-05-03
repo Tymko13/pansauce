@@ -8,6 +8,7 @@ import { environment } from '../environment';
 import {CustomerWithOrdersAndBatches} from '../_models/customer-with-orders-and-batches';
 import {CustomerOrderData} from '../_models/customer-order-data';
 import {OrderWithCustomerData} from '../_models/order-with-customer-data';
+import {SauceWithSalesCount} from '../_models/sauce-with-sales-count';
 
 @Injectable({
   providedIn: 'root'
@@ -97,4 +98,9 @@ export class CustomerService {
   getCustomersOrderData(): Observable<CustomerOrderData[]> {
     return this.http.get<CustomerOrderData[]>(`${environment.apiUrl}/customer/orders/data`);
   }
+
+  getCustomerFavouriteSauce(customerKey: string): Observable<SauceWithSalesCount> {
+    return this.http.get<SauceWithSalesCount>(`http://localhost:8080/customer/${customerKey}/favourite_sauce`);
+  }
+
 }
