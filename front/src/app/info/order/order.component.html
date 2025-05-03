@@ -49,15 +49,13 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field *ngIf="selectedShow()!=='All'" appearance="outline">
-          <mat-label>Earliest Reg Date</mat-label>
+        <mat-form-field style="margin-left: 1rem" *ngIf="selectedShow()!=='All'" appearance="outline">
+          <mat-label>Latest Reg Date</mat-label>
           <input matInput [matDatepicker]="prodPicker" (dateChange)="selectedDate.set($event.value)"/>
           <mat-datepicker-toggle matSuffix [for]="prodPicker"></mat-datepicker-toggle>
           <mat-datepicker #prodPicker></mat-datepicker>
         </mat-form-field>
       </span>
-
-
 
       <table mat-table [dataSource]="orders()" class="full-width-table">
 
