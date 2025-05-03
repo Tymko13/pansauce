@@ -159,7 +159,7 @@ export class BatchComponent {
       const rows = batches.map(batch => [
         batch.number,
         batch.orderNumber ?? '-',
-        batch.status,
+        batch.orderNumber ? "SOLD" : "IN STOCK",
         new Date(batch.productionDate).toLocaleDateString(),
         new Date(batch.expirationDate).toLocaleDateString(),
         batch.quantity.toString(),
