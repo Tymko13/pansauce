@@ -57,6 +57,7 @@ export class AnalyticsComponent {
   queryIncomeT = signal<TotalIncome | null>(null);
 
   favouriteSauce = signal<SauceWithSalesCount | null>(null);
+  customers = signal<any[]>([]);
   customerKey: string = '';
 
   message = signal<string | null>(null);
@@ -72,6 +73,7 @@ export class AnalyticsComponent {
    this.loadSaucesByIncome();
    this.loadSaucesBySales();
    this.loadPopularRecipes();
+   this.loadCustomerDataFav();
   }
 
   ngOnInit(): void {
@@ -256,6 +258,14 @@ export class AnalyticsComponent {
       }
     });
   }
+
+  loadCustomerDataFav() {
+    this.customerService.getAllCustomers().subscribe({
+      next: customers => this.customers.set(customers),
+      error: err => console.error('Failed to load customers:', err)
+    });
+  }
+
 
   totalCustomers = computed(() => this.customerOrders().length);
 

@@ -190,8 +190,13 @@
     <section id="favourite-sauce" class="section">
       <h2>Customer's Favourite Sauce</h2>
 
-      <label for="customerKey">Enter Customer Key</label>
-      <input id="customerKey" [(ngModel)]="customerKey" placeholder="Enter customer key">
+      <label for="customerKey">Enter Customer </label>
+<!--      <input id="customerKey" [(ngModel)]="customerKey" placeholder="Enter customer key">-->
+      <select id="customerKey" [(ngModel)]="customerKey">
+        <option *ngFor="let customer of customers()" [value]="customer.number">
+          {{ customer.number }} — {{ customer.surname }}
+        </option>
+      </select>
       <button (click)="loadFavouriteSauce(customerKey)">Load Favourite Sauce</button>
 
       <div *ngIf="favouriteSauce() as sauce; else loadingOrEmpty">
