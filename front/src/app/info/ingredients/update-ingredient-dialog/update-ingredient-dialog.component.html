@@ -5,6 +5,9 @@
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
       <input matInput type="text" formControlName="name"/>
+      <mat-error *ngIf="form().controls.name.hasError('notUnique')">
+        Name already taken!
+      </mat-error>
     </mat-form-field>
 
     <mat-dialog-actions align="end">

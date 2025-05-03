@@ -5,6 +5,9 @@
     <mat-form-field style="width: 95%" appearance="outline">
       <mat-label>Name</mat-label>
       <input matInput [autofocus]="true" type="text" formControlName="name" placeholder="Enter sauce name..." />
+      <mat-error *ngIf="this.form.hasError('duplicates')">
+        Name-weight pair already taken!
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="left" appearance="outline">

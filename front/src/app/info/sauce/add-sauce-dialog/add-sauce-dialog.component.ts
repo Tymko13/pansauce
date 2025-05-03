@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {
   AbstractControl,
@@ -53,11 +53,11 @@ export class AddSauceDialogComponent {
   private sauceService = inject(SauceService);
 
   types: Type[] = [];
-  sauces: Sauce[] = [];
+  sauces = signal<Sauce[]>([]);
   isNewType = false;
   constructor() {
     this.typeService.getAllTypes().subscribe(data => {this.types = data;});
-    this.sauceService.findAllSauce("number").subscribe(data => {this.sauces = data;});
+    this.sauceService.findAllSauce("number").subscribe(data => {this.sauces.set(data);});
   }
 
   duplicateValidator(sauces: Sauce[]): ValidatorFn {
@@ -65,10 +65,12 @@ export class AddSauceDialogComponent {
       const name = group.get('name')?.value;
       const weight = group.get('weight')?.value;
       let hasDuplicates = false;
+      console.log(sauces);
       for (let sauce of sauces) {
-        if (sauce.name == name && sauce.weight == weight) hasDuplicates = true;
+
+        if (sauce.name === name && sauce.weight === weight) hasDuplicates = true;
       }
-      return hasDuplicates ? {duplicateNames: true} : null;
+      return hasDuplicates ? {duplicates: true} : null;
     }
   }
 
@@ -80,7 +82,7 @@ export class AddSauceDialogComponent {
     cost: [null, [Validators.required, Validators.min(0.01)]],
     shelfLife: [null, [Validators.required, Validators.min(1)]],
     recipe: [null]
-  }, {validators: this.duplicateValidator(this.sauces)});
+  }, {validators: this.duplicateValidator(this.sauces())});
 
   toggleType() {
     this.isNewType = !this.isNewType;

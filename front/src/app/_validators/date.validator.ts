@@ -19,7 +19,7 @@ export function isUniqueIngrValidator(ingredients: Ingredient[], ingredient: Par
     let isUnique = true;
     for(let ingr of ingredients) {
       if(ingr.name == ingredient?.name) continue;
-      if(ingr.name == control.value) isUnique = false;
+      if(ingr.name == control.value.trim()) isUnique = false;
     }
     return !isUnique ? { notUnique: true } : null;
   };
@@ -30,7 +30,7 @@ export function isUniqueTypeValidator(types: Type[], initial: Partial<Type> | nu
     let isUnique = true;
     for(let type of types) {
       if(type.typeName == initial?.typeName) continue;
-      if(type.typeName == control.value) isUnique = false;
+      if(type.typeName == control.value.trim()) isUnique = false;
     }
     return !isUnique ? { notUnique: true } : null;
   };
