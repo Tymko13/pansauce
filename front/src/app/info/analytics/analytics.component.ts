@@ -1,4 +1,4 @@
-import { Component, computed, effect, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SauceWithIncome } from '../../_models/sauce-with-income';
@@ -11,13 +11,19 @@ import { SauceService } from '../../_services/sauce.service';
 import {CustomerService} from '../../_services/customer.service';
 import {CustomerOrderData} from '../../_models/customer-order-data';
 import {TypeService} from '../../_services/type.service';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-analytics',
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule
   ],
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.css']
@@ -58,7 +64,7 @@ export class AnalyticsComponent {
 
   favouriteSauce = signal<SauceWithSalesCount | null>(null);
   customers = signal<any[]>([]);
-  customerKey: string = '';
+  customerKey: string | null = null;
 
   message = signal<string | null>(null);
 
@@ -103,7 +109,7 @@ export class AnalyticsComponent {
     });
   }
 
-  loadFavouriteSauce(key: string): void {
+  loadFavouriteSauce(key: string | null): void {
     if (key) {
       this.customerService.getCustomerFavouriteSauce(key).subscribe({
         next: sauce => this.favouriteSauce.set(sauce),
