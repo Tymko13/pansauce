@@ -80,7 +80,7 @@ public class BatchQuery {
             "order_number, sauce_number, sauce_name\n" +
             "FROM batch INNER JOIN sauce ON batch.sauce_number = sauce.sauce_number\n" +
             "WHERE batch_status = 'SOLD'\n" +
-            "ORDER BY production_date  DESC;\n";
+            "ORDER BY expiration_date DESC;\n";
 
     public static final String GET_TOTAL_INCOME_FROM_SOLD_BATCHES_BETWEEN_DATES =
             "SELECT SUM(batch_cost) AS total_income\n" +
