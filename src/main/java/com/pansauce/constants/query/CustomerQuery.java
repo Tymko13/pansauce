@@ -135,7 +135,7 @@ public class CustomerQuery {
             "ON c.customer_number = cn.customer_number;\n";
 
     public static final String GET_CUSTOMERS_WHO_HAVE_ORDERS_BETWEEN_DATES =
-            "SELECT\n" +
+            "SELECT DISTINCT\n" +
             "c.customer_number,\n" +
             "c.customer_name,\n" +
             "c.customer_surname,\n" +
@@ -144,7 +144,7 @@ public class CustomerQuery {
             "cn.contact_number\n" +
             "FROM (customer AS c INNER JOIN order AS o\n" +
             "ON o.customer_number = c.customer_number)\n" +
-            "LEFT JOIN contact_number AS cn \n" +
+            "INNER JOIN contact_number AS cn \n" +
             "ON c.customer_number = cn.customer_number \n" +
             "WHERE o.registration_date BETWEEN ? AND ? \n" +
             "ORDER BY c.customer_surname;\n";
@@ -262,8 +262,8 @@ public class CustomerQuery {
                       SELECT *
                       FROM customer AS c2
                       WHERE c2.customer_number = o.customer_number
-                        AND c2.customer_surname = ?
-                        AND o.registration_date >= ?
+                        AND c2.customer_number = ?
+                        AND o.registration_date <= ?
                   )
             );
             """;
