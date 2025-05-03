@@ -86,21 +86,14 @@
 
       <section id="sales-by-type" class="section">
         <h2>Sales statistics by sauce type</h2>
-        <!--      <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">-->
-
         <select [(ngModel)]="selectedType">
           <option value="" disabled selected>Choose sauce type</option>
           <option *ngFor="let type of sauceTypes()" [value]="type">{{ type }}</option>
         </select>
-
         <label>From: <input type="date" [(ngModel)]="fromDate"></label>
         <label>To: <input type="date" [(ngModel)]="toDate"></label>
         <button (click)="loadSoldAmountByType()">Get number</button>
-
-        <!--    <button (click)="clearSalesStatsResults()">Clear</button>-->
-
-        <p>Sold batches: {{ soldAmount()?.totalAmount || 0 }}</p>
-
+        <p *ngIf="soldAmount()">Sold batches: {{ soldAmount()?.totalAmount || 0 }}</p>
       </section>
 
       <section id="income-period" class="section">
@@ -108,10 +101,7 @@
         <label>From: <input type="date" [(ngModel)]="fromDate"></label>
         <label>To: <input type="date" [(ngModel)]="toDate"></label>
         <button (click)="loadTotalIncome()">Get income</button>
-        <!--    <button (click)="clearIncomeResults()">Clear</button>-->
-
-
-        <p>Income: {{ totalIncome()?.income || 0 }} $</p>
+        <p *ngIf="totalIncome()">Income: {{ totalIncome()?.income || 0 }} $</p>
       </section>
 
       <section id="by-sauce-code" class="section">
@@ -128,8 +118,8 @@
         <button (click)="loadAmountByKey(false)">number</button>
         <button (click)="loadIncomeByKey(false)">income</button>
 
-        <p>Number: {{ queryAmount()?.totalAmount || 0 }}</p>
-        <p>Income: {{ queryIncome()?.income || 0 }} $</p>
+        <p *ngIf="queryAmount()">Number: {{ queryAmount()?.totalAmount || 0 }}</p>
+        <p *ngIf="queryIncome()">Income: {{ queryIncome()?.income || 0 }} $</p>
 
         <div *ngIf="message() as msg" class="alert alert-info">
           {{ msg }}
@@ -148,25 +138,23 @@
         <label>To: <input type="date" [(ngModel)]="toDate"></label>
         <button (click)="loadAmountByKey(true)">number</button>
         <button (click)="loadIncomeByKey(true)">income</button>
-        <p>Number: {{ queryAmountT()?.totalAmount || 0 }}</p>
-        <p>Income: {{ queryIncomeT()?.income || 0 }} $</p>
+        <p *ngIf="queryAmountT()">Number: {{ queryAmountT()?.totalAmount || 0 }}</p>
+        <p *ngIf="queryIncomeT()">Income: {{ queryIncomeT()?.income || 0 }} $</p>
       </section>
 
 
       <section id="favourite-sauce" class="section">
         <h2>Customer's Favourite Sauce</h2>
 
-        <label for="customerKey">Enter Customer </label>
-        <select id="customerKey" [(ngModel)]="customerKey">
-          <option *ngFor="let customer of customers()" [value]="customer.number">
-            {{ customer.number }} — {{ customer.surname }}
-          </option>
-        </select>
-        <button (click)="loadFavouriteSauce(customerKey)">Load Favourite Sauce</button>
-
-        <div *ngIf="favouriteSauce() as sauce; else loadingOrEmpty">
-          <p><strong>{{ sauce.sauceName }}</strong> — {{ sauce.salesCount }} sales</p>
-        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Customer</mat-label>
+          <mat-select [(ngModel)]="customerKey" (selectionChange)="loadFavouriteSauce(customerKey)">
+            <mat-option *ngFor="let customer of customers()" [value]="customer.number">
+              {{ customer.surname }} {{customer.name}} - {{customer.number}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <p *ngIf="favouriteSauce() as sauce"><strong>{{ sauce.sauceName }}</strong> — {{ sauce.salesCount }} sales</p>
 
         <ng-template #loadingOrEmpty>
           <p>No favourite sauce found or still loading...</p>
@@ -180,7 +168,7 @@
 
         <div *ngIf="!isLoading() && !error()">
           <h2>Clients order info</h2>
-          <p><strong>Overall client number:</strong> {{ totalCustomers() }}</p>
+          <h4><strong>Overall client number:</strong> {{ totalCustomers() }}</h4>
 
           <table class="table">
             <thead>
