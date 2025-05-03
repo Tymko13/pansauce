@@ -2,8 +2,17 @@
 @use 'assets/themes/dark' as dark-theme;
 @use 'assets/themes/light' as light-theme;
 
-html {
+.light-mode {
   color-scheme: light;
+  @include mat.theme((
+    color: light-theme.$primary-palette,
+    typography: Nunito,
+    density: 0,
+  ));
+}
+
+.dark-mode {
+  color-scheme: dark;
   @include mat.theme((
     color: dark-theme.$primary-palette,
     typography: Nunito,
@@ -20,11 +29,22 @@ html {
 }
 
 :root {
-    --primary-color: #f9f3f3;
-    --secondary-color: #f8ebe6;
-    --text-color: #000000;
     --accent-color: #ff705d;
-    --white-color: #faf8f8;
+
+    --primary-light-color: #f8ebe6;
+    --secondary-light-color: #b68d7d;
+    --text-light-color: #5f473d;
+    --white-light-color: #faf8f8;
+
+    --primary-dark-color: #24272B;
+    --secondary-dark-color: #878d93;
+    --text-dark-color: #FFFFFF;
+    --white-dark-color: #6a5454;
+
+    --primary-color: var(--primary-dark-color);
+    --secondary-color: var(--secondary-dark-color);
+    --text-color: var(--text-dark-color);
+    --white-color: var(--white-dark-color);
 }
 
 body {
@@ -33,6 +53,10 @@ body {
 }
 
 ::selection {
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(128, 128,128,0.2);
   color: var(--accent-color);
+}
+
+.cdk-overlay-container {
+  z-index: 500;
 }

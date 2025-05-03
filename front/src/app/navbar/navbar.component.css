@@ -1,7 +1,16 @@
-p {
+#hello {
+  font-weight: bold;
+  font-size: 12px;
+  color: var(--text-color);
+  background-color: color-mix(in srgb, var(--secondary-color) 50%, transparent) ;
+  padding: 5px 10px;
+  border-radius: 10px 0 10px 10px;
+}
+
+#placeholder {
+  color: var(--secondary-color);
   font-weight: bold;
   font-size: 2rem;
-  color: var(--secondary-color);
 }
 
 .text-btn {
@@ -56,8 +65,10 @@ header {
 }
 
 #logo {
+  padding: 0 1.5rem;
   flex: 1;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: end;
   img {
     max-height: 5em;
     cursor: pointer;

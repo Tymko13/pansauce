@@ -36,6 +36,7 @@ public interface CustomerDao extends GenericDao<Customer, String> {
     List<Customer> getCustomerWhoOrderedBatchWithNumber(String batchKey);
 
     SauceWithSalesCount getCustomerFavouriteSauceByCustomerKey(String customerKey);
+    List<OrderWithCustomerData> getOrdersBeforeDateWithCustomerKey(String customerKey, Date date);
 
     List<Customer> getCustomersWhoOrderedAllTypesOfSauce();
     List<Customer> getCustomersWhoOrderedOnlyOneTypeOfSauce();

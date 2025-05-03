@@ -139,10 +139,6 @@ public class SauceService {
         };
     }
 
-    public List<Sauce> getSaucesWithoutTypeNumberAndWithoutIngredientNumber(String ingredientNumber, String typeNumber) {
-        return sauceRepository.getSaucesWithoutIngredientAndWithoutType(ingredientNumber, typeNumber);
-    }
-
     public List<Sauce> getSauceThatContainsRecipeOfSauceWithKey(String sauceNumber) {
         return sauceRepository.getSauceThatContainsRecipeOfSauceWithKey(sauceNumber);
     }

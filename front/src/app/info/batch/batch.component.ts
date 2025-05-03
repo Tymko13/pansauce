@@ -17,7 +17,10 @@ import {ConfirmDialogComponent} from '../../confirm-dialog/confirm-dialog.compon
 import {UpdateBatchDialogComponent} from './update-batch-dialog/update-batch-dialog.component';
 import {Batch} from '../../_models/batch';
 import {AddBatchDialogComponent} from './add-batch-dialog/add-batch-dialog.component';
-
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import {AuthService} from '../../_auth/auth.service';
 
 @Component({
   selector: 'app-batch',
@@ -43,8 +46,10 @@ export class BatchComponent {
   private sauceService = inject(SauceService);
   private orderService = inject(OrderService);
   private dialog = inject(MatDialog);
+  private sanitizer = inject(DomSanitizer);
+  authService = inject(AuthService);
 
-  searchOptions = ['Order Number', 'Batch Number', 'Sauce Number', 'Sauce Name'];
+  searchOptions = ['Batch Number', 'Sauce Name', 'Sauce Number','Order Number'];
   sortOptions = ["number", "prod_date", "size", "price", "status"];
   showOptions = ["All", "SOLD", "IN STOCK"];
   displayedColumns = [
@@ -59,6 +64,12 @@ export class BatchComponent {
     'cost',
     'action'
   ];
+
+  constructor() {
+    if(this.authService.isSalesManager())
+      this.displayedColumns = this.displayedColumns.slice(0, this.displayedColumns.length - 1);
+    console.log(this.batches());
+  }
 
   searchTerm = signal('');
   selectedSort = signal<string>(this.sortOptions[0]);
@@ -135,6 +146,70 @@ export class BatchComponent {
         }
         this.batchService.addBatch(newBatch).subscribe(()=>{this.updateDB();});
       }
+    });
+  }
+
+  pdfUrl: SafeResourceUrl | null = null;
+  print() {
+    const doc = new jsPDF({
+      orientation: "landscape",
+      format: "a4"
+    });
+
+    this.batches().subscribe(batches => {
+      const rows = batches.map(batch => [
+        batch.number,
+        batch.orderNumber ?? '-',
+        batch.status,
+        new Date(batch.productionDate).toLocaleDateString(),
+        new Date(batch.expirationDate).toLocaleDateString(),
+        batch.quantity.toString(),
+        batch.sauceName + '\n' + batch.sauceNumber,
+        '$' + batch.sauceCost.toFixed(2),
+        '$' + batch.cost.toFixed(2)
+      ]);
+
+      const headers = [
+        'Batch #',
+        'Order #',
+        'Status',
+        'Prod Date',
+        'Exp Date',
+        'Size',
+        'Sauce',
+        'Sauce Cost',
+        'Total Cost'
+      ];
+
+      doc.text(new Date().toLocaleDateString(), doc.internal.pageSize.width - 40, 15);
+      doc.setFontSize(24);
+      doc.text("PAN SAUCE", 10, 15);
+      doc.text("Batches report", 10, 25);
+
+      autoTable(doc, {
+        head: [headers],
+        body: rows,
+        styles: {valign: "middle"},
+        theme: "striped",
+        startY: 35,
+        didDrawPage: function (data) {
+          const pageNumber = doc.getCurrentPageInfo().pageNumber;
+          doc.setFontSize(12);
+          doc.text(
+            `Page ${pageNumber}`,
+            doc.internal.pageSize.width - 20,
+            doc.internal.pageSize.height - 5
+          );
+        },
+      });
+      const blob = doc.output('blob');
+      const url = URL.createObjectURL(blob);
+      this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      setTimeout(() => {
+        const iframe = document.querySelector('iframe');
+        iframe?.contentWindow?.focus();
+        iframe?.contentWindow?.print();
+      }, 10);
     });
   }
 }

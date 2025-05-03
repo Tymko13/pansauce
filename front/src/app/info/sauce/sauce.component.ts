@@ -1,4 +1,4 @@
-import {Component, inject, signal, computed, WritableSignal} from '@angular/core';
+import {Component, inject, signal, computed} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
@@ -10,7 +10,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
 import {SauceService} from '../../_services/sauce.service';
-import {SauceIngredientService} from '../../_services/sauce-ingredient.service';
 import {TypeService} from '../../_services/type.service';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../confirm-dialog/confirm-dialog.component';
@@ -20,9 +19,12 @@ import {SauceWithRecipe} from '../../_models/sauce-with-recipe';
 import {AddSauceDialogComponent} from './add-sauce-dialog/add-sauce-dialog.component';
 import {BatchService} from '../../_services/batch.service';
 import {Sauce} from '../../_models/sauce';
-import {Ingredient} from '../../_models/ingredient';
 import {Type} from '../../_models/type';
 import {IngredientService} from '../../_services/ingredient.service';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import {AuthService} from '../../_auth/auth.service';
 
 @Component({
   selector: 'app-sauce',
@@ -46,32 +48,27 @@ import {IngredientService} from '../../_services/ingredient.service';
 export class SauceComponent {
   private sauceService = inject(SauceService);
   private batchService = inject(BatchService);
-  private sauceIngredientService = inject(SauceIngredientService);
-  private ingredientService = inject(IngredientService);
   private typeService = inject(TypeService);
-
   private dialog = inject(MatDialog);
+  private sanitizer = inject(DomSanitizer);
+  authService = inject(AuthService);
   saucesInBatches = signal<string[]>([]);
-  allSauces = signal<Sauce[]>([]);
-  allTypes = signal<Type[]>([]);
-  allIngredients = signal<Ingredient[]>([]);
+  allRecipes = signal<SauceWithRecipe[]>([]);
 
   constructor() {
-    this.batchService.getAllBatchesSortedBy().subscribe(data => {
-      this.saucesInBatches.set(data.flatMap(it => it.sauceNumber));
-    });
+    if(this.authService.isTopManager()){
+      this.batchService.getAllBatchesSortedBy().subscribe(data => {
+        this.saucesInBatches.set(data.flatMap(it => it.sauceNumber));
+      });
+    } else {
+      this.displayedColumns = this.displayedColumns.slice(0, this.displayedColumns.length - 1)
+    }
     this.updateAllInfo();
   }
 
   updateAllInfo() {
-    this.sauceService.findAllSauce("name").subscribe(data => {
-      this.allSauces.set(data);
-    });
-    this.typeService.getAllTypes().subscribe(data => {
-      this.allTypes.set(data);
-    });
-    this.ingredientService.getAllIngredients().subscribe(data => {
-      this.allIngredients.set(data);
+    this.sauceService.getAllSauceWithRecipe("name").subscribe(data => {
+      this.allRecipes.set(data);
     });
   }
 
@@ -81,7 +78,7 @@ export class SauceComponent {
 
   searchOptions = ['Sauce Name', 'Sauce Number', 'Type Name', 'Type Number'];
   sortOptions = ["name", "number", "type", "price"];
-  showOptions = ["All", "SAME RECIPE AS", "WITHOUT"];
+  showOptions = ["All", "SAME RECIPE AS"];
   displayedColumns = [
     'number',
     'name',
@@ -98,8 +95,6 @@ export class SauceComponent {
   selectedShow = signal<string>(this.showOptions[0]);
   selectedSearch = signal<string>(this.searchOptions[0]);
   selectedSauce = signal<Sauce | null>(null);
-  selectedType = signal<Type | null>(null);
-  selectedIngredient = signal<Ingredient | null>(null);
 
   dbUpdated = signal(0);
   sauces = computed(() => {
@@ -111,10 +106,6 @@ export class SauceComponent {
       case 'SAME RECIPE AS':
         if (this.selectedSauce() !== null)
           return this.sauceService.getSaucesWithAlikeRecipe(this.selectedSauce()!.number);
-        else break;
-      case 'WITHOUT':
-        if (this.selectedType() !== null && this.selectedIngredient() !== null)
-          return this.sauceService.getSaucesWithoutTypeAndIngredient(this.selectedType()!.typeNumber, this.selectedIngredient()!.gti);
         else break;
       case 'All':
         if (term) switch (this.selectedSearch()) {
@@ -151,13 +142,9 @@ export class SauceComponent {
   }
 
   seeRecipe(number: string) {
-    this.sauceIngredientService.getSauceIngredientsByKey(number).subscribe(recipe => {
-      if (recipe) {
-        this.dialog.open(SeeRecipeDialogComponent, {
-          data: {recipe: recipe}
-        })
-      }
-    });
+    this.dialog.open(SeeRecipeDialogComponent, {
+      data: {recipe: this.allRecipes().filter(sauce => sauce.number === number)[0].recipe}
+    })
   }
 
   update(number: string) {
@@ -204,5 +191,72 @@ export class SauceComponent {
     });
   }
 
-  protected readonly name = name;
+  getRecipe(number: string): string {
+    let res= "";
+    for(const ingr of this.allRecipes().filter(sauce => sauce.number === number)[0].recipe) {
+      res += `${ingr.name} - ${ingr.weight} g\n`
+    }
+    return res.substring(0, res.length - 1);
+  }
+
+  pdfUrl: SafeResourceUrl | null = null;
+  print() {
+    const doc = new jsPDF({
+      orientation: "landscape",
+      format: "a4"
+    });
+
+    this.sauces().subscribe(sauces => {
+      const rows = sauces.map(sauce => [
+        sauce.number,
+        sauce.name,
+        sauce.typeName + '\n' + sauce.typeNumber,
+        sauce.weight.toString() + ' g',
+        sauce.shelfLife.toString() + ' d',
+        '$' + sauce.cost.toFixed(2),
+        this.getRecipe(sauce.number)
+      ]);
+
+      const headers = [
+        'Sauce #',
+        'Name',
+        'Type',
+        'Weight',
+        'Shelf Life',
+        'Cost',
+        'Recipe'
+      ];
+
+      doc.text(new Date().toLocaleDateString(), doc.internal.pageSize.width - 40, 15);
+      doc.setFontSize(24);
+      doc.text("PAN SAUCE", 10, 15);
+      doc.text("Sauces report", 10, 25);
+
+      autoTable(doc, {
+        head: [headers],
+        body: rows,
+        styles: {valign: "top"},
+        theme: "striped",
+        rowPageBreak: "avoid",
+        startY: 35,
+        didDrawPage: function (data) {
+          const pageNumber = doc.getCurrentPageInfo().pageNumber;
+          doc.setFontSize(12);
+          doc.text(
+            `Page ${pageNumber}`,
+            doc.internal.pageSize.width - 20,
+            doc.internal.pageSize.height - 5
+          );
+        },
+      });
+      const blob = doc.output('blob');
+      const url = URL.createObjectURL(blob);
+      this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      setTimeout(() => {
+        const iframe = document.querySelector('iframe');
+        iframe?.contentWindow?.focus();
+        iframe?.contentWindow?.print();
+      }, 10);
+    });
+  }
 }

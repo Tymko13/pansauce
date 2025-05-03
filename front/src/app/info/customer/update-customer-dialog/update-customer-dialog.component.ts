@@ -47,15 +47,13 @@ import {Customer} from '../../../_models/customer';
   ],
   styles: `
     .name {width: 30%; margin-right: 3%;}
-    .phones, .address { width: 100%;}
+    .phones, .address { width: 96%;}
   `
 })
 export class UpdateCustomerDialogComponent {
   private fb = inject(FormBuilder);
   private customerService = inject(CustomerService);
   private phoneService = inject(PhoneService);
-  private iconRegistry = inject(MatIconRegistry);
-  private sanitizer = inject(DomSanitizer);
   private snackBar = inject(MatSnackBar);
 
   customer: WritableSignal<Partial<Customer>> = signal({});
@@ -69,8 +67,6 @@ export class UpdateCustomerDialogComponent {
       this.customer.set(data);
       this.phones.set(data.phones);
     });
-    this.iconRegistry.addSvgIcon('cancel',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/icons/cancel.svg'));
   }
 
   form = computed(() => this.fb.group({

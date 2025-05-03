@@ -165,6 +165,7 @@ public class ModelRowMapper {
                 customer.setPatronymic(rs.getString("customer_patronymic"));
                 customer.setAddress(rs.getString("customer_address"));
                 customer.setOrders(new ArrayList<>());
+                customer.setPhones(new ArrayList<>());
                 ordersMap.put(sauceNumber, customer);
             }
             String orderNumber = rs.getString("order_number");
@@ -177,7 +178,12 @@ public class ModelRowMapper {
                 order.setTotalCost(rs.getBigDecimal("total_order_cost"));
                 order.setExpectedDate(rs.getDate("expected_date"));
                 order.setRealDate(rs.getDate("real_date"));
-                customer.getOrders().add(order);
+                if (!customer.getOrders().contains(order))
+                    customer.getOrders().add(order);
+            }
+            String phoneNumber = rs.getString("contact_number");
+            if (phoneNumber != null) {
+                customer.getPhones().add(phoneNumber);
             }
         }
         return new ArrayList<>(ordersMap.values());

@@ -2,14 +2,14 @@
 
 <form [formGroup]="form()" (ngSubmit)="submit()">
   <mat-dialog-content>
+    <mat-form-field class="name"  appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="surname" />
+    </mat-form-field>
+
     <mat-form-field class="name" appearance="outline">
       <mat-label>First Name</mat-label>
       <input matInput formControlName="name" />
-    </mat-form-field>
-
-    <mat-form-field class="name"  appearance="outline">
-        <mat-label>Last Name</mat-label>
-        <input matInput formControlName="surname" />
     </mat-form-field>
 
     <mat-form-field class="name"  appearance="outline">

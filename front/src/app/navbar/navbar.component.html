@@ -1,18 +1,25 @@
 <header>
   <span id="logo">
-    <img routerLink="/" *ngIf="DarkLightBtnComponent.lightMode" src="/assets/logo/black.png" alt="Pan Sauce logo">
-    <img routerLink="/" *ngIf="!DarkLightBtnComponent.lightMode" src="/assets/logo/white.png" alt="Pan Sauce logo">
+    <p *ngIf="authService.isLoggedIn()" id="hello">
+      Hello,
+      <br>
+      {{(authService.getUserRole()! | titlecase).replace("_", " ")}} {{authService.getUserName()! | titlecase}}!
+    </p>
+    <img routerLink="/" *ngIf="themeService.lightMode()" src="/assets/logo/black.png" alt="Pan Sauce logo">
+    <img routerLink="/" *ngIf="!themeService.lightMode()" src="/assets/logo/white.png" alt="Pan Sauce logo">
   </span>
   <span id="navigation">
     <ng-container *ngIf="authService.isLoggedIn(); else Blank">
-      <button *ngFor="let page of pages"
-              class="text-btn"
-              [routerLink] = page
-              routerLinkActive="active">
+      <ng-container *ngFor="let page of pages; let i = index">
+         <button *ngIf="[2, 3, 4, 5].includes(i) || authService.isTopManager()"
+           class="text-btn"
+           [routerLink] = page
+           routerLinkActive="active">
         {{ page | titlecase }}
       </button>
+      </ng-container>
     </ng-container>
-    <ng-template #Blank><p>PAN SAUCE. Bringing back that taste of your youth~</p>></ng-template>
+    <ng-template #Blank><p id="placeholder">PAN SAUCE. Bringing back that taste of your youth~</p></ng-template>
   </span>
   <span id="settings">
     <app-dark-light-btn/>

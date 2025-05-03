@@ -18,7 +18,7 @@ import {CustomerService} from '../../../_services/customer.service';
 import {BatchService} from '../../../_services/batch.service';
 import {Customer} from '../../../_models/customer';
 import {Batch} from '../../../_models/batch';
-import {DateValidator} from '../../../_validators/date.validator';
+import {DatesValidator} from '../../../_validators/date.validator';
 
 
 @Component({
@@ -66,7 +66,7 @@ export class AddOrderDialogComponent {
     deliveryCost: [null, Validators.min(0.01)],
     customerNumber: [null, Validators.required],
     batchKeys: [null, Validators.required]
-  }, {validators: DateValidator('registrationDate', 'expectedDate')});
+  }, {validators: DatesValidator('registrationDate', 'expectedDate')});
 
   submit() {
     if (this.form.valid) {

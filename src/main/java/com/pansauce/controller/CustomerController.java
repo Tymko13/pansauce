@@ -102,9 +102,17 @@ public class CustomerController {
         return customerService.getCustomersWhoOrderedOnlyOneTypeOfSauce();
     }
 
-    @GetMapping(value = "customer/orders/data")
+    @GetMapping(value = "/customer/orders/data")
     public List<CustomerOrderData> getCustomersOrderData() {
         return customerService.getCustomersOrderData();
+    }
+
+    @GetMapping(value = "/customer/{key}/order", params = {"before"})
+    public List<OrderWithCustomerData> getCustomersOrdersByBeforeDate(
+            @RequestParam("before") @DateTimeFormat(pattern = "yyyy-MM-dd") Date before,
+            @PathVariable("key") String customerKey
+    ) {
+        return customerService.getCustomerOrdersBeforeDateWithCustomerKey(customerKey, before);
     }
 
     @GetMapping("/customer")

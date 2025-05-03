@@ -22,6 +22,7 @@ import {AddRecipeDialogComponent} from '../add-recipe-dialog/add-recipe-dialog.c
 import {Sauce} from '../../../_models/sauce';
 import {SauceService} from '../../../_services/sauce.service';
 import {MatIconModule} from '@angular/material/icon';
+import {isUniqueTypeValidator} from '../../../_validators/date.validator';
 
 @Component({
   standalone: true,
@@ -84,7 +85,7 @@ export class AddSauceDialogComponent {
   toggleType() {
     this.isNewType = !this.isNewType;
     if(this.isNewType){
-      this.form.get("typeName")?.addValidators([Validators.required]);
+      this.form.get("typeName")?.addValidators([Validators.required, isUniqueTypeValidator(this.types)]);
       this.form.get("typeNumber")?.clearValidators();
       this.form.get("typeNumber")?.setValue(null);
       this.form.get("typeName")?.updateValueAndValidity();
