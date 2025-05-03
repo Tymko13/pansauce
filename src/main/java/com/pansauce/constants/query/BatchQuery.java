@@ -84,15 +84,15 @@ public class BatchQuery {
 
     public static final String GET_TOTAL_INCOME_FROM_SOLD_BATCHES_BETWEEN_DATES =
             "SELECT SUM(batch_cost) AS total_income\n" +
-            "FROM batch AS b INNER JOIN order AS  o on o.order_number = b.order_number\n" +
+            "FROM batch AS b INNER JOIN order AS o on o.order_number = b.order_number\n" +
             "WHERE batch_status = 'SOLD'\n" +
-            "AND real_date BETWEEN ? AND ?\n";
+            "AND registration_date BETWEEN ? AND ?\n";
 
     public static final String GET_TOTAL_AMOUNT_OF_SOLD_BATCHES_BETWEEN_DATES =
             "SELECT COUNT(batch_number) AS total_amount\n" +
             "FROM batch AS b INNER JOIN order AS  o on o.order_number = b.order_number\n" +
             "WHERE batch_status = 'SOLD'\n" +
-            "AND real_date BETWEEN ? AND ?\n";
+            "AND registration_date BETWEEN ? AND ?\n";
 
     public static final String GET_AMOUNT_OF_SOLD_BATCHES_BETWEEN_DATES_BY_SAUCE_KEY =
             "SELECT COUNT(batch_number) as total_amount\n" +
@@ -100,7 +100,7 @@ public class BatchQuery {
             "INNER JOIN sauce AS s ON s.sauce_number = b.sauce_number\n" +
             "WHERE batch_status = 'SOLD'\n" +
             "AND sauce_name LIKE ? \n" +
-            "AND real_date BETWEEN ? AND ?\n";
+            "AND registration_date BETWEEN ? AND ?\n";
 
     public static final String GET_INCOME_FROM_SOLD_BATCHES_BETWEEN_DATES_BY_SAUCE_KEY =
             "SELECT SUM(batch_cost) AS total_income\n" +
@@ -108,7 +108,7 @@ public class BatchQuery {
             "INNER JOIN sauce AS s ON s.sauce_number = b.sauce_number\n" +
             "WHERE batch_status = 'SOLD'\n" +
             "AND sauce_name LIKE ? \n" +
-            "AND real_date BETWEEN ? AND ?\n";
+            "AND registration_date BETWEEN ? AND ?\n";
 
     public static final String GET_AMOUNT_OF_SOLD_BATCHES_BETWEEN_DATES_BY_TYPE_KEY =
             "SELECT COUNT(batch_number) as total_amount\n" +
@@ -117,7 +117,7 @@ public class BatchQuery {
             "INNER JOIN type AS t ON t.type_number = s.type_number\n" +
             "WHERE batch_status = 'SOLD'\n" +
             "AND type_name LIKE ?\n" +
-            "AND real_date BETWEEN ? and ?\n";
+            "AND registration_date BETWEEN ? and ?\n";
 
     public static final String GET_INCOME_FROM_SOLD_BATCHES_BETWEEN_DATES_BY_TYPE_KEY =
             "SELECT SUM(batch_cost) AS total_income\n" +
@@ -126,7 +126,7 @@ public class BatchQuery {
             "INNER JOIN type AS t ON t.type_number = s.type_number\n" +
             "WHERE batch_status = 'SOLD'\n" +
             "AND type_name LIKE ?\n" +
-            "AND real_date BETWEEN ? and ?\n";
+            "AND registration_date BETWEEN ? and ?\n";
 
     public static final String UPDATE_BATCH_BY_KEY =
             "UPDATE batch\n" +
