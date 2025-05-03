@@ -118,6 +118,7 @@
       <!--    <button (click)="clearSalesStatsResults()">Clear</button>-->
 
       <p>Sold batches: {{ soldAmount()?.totalAmount || 0 }}</p>
+
     </section>
 
     <section id="income-period" class="section">
@@ -133,10 +134,23 @@
 
     <section id="by-sauce-code" class="section">
       <h2>Number/Income by sauce code</h2>
-      <input type="text" [(ngModel)]="selectedSauceKey" placeholder="Sauce code">
-<!--
-      <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">
--->
+<!--      <input type="text" [(ngModel)]="selectedSauceKey" placeholder="Sauce code">-->
+
+<!--      <select id="sauceName" [(ngModel)]="selectedSauceName">-->
+<!--        <option *ngFor="let sauce of sauces()" [value]="sauce.name">-->
+<!--          {{ sauce.number }} — {{ sauce.name }}-->
+<!--        </option>-->
+<!--      </select>-->
+      <select id="sauceKey" [(ngModel)]="selectedSauceKey">
+        <option *ngFor="let sauce of sauces()" [value]="sauce.name">
+          {{ sauce.number }} — {{ sauce.name }}
+        </option>
+      </select>
+
+
+      <!--
+            <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">
+      -->
 <!--      <select [(ngModel)]="selectedType">-->
 <!--        <option value="" disabled selected>Оберіть тип соусу</option>-->
 <!--        <option *ngFor="let type of sauceTypes()" [value]="type">{{ type }}</option>-->

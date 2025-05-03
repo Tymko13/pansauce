@@ -62,6 +62,12 @@ export class AnalyticsComponent {
 
   message = signal<string | null>(null);
 
+  sauces = signal<any[]>([]);
+  selectedSauceKeyToLoad: string = '';
+  selectedSauceName: string = '';
+
+
+
   constructor(
     private batchService: BatchService,
     private sauceService: SauceService,
@@ -74,12 +80,27 @@ export class AnalyticsComponent {
    this.loadSaucesBySales();
    this.loadPopularRecipes();
    this.loadCustomerDataFav();
+   this.loadSauceData();
   }
 
   ngOnInit(): void {
     this.sauceService.getAllSauceTypes().subscribe({
       next: (types) => this.sauceTypes.set(types),
       error: (err) => console.error('Error:', err)
+    });
+  }
+
+  // loadAllSauces(): void {
+  //   this.sauceService.getAllSauces().subscribe({
+  //     next: sauces => this.sauces.set(sauces),
+  //     error: err => console.error('Failed to load sauces:', err)
+  //   });
+  // }
+
+  loadSauceData() {
+    this.sauceService.findAllSauce("number").subscribe({
+      next: sauces => this.sauces.set(sauces),
+      error: err => console.error('Failed to load sauces:', err)
     });
   }
 
@@ -175,6 +196,7 @@ export class AnalyticsComponent {
   }
 
   loadSoldAmountByType(): void {
+    console.log("works")
     const range = this.getDateRange();
     if (range && this.selectedType) {
       this.batchService.getAmountByTypeKey(range.from, range.to, this.selectedType).subscribe({
@@ -265,7 +287,6 @@ export class AnalyticsComponent {
       error: err => console.error('Failed to load customers:', err)
     });
   }
-
 
   totalCustomers = computed(() => this.customerOrders().length);
 
