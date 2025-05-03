@@ -20,5 +20,6 @@ export const routes: Routes = [
   {path: "customers", component: CustomerComponent, canActivate: [AuthGuard]},
   {path: "analytics", component: AnalyticsComponent, canActivate: [AuthGuard]},
   {path: "", component: HomeComponent},
-  {path: "**", redirectTo: ""}
+  {path: "**", redirectTo: ""},
+  { path: 'customer/:key', component: AnalyticsComponent }
 ];

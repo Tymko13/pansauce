@@ -1,73 +1,108 @@
 <div class="analytics-container-large">
+<div style="display: flex; gap: 2rem;">
+<!--    &lt;!&ndash; Navigation Sidebar &ndash;&gt;-->
+<!--    <nav style="width: 250px; position: sticky; top: 0; height: 100vh; padding: 1rem; background: #f9f9f9; border-right: 1px solid #ccc;">-->
+<!--      <h3>Navigation</h3>-->
+<!--      <ul style="list-style: none; padding: 0;">-->
+<!--        <li><a href="#popularity-income">Sauce Popularity by Income</a></li>-->
+<!--        <li><a href="#popularity-sales">Sauce Popularity by Sales</a></li>-->
+<!--        <li><a href="#recipes">Recipes of the Most Popular Sauces</a></li>-->
+<!--        <li><a href="#sales-by-type">Sales Statistics by Sauce Type</a></li>-->
+<!--        <li><a href="#income-period">Overall Income in Period</a></li>-->
+<!--        <li><a href="#by-sauce-code">Number/Income by Sauce Code</a></li>-->
+<!--        <li><a href="#by-sauce-type">Number/Income by Sauce Type</a></li>-->
+<!--        <li><a href="#favourite-sauce">Customer's Favourite Sauce</a></li>-->
+<!--        <li><a href="#clients">Client List & Orders</a></li>-->
+<!--      </ul>-->
+<!--    </nav>-->
 
   <div class="analytics-container">
     <h1>Analytics Dashboard</h1>
 
-    <section class="section">
+    <section id="popularity-income" class="section">
       <h2>Sauce Popularity by Income</h2>
-      <select [(ngModel)]="popularityType">
-        <option value="top">The most popular</option>
-        <option value="last">The least popular</option>
-      </select>
-      <button (click)="loadPopularSauces()">Get sauces</button>
-<!--
-      <button (click)="loadPopularSaucesBySales()">Get sauces by sales count</button>
--->
 
-      <button class="clear" (click)="clearPopularityResults()">Clear</button>
-
-
-      <ul>
-        <li *ngFor="let sauce of saucesByIncome()">{{ sauce.sauceName }} — {{ sauce.sauceIncome || 0 }} грн</li>
-      </ul>
-<!--      <ul>-->
-<!--        <li *ngFor="let sauce of saucesBySales()">{{ sauce.sauceName }} — {{ sauce.salesCount || 0 }} продажів</li>-->
-<!--      </ul>-->
-    </section>
-
-    <section class="section">
-      <h2>Sauce Popularity by Sales</h2>
-      <select [(ngModel)]="popularityType">
-        <option value="top">The most popular</option>
-        <option value="last">The least popular</option>
-      </select>
-<!--
-      <button (click)="loadPopularSauces()">Get sauces by income</button>
--->
-      <button (click)="loadPopularSaucesBySales()">Get sauces</button>
-
-      <button class="clear" (click)="clearPopularityResults1()">Clear</button>
-
-
-<!--      <ul>-->
-<!--        <li *ngFor="let sauce of saucesByIncome()">{{ sauce.sauceName }} — {{ sauce.sauceIncome || 0 }} грн</li>-->
-<!--      </ul>-->
-      <ul>
-        <li *ngFor="let sauce of saucesBySales()">{{ sauce.sauceName }} — {{ sauce.salesCount || 0 }} продажів</li>
-      </ul>
-    </section>
-
-    <section class="section">
-      <h2>Recipes of the most popular sauces</h2>
-      <button (click)="loadPopularRecipes(true)">Get recipes by income</button>
-      <button (click)="loadPopularRecipes(false)">Get recipes by sales count</button>
-
-      <button class="clear" (click)="clearRecipesResults()">Clear</button>
-
-      <ul>
-        <li *ngFor="let sauce of saucesRecipes()">
-          <strong>{{ sauce.name }}</strong>
+      <div style="display: flex; gap: 25rem;">
+        <div>
+          <h4>The most popular sauces</h4>
           <ul>
-            <li *ngFor="let ingredient of sauce.recipe">
-              {{ ingredient.name }} — {{ ingredient.weight }} г
+            <li *ngFor="let sauce of topSaucesSorted()">
+              {{ sauce.sauceName }} — {{ sauce.sauceIncome || 0 }} $
             </li>
           </ul>
-        </li>
-      </ul>
+        </div>
 
+        <div>
+          <h4>The least popular sauces</h4>
+          <ul>
+            <li *ngFor="let sauce of leastSaucesSorted()">
+              {{ sauce.sauceName }} — {{ sauce.sauceIncome || 0 }} $
+            </li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <section class="section">
+    <section id="popularity-sales" class="section">
+      <h2>Sauce Popularity by Sales</h2>
+
+      <div style="display: flex; gap: 25rem;">
+        <div>
+          <h4>The most popular sauces</h4>
+          <ul>
+            <li *ngFor="let sauce of topSalesSorted()">
+              {{ sauce.sauceName }} — {{ sauce.salesCount || 0 }} sales
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>The least popular sauces</h4>
+          <ul>
+            <li *ngFor="let sauce of leastSalesSorted()">
+              {{ sauce.sauceName }} — {{ sauce.salesCount || 0 }} sales
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="recipes" class="section">
+      <h2>Recipes of the most popular sauces</h2>
+
+      <div style="display: flex; gap: 25rem;">
+        <div>
+          <h4>By income</h4>
+          <ul>
+            <li *ngFor="let sauce of recipesByIncome()">
+              <strong>{{ sauce.name }}</strong>
+              <ul>
+                <li *ngFor="let ingredient of sauce.recipe">
+                  {{ ingredient.name }} — {{ ingredient.weight }} г
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>By sales count</h4>
+          <ul>
+            <li *ngFor="let sauce of recipesBySales()">
+              <strong>{{ sauce.name }}</strong>
+              <ul>
+                <li *ngFor="let ingredient of sauce.recipe">
+                  {{ ingredient.name }} — {{ ingredient.weight }} г
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="sales-by-type" class="section">
       <h2>Sales statistics by sauce type</h2>
 <!--      <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">-->
 
@@ -85,7 +120,7 @@
       <p>Sold batches: {{ soldAmount()?.totalAmount || 0 }}</p>
     </section>
 
-    <section class="section">
+    <section id="income-period" class="section">
       <h2>Overall income in period</h2>
       <label>From: <input type="date" [(ngModel)]="fromDate"></label>
       <label>To: <input type="date" [(ngModel)]="toDate"></label>
@@ -96,7 +131,7 @@
       <p>Income: {{ totalIncome()?.income || 0 }} $</p>
     </section>
 
-    <section class="section">
+    <section id="by-sauce-code" class="section">
       <h2>Number/Income by sauce code</h2>
       <input type="text" [(ngModel)]="selectedSauceKey" placeholder="Sauce code">
 <!--
@@ -126,7 +161,7 @@
 
     </section>
 
-    <section class="section">
+    <section id="by-sauce-type" class="section">
       <h2>Number/Income by sauce type</h2>
 <!--      <input type="text" [(ngModel)]="selectedSauceKey" placeholder="Sauce code">-->
       <!--
@@ -151,7 +186,24 @@
       <p>Income: {{ queryIncomeT()?.income || 0 }} $</p>
     </section>
 
-    <section class="section">
+
+    <section id="favourite-sauce" class="section">
+      <h2>Customer's Favourite Sauce</h2>
+
+      <label for="customerKey">Enter Customer Key</label>
+      <input id="customerKey" [(ngModel)]="customerKey" placeholder="Enter customer key">
+      <button (click)="loadFavouriteSauce(customerKey)">Load Favourite Sauce</button>
+
+      <div *ngIf="favouriteSauce() as sauce; else loadingOrEmpty">
+        <p><strong>{{ sauce.sauceName }}</strong> — {{ sauce.salesCount }} sales</p>
+      </div>
+
+      <ng-template #loadingOrEmpty>
+        <p>No favourite sauce found or still loading...</p>
+      </ng-template>
+    </section>
+
+    <section id="clients" class="section">
       <div *ngIf="isLoading()">Loading...</div>
 
       <div *ngIf="error()" class="error">{{ error() }}</div>
@@ -180,7 +232,9 @@
       </div>
     </section>
 
+
   </div>
 </div>
 
 
+</div>

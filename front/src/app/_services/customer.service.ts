@@ -58,6 +58,10 @@ export class CustomerService {
   //     );
   // }
 
+  getCustomerFavouriteSauce(key: string): Observable<SauceWithSalesCount> {
+    return this.http.get<SauceWithSalesCount>(`http://localhost:8080/customer/${key}/favourite_sauce`);
+  }
+
   getCustomersWithOrdersBetweenDates(from: Date, to: Date): Observable<Customer[]> {
     const params = new HttpParams()
       .set('from', from.toISOString().split('T')[0])

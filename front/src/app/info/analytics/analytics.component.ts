@@ -10,6 +10,7 @@ import { BatchService } from '../../_services/batch.service';
 import { SauceService } from '../../_services/sauce.service';
 import {CustomerService} from '../../_services/customer.service';
 import {CustomerOrderData} from '../../_models/customer-order-data';
+import {TypeService} from '../../_services/type.service';
 
 @Component({
   selector: 'app-analytics',
@@ -32,7 +33,15 @@ export class AnalyticsComponent {
   isLoading = signal(true);
   error = signal<string | null>(null);
 
-  readonly sauceTypes = signal<string[]>([]);
+  sauceTypes = signal<any[]>([]);
+
+  topSauces = signal<any[]>([]);
+  leastSauces = signal<any[]>([]);
+  topSales = signal<any[]>([]);
+  leastSales = signal<any[]>([]);
+
+  recipesByIncome = signal<any[]>([]);
+  recipesBySales = signal<any[]>([]);
 
   selectedType = '';
   selectedSauceKey = '';
@@ -47,22 +56,38 @@ export class AnalyticsComponent {
   queryAmountT = signal<TotalAmount | null>(null);
   queryIncomeT = signal<TotalIncome | null>(null);
 
+  favouriteSauce = signal<SauceWithSalesCount | null>(null);
+  customerKey: string = '';
+
   message = signal<string | null>(null);
 
   constructor(
     private batchService: BatchService,
     private sauceService: SauceService,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private typeService: TypeService
    // private customerOrderData: CustomerOrderData
   ) {
    this.loadCustomerData();
+   this.loadSaucesByIncome();
+   this.loadSaucesBySales();
+   this.loadPopularRecipes();
   }
 
   ngOnInit(): void {
     this.sauceService.getAllSauceTypes().subscribe({
       next: (types) => this.sauceTypes.set(types),
-      error: (err) => console.error('Помилка завантаження типів:', err)
+      error: (err) => console.error('Error:', err)
     });
+  }
+
+  loadFavouriteSauce(key: string): void {
+    if (key) {
+      this.customerService.getCustomerFavouriteSauce(key).subscribe({
+        next: sauce => this.favouriteSauce.set(sauce),
+        error: err => console.error('Failed to load favourite sauce:', err)
+      });
+    }
   }
 
   private getDateRange(): { from: Date; to: Date } | null {
@@ -72,28 +97,78 @@ export class AnalyticsComponent {
     return null;
   }
 
-  loadPopularSauces(): void {
-    this.sauceService.getTopSaucesWithIncome(this.popularityType).subscribe({
-      next: data => this.saucesByIncome.set(data),
-      error: err => console.error('Failed to load popular sauces by income', err)
+  // loadPopularSauces(): void {
+  //   this.sauceService.getTopSaucesWithIncome(this.popularityType).subscribe({
+  //     next: data => this.saucesByIncome.set(data),
+  //     error: err => console.error('Failed to load popular sauces by income', err)
+  //   });
+  // }
+  loadSaucesByIncome(): void {
+    this.sauceService.getTopSaucesWithIncome('top').subscribe({
+      next: data => this.topSauces.set(data),
+      error: err => console.error('Failed to load top sauces by income', err)
+    });
+
+    this.sauceService.getTopSaucesWithIncome('last').subscribe({
+      next: data => this.leastSauces.set(data),
+      error: err => console.error('Failed to load least popular sauces by income', err)
+    });
+  }
+  topSaucesSorted = computed(() =>
+    [...this.topSauces()].sort((a, b) => b.sauceIncome - a.sauceIncome)
+  );
+
+  leastSaucesSorted = computed(() =>
+    [...this.leastSauces()].sort((a, b) => a.sauceIncome - b.sauceIncome)
+  );
+
+  // loadPopularSaucesBySales(): void {
+  //   this.sauceService.getTopSaucesWithSalesCount(this.popularityType).subscribe({
+  //     next: data => this.saucesBySales.set(data),
+  //     error: err => console.error('Failed to load popular sauces by sales', err)
+  //   });
+  // }
+
+  loadSaucesBySales(): void {
+    this.sauceService.getTopSaucesWithSalesCount('top').subscribe({
+      next: data => this.topSales.set(data),
+      error: err => console.error('Failed to load top sauces by sales', err)
+    });
+
+    this.sauceService.getTopSaucesWithSalesCount('last').subscribe({
+      next: data => this.leastSales.set(data),
+      error: err => console.error('Failed to load least popular sauces by sales', err)
     });
   }
 
-  loadPopularSaucesBySales(): void {
-    this.sauceService.getTopSaucesWithSalesCount(this.popularityType).subscribe({
-      next: data => this.saucesBySales.set(data),
-      error: err => console.error('Failed to load popular sauces by sales', err)
+  topSalesSorted = computed(() =>
+    [...this.topSales()].sort((a, b) => b.salesCount - a.salesCount)
+  );
+
+  leastSalesSorted = computed(() =>
+    [...this.leastSales()].sort((a, b) => a.salesCount - b.salesCount)
+  );
+
+  // loadPopularRecipes(byIncome: boolean = true): void {
+  //   const loader = byIncome
+  //     ? this.sauceService.getTopSaucesRecipeWithIncome(this.popularityType)
+  //     : this.sauceService.getTopSaucesRecipeWithSalesCount(this.popularityType);
+  //
+  //   loader.subscribe({
+  //     next: data => this.saucesRecipes.set(data),
+  //     error: err => console.error('Failed to load popular recipes', err)
+  //   });
+  // }
+
+  loadPopularRecipes(): void {
+    this.sauceService.getTopSaucesRecipeWithIncome(this.popularityType).subscribe({
+      next: data => this.recipesByIncome.set(data),
+      error: err => console.error('Failed to load recipes by income', err)
     });
-  }
 
-  loadPopularRecipes(byIncome: boolean = true): void {
-    const loader = byIncome
-      ? this.sauceService.getTopSaucesRecipeWithIncome(this.popularityType)
-      : this.sauceService.getTopSaucesRecipeWithSalesCount(this.popularityType);
-
-    loader.subscribe({
-      next: data => this.saucesRecipes.set(data),
-      error: err => console.error('Failed to load popular recipes', err)
+    this.sauceService.getTopSaucesRecipeWithSalesCount(this.popularityType).subscribe({
+      next: data => this.recipesBySales.set(data),
+      error: err => console.error('Failed to load recipes by sales', err)
     });
   }
 
@@ -167,8 +242,6 @@ export class AnalyticsComponent {
       });
     }
   }
-
-
 
   private loadCustomerData() {
     this.customerService.getCustomersOrderData().subscribe({
