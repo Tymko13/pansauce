@@ -183,7 +183,8 @@ public class ModelRowMapper {
             }
             String phoneNumber = rs.getString("contact_number");
             if (phoneNumber != null) {
-                customer.getPhones().add(phoneNumber);
+                if (!customer.getPhones().contains(phoneNumber))
+                    customer.getPhones().add(phoneNumber);
             }
         }
         return new ArrayList<>(ordersMap.values());
@@ -206,7 +207,8 @@ public class ModelRowMapper {
             }
             String phoneNumber = rs.getString("contact_number");
             if (phoneNumber != null) {
-                customer.getPhones().add(phoneNumber);
+                if (!customer.getPhones().contains(phoneNumber))
+                    customer.getPhones().add(phoneNumber);
             }
         }
         return new ArrayList<>(customerMap.values());
@@ -235,7 +237,8 @@ public class ModelRowMapper {
             }
             String phoneNumber = rs.getString("contact_number");
             if (phoneNumber != null) {
-                order.getCustomerPhoneNumbers().add(phoneNumber);
+                if (!order.getCustomerPhoneNumbers().contains(phoneNumber))
+                    order.getCustomerPhoneNumbers().add(phoneNumber);
             }
         }
         return new ArrayList<>(orderMap.values());

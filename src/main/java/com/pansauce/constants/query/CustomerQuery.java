@@ -135,7 +135,7 @@ public class CustomerQuery {
             "ON c.customer_number = cn.customer_number;\n";
 
     public static final String GET_CUSTOMERS_WHO_HAVE_ORDERS_BETWEEN_DATES =
-            "SELECT DISTINCT\n" +
+            "SELECT \n" +
             "c.customer_number,\n" +
             "c.customer_name,\n" +
             "c.customer_surname,\n" +

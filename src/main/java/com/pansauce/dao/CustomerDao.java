@@ -26,7 +26,6 @@ public interface CustomerDao extends GenericDao<Customer, String> {
     List<Customer> getCustomerWithPhoneNumberStartingWithSortedBytSurname(String customerPhoneNumber);
 
     List<CustomerWithOrders> getCustomersAndTheirOrdersSortedByName();
-
     List<Customer> getCustomersWithOrdersBetweenDates(Date from, Date to);
 
     List<Customer> getCustomersWhoOrderedSauceWithTypeNumberSortedBySurname(String typeNumber);
