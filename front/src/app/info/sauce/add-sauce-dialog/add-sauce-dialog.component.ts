@@ -65,9 +65,7 @@ export class AddSauceDialogComponent {
       const name = group.get('name')?.value;
       const weight = group.get('weight')?.value;
       let hasDuplicates = false;
-      console.log(sauces);
       for (let sauce of sauces) {
-
         if (sauce.name === name && sauce.weight === weight) hasDuplicates = true;
       }
       return hasDuplicates ? {duplicates: true} : null;

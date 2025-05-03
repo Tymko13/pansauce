@@ -1,259 +1,207 @@
 <div class="analytics-container-large">
-<div style="display: flex; gap: 2rem;">
-<!--    &lt;!&ndash; Navigation Sidebar &ndash;&gt;-->
-<!--    <nav style="width: 250px; position: sticky; top: 0; height: 100vh; padding: 1rem; background: #f9f9f9; border-right: 1px solid #ccc;">-->
-<!--      <h3>Navigation</h3>-->
-<!--      <ul style="list-style: none; padding: 0;">-->
-<!--        <li><a href="#popularity-income">Sauce Popularity by Income</a></li>-->
-<!--        <li><a href="#popularity-sales">Sauce Popularity by Sales</a></li>-->
-<!--        <li><a href="#recipes">Recipes of the Most Popular Sauces</a></li>-->
-<!--        <li><a href="#sales-by-type">Sales Statistics by Sauce Type</a></li>-->
-<!--        <li><a href="#income-period">Overall Income in Period</a></li>-->
-<!--        <li><a href="#by-sauce-code">Number/Income by Sauce Code</a></li>-->
-<!--        <li><a href="#by-sauce-type">Number/Income by Sauce Type</a></li>-->
-<!--        <li><a href="#favourite-sauce">Customer's Favourite Sauce</a></li>-->
-<!--        <li><a href="#clients">Client List & Orders</a></li>-->
-<!--      </ul>-->
-<!--    </nav>-->
+  <div style="display: flex; gap: 2rem;">
+    <div class="analytics-container">
+      <section id="popularity-income" class="section">
+        <h2>Sauce Popularity by Income</h2>
 
-  <div class="analytics-container">
-    <h1>Analytics Dashboard</h1>
+        <div style="display: flex">
+          <div style="flex: 1">
+            <h4>The most popular sauces</h4>
+            <ul>
+              <li *ngFor="let sauce of topSaucesSorted()">
+                {{ sauce.sauceName }} — {{ sauce.sauceIncome || 0 }} $
+              </li>
+            </ul>
+          </div>
 
-    <section id="popularity-income" class="section">
-      <h2>Sauce Popularity by Income</h2>
+          <div style="flex: 1">
+            <h4>The least popular sauces</h4>
+            <ul>
+              <li *ngFor="let sauce of leastSaucesSorted()">
+                {{ sauce.sauceName }} — {{ sauce.sauceIncome || 0 }} $
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
-      <div style="display: flex; gap: 25rem;">
-        <div>
-          <h4>The most popular sauces</h4>
-          <ul>
-            <li *ngFor="let sauce of topSaucesSorted()">
-              {{ sauce.sauceName }} — {{ sauce.sauceIncome || 0 }} $
-            </li>
-          </ul>
+      <section id="popularity-sales" class="section">
+        <h2>Sauce Popularity by Sales</h2>
+
+        <div style="display: flex">
+          <div style="flex: 1">
+            <h4 style="padding: 0">The most popular sauces</h4>
+            <ul>
+              <li *ngFor="let sauce of topSalesSorted()">
+                {{ sauce.sauceName }} — {{ sauce.salesCount || 0 }} sales
+              </li>
+            </ul>
+          </div>
+
+          <div style="flex: 1">
+            <h4>The least popular sauces</h4>
+            <ul>
+              <li *ngFor="let sauce of leastSalesSorted()">
+                {{ sauce.sauceName }} — {{ sauce.salesCount || 0 }} sales
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="recipes" class="section">
+        <h2>Recipes of the most popular sauces</h2>
+
+        <div style="display: flex">
+          <div style="flex: 1">
+            <h4>By income</h4>
+            <ul>
+              <li *ngFor="let sauce of recipesByIncome()">
+                <strong>{{ sauce.name }}</strong>
+                <ul>
+                  <li *ngFor="let ingredient of sauce.recipe">
+                    {{ ingredient.name }} — {{ ingredient.weight }} г
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <div style="flex: 1">
+            <h4>By sales count</h4>
+            <ul>
+              <li *ngFor="let sauce of recipesBySales()">
+                <strong>{{ sauce.name }}</strong>
+                <ul>
+                  <li *ngFor="let ingredient of sauce.recipe">
+                    {{ ingredient.name }} — {{ ingredient.weight }} г
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="sales-by-type" class="section">
+        <h2>Sales statistics by sauce type</h2>
+        <!--      <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">-->
+
+        <select [(ngModel)]="selectedType">
+          <option value="" disabled selected>Choose sauce type</option>
+          <option *ngFor="let type of sauceTypes()" [value]="type">{{ type }}</option>
+        </select>
+
+        <label>From: <input type="date" [(ngModel)]="fromDate"></label>
+        <label>To: <input type="date" [(ngModel)]="toDate"></label>
+        <button (click)="loadSoldAmountByType()">Get number</button>
+
+        <!--    <button (click)="clearSalesStatsResults()">Clear</button>-->
+
+        <p>Sold batches: {{ soldAmount()?.totalAmount || 0 }}</p>
+
+      </section>
+
+      <section id="income-period" class="section">
+        <h2>Overall income in period</h2>
+        <label>From: <input type="date" [(ngModel)]="fromDate"></label>
+        <label>To: <input type="date" [(ngModel)]="toDate"></label>
+        <button (click)="loadTotalIncome()">Get income</button>
+        <!--    <button (click)="clearIncomeResults()">Clear</button>-->
+
+
+        <p>Income: {{ totalIncome()?.income || 0 }} $</p>
+      </section>
+
+      <section id="by-sauce-code" class="section">
+        <h2>Number/Income by sauce code</h2>
+        <select id="sauceKey" [(ngModel)]="selectedSauceKey">
+          <option *ngFor="let sauce of sauces()" [value]="sauce.name">
+            {{ sauce.number }} — {{ sauce.name }}
+          </option>
+        </select>
+
+        <label>From: <input type="date" [(ngModel)]="fromDate"></label>
+        <label>To: <input type="date" [(ngModel)]="toDate"></label>
+
+        <button (click)="loadAmountByKey(false)">number</button>
+        <button (click)="loadIncomeByKey(false)">income</button>
+
+        <p>Number: {{ queryAmount()?.totalAmount || 0 }}</p>
+        <p>Income: {{ queryIncome()?.income || 0 }} $</p>
+
+        <div *ngIf="message() as msg" class="alert alert-info">
+          {{ msg }}
         </div>
 
-        <div>
-          <h4>The least popular sauces</h4>
-          <ul>
-            <li *ngFor="let sauce of leastSaucesSorted()">
-              {{ sauce.sauceName }} — {{ sauce.sauceIncome || 0 }} $
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="popularity-sales" class="section">
-      <h2>Sauce Popularity by Sales</h2>
+      <section id="by-sauce-type" class="section">
+        <h2>Number/Income by sauce type</h2>
+        <select [(ngModel)]="selectedType">
+          <option value="" disabled selected>Оберіть тип соусу</option>
+          <option *ngFor="let type of sauceTypes()" [value]="type">{{ type }}</option>
+        </select>
 
-      <div style="display: flex; gap: 25rem;">
-        <div>
-          <h4>The most popular sauces</h4>
-          <ul>
-            <li *ngFor="let sauce of topSalesSorted()">
-              {{ sauce.sauceName }} — {{ sauce.salesCount || 0 }} sales
-            </li>
-          </ul>
-        </div>
+        <label>From: <input type="date" [(ngModel)]="fromDate"></label>
+        <label>To: <input type="date" [(ngModel)]="toDate"></label>
+        <button (click)="loadAmountByKey(true)">number</button>
+        <button (click)="loadIncomeByKey(true)">income</button>
+        <p>Number: {{ queryAmountT()?.totalAmount || 0 }}</p>
+        <p>Income: {{ queryIncomeT()?.income || 0 }} $</p>
+      </section>
 
-        <div>
-          <h4>The least popular sauces</h4>
-          <ul>
-            <li *ngFor="let sauce of leastSalesSorted()">
-              {{ sauce.sauceName }} — {{ sauce.salesCount || 0 }} sales
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
 
-    <section id="recipes" class="section">
-      <h2>Recipes of the most popular sauces</h2>
+      <section id="favourite-sauce" class="section">
+        <h2>Customer's Favourite Sauce</h2>
 
-      <div style="display: flex; gap: 25rem;">
-        <div>
-          <h4>By income</h4>
-          <ul>
-            <li *ngFor="let sauce of recipesByIncome()">
-              <strong>{{ sauce.name }}</strong>
-              <ul>
-                <li *ngFor="let ingredient of sauce.recipe">
-                  {{ ingredient.name }} — {{ ingredient.weight }} г
-                </li>
-              </ul>
-            </li>
-          </ul>
+        <label for="customerKey">Enter Customer </label>
+        <select id="customerKey" [(ngModel)]="customerKey">
+          <option *ngFor="let customer of customers()" [value]="customer.number">
+            {{ customer.number }} — {{ customer.surname }}
+          </option>
+        </select>
+        <button (click)="loadFavouriteSauce(customerKey)">Load Favourite Sauce</button>
+
+        <div *ngIf="favouriteSauce() as sauce; else loadingOrEmpty">
+          <p><strong>{{ sauce.sauceName }}</strong> — {{ sauce.salesCount }} sales</p>
         </div>
 
-        <div>
-          <h4>By sales count</h4>
-          <ul>
-            <li *ngFor="let sauce of recipesBySales()">
-              <strong>{{ sauce.name }}</strong>
-              <ul>
-                <li *ngFor="let ingredient of sauce.recipe">
-                  {{ ingredient.name }} — {{ ingredient.weight }} г
-                </li>
-              </ul>
-            </li>
-          </ul>
+        <ng-template #loadingOrEmpty>
+          <p>No favourite sauce found or still loading...</p>
+        </ng-template>
+      </section>
+
+      <section id="clients" class="section">
+        <div *ngIf="isLoading()">Loading...</div>
+
+        <div *ngIf="error()" class="error">{{ error() }}</div>
+
+        <div *ngIf="!isLoading() && !error()">
+          <h2>Clients order info</h2>
+          <p><strong>Overall client number:</strong> {{ totalCustomers() }}</p>
+
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Client IDа</th>
+              <th>Client surname</th>
+              <th>Num of Batches</th>
+              <th>Overall sum</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let order of customerOrders()">
+              <td>{{ order.customerNumber }}</td>
+              <td>{{ order.customerSurname }}</td>
+              <td>{{ order.totalOrdersCount }}</td>
+              <td>{{ order.totalOrdersPrice | number:'1.2-2' }} ₴</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
-      </div>
-    </section>
-
-
-    <section id="sales-by-type" class="section">
-      <h2>Sales statistics by sauce type</h2>
-<!--      <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">-->
-
-      <select [(ngModel)]="selectedType">
-        <option value="" disabled selected>Choose sauce type</option>
-        <option *ngFor="let type of sauceTypes()" [value]="type">{{ type }}</option>
-      </select>
-
-      <label>From: <input type="date" [(ngModel)]="fromDate"></label>
-      <label>To: <input type="date" [(ngModel)]="toDate"></label>
-      <button (click)="loadSoldAmountByType()">Get number</button>
-
-      <!--    <button (click)="clearSalesStatsResults()">Clear</button>-->
-
-      <p>Sold batches: {{ soldAmount()?.totalAmount || 0 }}</p>
-
-    </section>
-
-    <section id="income-period" class="section">
-      <h2>Overall income in period</h2>
-      <label>From: <input type="date" [(ngModel)]="fromDate"></label>
-      <label>To: <input type="date" [(ngModel)]="toDate"></label>
-      <button (click)="loadTotalIncome()">Get income</button>
-      <!--    <button (click)="clearIncomeResults()">Clear</button>-->
-
-
-      <p>Income: {{ totalIncome()?.income || 0 }} $</p>
-    </section>
-
-    <section id="by-sauce-code" class="section">
-      <h2>Number/Income by sauce code</h2>
-<!--      <input type="text" [(ngModel)]="selectedSauceKey" placeholder="Sauce code">-->
-
-<!--      <select id="sauceName" [(ngModel)]="selectedSauceName">-->
-<!--        <option *ngFor="let sauce of sauces()" [value]="sauce.name">-->
-<!--          {{ sauce.number }} — {{ sauce.name }}-->
-<!--        </option>-->
-<!--      </select>-->
-      <select id="sauceKey" [(ngModel)]="selectedSauceKey">
-        <option *ngFor="let sauce of sauces()" [value]="sauce.name">
-          {{ sauce.number }} — {{ sauce.name }}
-        </option>
-      </select>
-
-
-      <!--
-            <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">
-      -->
-<!--      <select [(ngModel)]="selectedType">-->
-<!--        <option value="" disabled selected>Оберіть тип соусу</option>-->
-<!--        <option *ngFor="let type of sauceTypes()" [value]="type">{{ type }}</option>-->
-<!--      </select>-->
-
-      <label>From: <input type="date" [(ngModel)]="fromDate"></label>
-      <label>To: <input type="date" [(ngModel)]="toDate"></label>
-
-      <button (click)="loadAmountByKey(false)">number</button>
-      <button (click)="loadIncomeByKey(false)">income</button>
-<!--      <button (click)="loadAmountByKey(true)">number by type</button>-->
-<!--      <button (click)="loadIncomeByKey(true)">income by type</button>-->
-
-      <!--    <button (click)="clearAmountIncomeResults()">Очистити результат</button>-->
-
-      <p>Number: {{ queryAmount()?.totalAmount || 0 }}</p>
-      <p>Income: {{ queryIncome()?.income || 0 }} $</p>
-
-      <div *ngIf="message() as msg" class="alert alert-info">
-        {{ msg }}
-      </div>
-
-    </section>
-
-    <section id="by-sauce-type" class="section">
-      <h2>Number/Income by sauce type</h2>
-<!--      <input type="text" [(ngModel)]="selectedSauceKey" placeholder="Sauce code">-->
-      <!--
-            <input type="text" [(ngModel)]="selectedType" placeholder="Sauce type">
-      -->
-      <select [(ngModel)]="selectedType">
-        <option value="" disabled selected>Оберіть тип соусу</option>
-        <option *ngFor="let type of sauceTypes()" [value]="type">{{ type }}</option>
-      </select>
-
-      <label>From: <input type="date" [(ngModel)]="fromDate"></label>
-      <label>To: <input type="date" [(ngModel)]="toDate"></label>
-
-<!--      <button (click)="loadAmountByKey(false)">number by sauce</button>-->
-<!--      <button (click)="loadIncomeByKey(false)">income by sauce</button>-->
-      <button (click)="loadAmountByKey(true)">number</button>
-      <button (click)="loadIncomeByKey(true)">income</button>
-
-      <!--    <button (click)="clearAmountIncomeResults()">Очистити результат</button>-->
-
-      <p>Number: {{ queryAmountT()?.totalAmount || 0 }}</p>
-      <p>Income: {{ queryIncomeT()?.income || 0 }} $</p>
-    </section>
-
-
-    <section id="favourite-sauce" class="section">
-      <h2>Customer's Favourite Sauce</h2>
-
-      <label for="customerKey">Enter Customer </label>
-<!--      <input id="customerKey" [(ngModel)]="customerKey" placeholder="Enter customer key">-->
-      <select id="customerKey" [(ngModel)]="customerKey">
-        <option *ngFor="let customer of customers()" [value]="customer.number">
-          {{ customer.number }} — {{ customer.surname }}
-        </option>
-      </select>
-      <button (click)="loadFavouriteSauce(customerKey)">Load Favourite Sauce</button>
-
-      <div *ngIf="favouriteSauce() as sauce; else loadingOrEmpty">
-        <p><strong>{{ sauce.sauceName }}</strong> — {{ sauce.salesCount }} sales</p>
-      </div>
-
-      <ng-template #loadingOrEmpty>
-        <p>No favourite sauce found or still loading...</p>
-      </ng-template>
-    </section>
-
-    <section id="clients" class="section">
-      <div *ngIf="isLoading()">Loading...</div>
-
-      <div *ngIf="error()" class="error">{{ error() }}</div>
-
-      <div *ngIf="!isLoading() && !error()">
-        <p><strong>Overall client number:</strong> {{ totalCustomers() }}</p>
-
-        <table class="table">
-          <thead>
-          <tr>
-            <th>Client IDа</th>
-            <th>Client surname</th>
-            <th>Number of Orders</th>
-            <th>Overall sum</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let order of customerOrders()">
-            <td>{{ order.customerNumber }}</td>
-            <td>{{ order.customerSurname }}</td>
-            <td>{{ order.totalOrdersCount }}</td>
-            <td>{{ order.totalOrdersPrice | number:'1.2-2' }} ₴</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-
+      </section>
+    </div>
   </div>
-</div>
-
-
 </div>

@@ -73,7 +73,6 @@ export class AnalyticsComponent {
     private sauceService: SauceService,
     private customerService: CustomerService,
     private typeService: TypeService
-   // private customerOrderData: CustomerOrderData
   ) {
    this.loadCustomerData();
    this.loadSaucesByIncome();
@@ -120,12 +119,6 @@ export class AnalyticsComponent {
     return null;
   }
 
-  // loadPopularSauces(): void {
-  //   this.sauceService.getTopSaucesWithIncome(this.popularityType).subscribe({
-  //     next: data => this.saucesByIncome.set(data),
-  //     error: err => console.error('Failed to load popular sauces by income', err)
-  //   });
-  // }
   loadSaucesByIncome(): void {
     this.sauceService.getTopSaucesWithIncome('top').subscribe({
       next: data => this.topSauces.set(data),
@@ -144,13 +137,6 @@ export class AnalyticsComponent {
   leastSaucesSorted = computed(() =>
     [...this.leastSauces()].sort((a, b) => a.sauceIncome - b.sauceIncome)
   );
-
-  // loadPopularSaucesBySales(): void {
-  //   this.sauceService.getTopSaucesWithSalesCount(this.popularityType).subscribe({
-  //     next: data => this.saucesBySales.set(data),
-  //     error: err => console.error('Failed to load popular sauces by sales', err)
-  //   });
-  // }
 
   loadSaucesBySales(): void {
     this.sauceService.getTopSaucesWithSalesCount('top').subscribe({
@@ -171,17 +157,6 @@ export class AnalyticsComponent {
   leastSalesSorted = computed(() =>
     [...this.leastSales()].sort((a, b) => a.salesCount - b.salesCount)
   );
-
-  // loadPopularRecipes(byIncome: boolean = true): void {
-  //   const loader = byIncome
-  //     ? this.sauceService.getTopSaucesRecipeWithIncome(this.popularityType)
-  //     : this.sauceService.getTopSaucesRecipeWithSalesCount(this.popularityType);
-  //
-  //   loader.subscribe({
-  //     next: data => this.saucesRecipes.set(data),
-  //     error: err => console.error('Failed to load popular recipes', err)
-  //   });
-  // }
 
   loadPopularRecipes(): void {
     this.sauceService.getTopSaucesRecipeWithIncome(this.popularityType).subscribe({

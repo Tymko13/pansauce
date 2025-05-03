@@ -1,6 +1,5 @@
 .analytics-container-large{
   padding: 1rem 1rem;
-
 }
 
 .clear{
@@ -8,24 +7,22 @@
 }
 
 .analytics-container {
-  background-color: #faf8f8;
   padding: 2rem 3rem;
   margin: 3rem auto;
   border-radius: 1rem;
   max-width: 1200px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 
 .section {
   margin-bottom: 20px;
   padding: 15px;
-  border: 1px solid #ddd;
+  border: 2px dashed var(--secondary-color);
   border-radius: 5px;
 }
 
 h1, h2 {
-  color: #000000;
+  color: var(--text-color);
 }
 
 input[type="text"], input[type="date"], select {
@@ -43,16 +40,15 @@ button {
 ul {
   list-style-type: none;
   padding: 0;
-  color: #000000;
-
+  color: var(--text-color);
 }
 
 li {
-  background-color: #faf8f8;
+  background-color: var(--primary-color);
   margin: 5px 0;
   padding: 10px;
   border-radius: 3px;
-  color: #000000;
+  color: var(--text-color);
 
 }
 
@@ -60,10 +56,10 @@ li {
   max-width: 1200px;
   margin: 2rem auto;
   padding: 2rem;
-  background-color: #faf8f8;
+  background-color: var(--primary-color);
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  color: #000000;
+  color: var(--secondary-color);
 
 }
 
@@ -76,16 +72,11 @@ li {
 .section {
   margin-bottom: 3rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid #ccc;
-}
-
-.section:last-child {
-  border-bottom: none;
 }
 
 .section h2 {
   margin-bottom: 1rem;
-  color: #000000;
+  color:  var(--text-color);
 }
 
 .section ul {
@@ -145,13 +136,21 @@ th, td {
 }
 
 th {
-  background-color: #f8ebe6;
-  color: #000000;
+  background-color: color-mix(in srgb, var(--secondary-color) 50%, transparent);
+  color: var(--text-color);
+}
+
+th:first-of-type {
+  border-radius: 10px 0 0 0;
+}
+
+th:last-of-type {
+  border-radius: 0 10px 0 0;
 }
 
 td {
   font-size: 14px;
-  color: #000000;
+  color: var(--text-color);
 }
 
 .error {
@@ -168,7 +167,7 @@ td {
 }
 
 tr:hover {
-  background-color: var(--secondary-color);
+  background-color: color-mix(in srgb, var(--secondary-color) 15%, transparent) ;
 }
 
 td:last-child {
@@ -178,6 +177,12 @@ td:last-child {
 
 html {
   scroll-behavior: smooth;
+}
+
+ul li {
+  margin: 0;
+  padding: 0.2rem 0; /* reduce vertical space */
+  line-height: 1.2;   /* tighten line spacing */
 }
 
 
