@@ -99,7 +99,7 @@ public class BatchQuery {
             "FROM (batch AS b INNER JOIN order AS o ON o.order_number = b.order_number) \n" +
             "INNER JOIN sauce AS s ON s.sauce_number = b.sauce_number\n" +
             "WHERE batch_status = 'SOLD'\n" +
-            "AND sauce_name LIKE ? \n" +
+            "AND sauce_number = ? \n" +
             "AND registration_date BETWEEN ? AND ?\n";
 
     public static final String GET_INCOME_FROM_SOLD_BATCHES_BETWEEN_DATES_BY_SAUCE_KEY =
@@ -107,7 +107,7 @@ public class BatchQuery {
             "FROM (batch AS b INNER JOIN order AS o ON o.order_number = b.order_number) \n" +
             "INNER JOIN sauce AS s ON s.sauce_number = b.sauce_number\n" +
             "WHERE batch_status = 'SOLD'\n" +
-            "AND sauce_name LIKE ? \n" +
+            "AND sauce_number = ? \n" +
             "AND registration_date BETWEEN ? AND ?\n";
 
     public static final String GET_AMOUNT_OF_SOLD_BATCHES_BETWEEN_DATES_BY_TYPE_KEY =
